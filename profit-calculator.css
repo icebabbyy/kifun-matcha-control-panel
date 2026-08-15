@@ -1,0 +1,21 @@
+/* KIFUN MATCHA — Profit calculator styles */
+.profit-calc{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.profit-calc .panel{min-width:0}
+.profit-inputs{display:grid;gap:14px}
+.profit-field label{display:block;font-size:12px;font-weight:700;color:#5b6f5f;margin-bottom:6px}
+.profit-field input,.profit-field select{width:100%;font:inherit;color:var(--ink);padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.profit-field input:focus,.profit-field select:focus{outline:2px solid var(--leaf);border-color:var(--leaf)}
+.profit-result{background:var(--pale);border:1px solid #d7e8d1;border-radius:15px;padding:18px;margin-top:16px}
+.profit-result h3{margin:0 0 12px;font-size:15px;color:var(--green)}
+.profit-line{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px dashed #cfe0cb;font-size:14px}
+.profit-line:last-child{border-bottom:0}
+.profit-line b{font-size:16px}
+.profit-line.net{border-top:2px solid var(--green);margin-top:6px;padding-top:12px}
+.profit-line.net b{color:var(--green);font-size:20px}
+.profit-line.negative b{color:var(--red)}
+.profit-note{font-size:11px;color:#6c7b6f;margin-top:10px;line-height:1.6}
+.profit-toggle{display:flex;align-items:center;gap:8px;font-size:13px;color:#4c6b52;cursor:pointer}
+.profit-toggle input{width:auto;accent-color:var(--green)}
+.profit-breakdown{margin-top:14px;padding:12px;background:#fff;border:1px solid var(--line);border-radius:12px;font-size:12px;color:#5b6f5f;line-height:1.7}
+.profit-breakdown b{color:var(--green)}
+@media(max-width:900px){.profit-calc{grid-template-columns:1fr}}
