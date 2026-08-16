@@ -1,11 +1,18 @@
 /* Local fixes — small overrides that don't belong in the main stylesheets. */
 
 /* Fix cramped "ตัดสต็อก" button - prevent vertical text wrapping */
-.stock-form .primary-btn {
+.stock-form {
+  grid-template-columns: 1fr 1fr 1.2fr minmax(115px, auto);
+}
+
+.stock-form .primary-btn,
+.stock-form .danger-btn,
+.stock-form button.danger-btn {
   white-space: nowrap;
   min-width: 110px;
   width: auto;
   padding: 10px 14px;
+  font-size: 13px;
 }
 
 /* Make the Cut stock form button (danger) visible */
@@ -13,4 +20,13 @@
 .stock-form button.danger-btn {
   background: var(--red, #9a4539);
   color: #fff;
+}
+
+/* Keep responsive behavior consistent with styles.css */
+@media (max-width: 900px) {
+  .stock-form { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 570px) {
+  .stock-form { grid-template-columns: 1fr; }
 }
