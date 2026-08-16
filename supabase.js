@@ -1,105 +1,14 @@
-/* KIFUN MATCHA — Supabase client (CDN version for GitHub Pages) */
+/* KIFUN MATCHA — Supabase client (CDN module for GitHub Pages) */
+
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 const SUPABASE_URL = "https://ydwpbygugsrucxvmgbdl.supabase.co";
 const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlkd3BieWd1Z3NydWN4dm1nYmRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY0NTkzMTcsImV4cCI6MjEwMjAzNTMxN30.EfiyPPlkm-j-EPiCtBtlfCVxo0ajidsGon-u8rhNQqg";
 
-/* supabase-js is loaded via <script> tag in index.html (CDN).
-   This module uses the global `supabase` client created there. */
-export const supabase = window.supabase;
+export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 /* ── Data access helpers ─────────────────────────────────────── */
-
-/** ดึงเมนูที่ลูกค้าเห็น (customer_menu view) */
-export async function fetchCustomerMenu() {
-  const { data, error } = await supabase
-    .from("customer_menu")
-    .select("*")
-    .order("sort_order", { ascending: true });
-  if (error) throw error;
-  return data || [];
-}
-
-/** ดึงผงทั้งหมด */
-export async function fetchPowders() {
-  const { data, error } = await supabase
-    .from("powders")
-    .select("*")
-    .order("name", { ascending: true });
-  if (error) throw error;
-  return data || [];
-}
-
-/** ดึงสต็อกผงปัจจุบัน (view) */
-export async function fetchPowderStock() {
-  const { data, error } = await supabase
-    .from("current_powder_stock")
-    .select("*");
-  if (error) throw error;
-  return data || [];
-}
-
-/** ดึงสต็อกแพ็กเกจจิ้งปัจจุบัน (view) */
-export async function fetchPackagingStock() {
-  const { data, error } = await supabase
-    .from("current_packaging_stock")
-    .select("*");
-  if (error) throw error;
-  return data || [];
-}
-
-/** ดึง recipes */
-export async function fetchRecipes() {
-  const { data, error } = await supabase
-    .from("recipes")
-    .select("*")
-    .eq("active", true);
-  if (error) throw error;
-  return data || [];
-}
-
-/** ดึงราคาเมนู */
-export async function fetchMenuPrices() {
-  const { data, error } = await supabase
-    .from("menu_prices")
-    .select("*")
-    .eq("active", true);
-  if (error) throw error;
-  return data || [];
-}
-
-/** บันทึกขายจริง */
-export async function insertSale(payload) {
-  const { data, error } = await supabase.from("sales").insert(payload).select();
-  if (error) throw error;
-  return data?.[0] || null;
-}
-
-/** บันทึก sale items */
-export async function insertSaleItems(items) {
-  const { data, error } = await supabase.from("sale_items").insert(items).select();
-  if (error) throw error;
-  return data || [];
-}
-
-/** บันทึก inventory movement */
-export async function insertInventoryMovement(movement) {
-  const { data, error } = await supabase
-    .from("inventory_movements")
-    .insert(movement)
-    .select();
-  if (error) throw error;
-  return data?.[0] || null;
-}
-
-/** บันทึก usage log */
-export async function insertUsageLog(log) {
-  const { data, error } = await supabase.from("usage_logs").insert(log).select();
-  if (error) throw error;
-  return data?.[0] || null;
-}
-
-/* ── App state (single-row table `app_state`) ─────────────────── */
 
 /** ดึงสถานะทั้งระบบจาก Supabase (payload เป็น JSON) */
 export async function fetchAppState() {

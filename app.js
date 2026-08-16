@@ -1,4 +1,4 @@
-/* KIFUN MATCHA — Supabase-backed control panel.
+all/* KIFUN MATCHA — Supabase-backed control panel.
    State lives in memory here; main.js (ES module) persists it to Supabase. */
 const COMMISSION = 0.321;
 const money = n => `฿${Math.round(n).toLocaleString("th-TH")}`;
@@ -189,7 +189,7 @@ function legacySalesTab(){
 }
 function stockTab(){
  const options=state.stock.map(s=>`<option value="${s.name}">${s.name} (${s.unit})</option>`).join("");
- return `<div class="split-grid"><div class="panel"><div class="panel-head"><div><h2>เพิ่มสต็อก / ซื้อเข้า</h2><p>ใช้สำหรับบันทึกของมาถึงหรือปรับยอดนับจริง</p></div></div><form id="purchase-form" class="stock-form"><select name="name">${options}</select><input name="qty" type="number" min="0.1" step="0.1" value="1" aria-label="จำนวน"/><input name="note" placeholder="เช่น ซื้อเข้า / นับใหม่"/><button class="primary-btn">เพิ่ม</button></form></div><div class="panel"><div class="panel-head"><div><h2>ตัดสต็อก / ใช้ไป</h2><p>สำหรับของใช้ไปโดยไม่ใช่การขาย เช่น ชงเทสต์ แตกหัก หรือของเสีย</p></div></div><form id="deduct-form" class="stock-form"><select name="name">${options}</select><input name="qty" type="number" min="0.1" step="0.1" value="1" aria-label="จำนวน"/><input name="note" placeholder="เช่น ชงเทสต์ / แตกหัก / ใช้ไป"/><button class="primary-btn danger-btn">ตัดสต็อก</button></form></div></div><div class="panel" style="margin-top:20px"><div class="panel-head"><div><h2>สถานะสต็อก</h2><p>ปุ่ม − / + ปรับทีละ 1 หน่วย</p></div></div>${state.stock.map(s=>`<div class="stock-row"><div><b>${s.name}</b><small>${s.source}</small></div><div class="stock-unit">${s.unit}</div><div class="${s.qty<=s.min?"low":""}"><b>${Number(s.qty.toFixed(1))}</b> ${s.qty<=s.min?"ต่ำ":""}</div><div class="stock-cost">${s.cost==null?"รอทุนจริง":money(s.cost)+"/"+s.unit}</div><div class="stock-actions"><button class="mini-btn" data-stock="${s.name}" data-delta="-1">−</button><button class="mini-btn" data-stock="${s.name}" data-delta="1">+</button></div></div>`).join("")}</div></div><div class="panel" style="margin-top:20px"><div class="panel-head"><div><h2>ประวัติการเคลื่อนไหว</h2><p>5 รายการล่าสุดจากการขาย ซื้อเข้า หรือปรับยอด</p></div></div><div class="table-wrap"><table class="data-table"><thead><tr><th>เวลา</th><th>ประเภท</th><th>รายละเอียด</th><th>เปลี่ยนแปลง</th></tr></thead><tbody>${state.history.slice().reverse().slice(0,12).map(h=>`<tr><td>${h.at}</td><td><span class="history-type ${h.type}">${h.type==="sale"?"ขาย":h.type==="purchase"?"ซื้อเข้า":"ปรับ"}</span></td><td><b>${h.title}</b><br><small>${h.detail}</small></td><td>${h.delta}</td></tr>`).join("")}</tbody></table></div></div>`;
+ return `<div class="split-grid"><div class="panel"${""}"><div class="panel-head"><div><h2>เพิ่มสต็อก / ซื้อเข้า</h2><p>ใช้สำหรับบันทึกของมาถึงหรือปรับยอดนับจริง</p></div></div><form id="purchase-form" class="stock-form"><select name="name">${options}</select><input name="qty" type="number" min="0.1" step="0.1" value="1" aria-label="จำนวน"/><input name="note" placeholder="เช่น ซื้อเข้า / นับใหม่"/><button class="primary-btn">เพิ่ม</button></form></div><div class="panel"><div class="panel-head"><div><h2>ตัดสต็อก / ใช้ไป</h2><p>สำหรับของใช้ไปโดยไม่ใช่ขาย เช่น ชงเทสต์ แตกหัก หรือของเสีย</p></div></div><form id="deduct-form" class="stock-form"><select name="name">${options}</select><input name="qty" type="number" min="0.1" step="0.1" value="1" aria-label="จำนวน"/><input name="note" placeholder="เช่น ชงเทสต์ / แตกหัก / ใช้ไป"/><button class="primary-btn danger-btn">ตัดสต็อก</button></form></div></div><div class="panel" style="margin-top:20px"><div class="panel-head"><div><h2>เพิ่มรายการใหม& / ผง/อุปกรณ์ใหม่</h2><p>เพิ่มชื่อวัตถุดิบ อุปกรณ์ หรือแพ็กเกจจิ้งใหม่เข้าสต็อก</p></div></div><form id="new-item-form" class="stock-form new-item-form"><input name="name" required placeholder="ชื่อรายการใหม่ (เช่น Hojicha 30g)"><input name="unit" required placeholder="หน่วย (เช่น g / ml / pc)" value="g"><input name="qty" type="number" min="0" step="0.1" value="0" aria-label="จำนวนเริ่มต้น"><input name="cost" type="number" min="0" step="0.001" placeholder="ต้นทุน ฿/หน่วย"><input name="min" type="number" min="0" step="0.1" value="0" aria-label="ขั้นต่ำ"><button class="primary-btn">เพิ่มรายการ</button></form></div><div class="panel" style="margin-top:20px"><div class="panel-head"><div><h2>สถานะสต็อก</h2><p>ปุ่ม − / + ปรับทีละ 1 หน่วย</p></div></div>${state.stock.map(s=>`<div class="stock-row"><div><b>${s.name}</b><small>${s.source}</small></div><div class="stock-unit">${s.unit}</div><div class="${s.qty<=s.min?"ล<":""}"><b>${Number(s.qty.toFixed(1))}</b> ${s.qty<=s.min?"ต่ำ":""}</div><div class="stock-cost">${s.cost==null?"รอทุนจริง":money(s.cost)+"/"+s.unit}</div><div class="stock-actions"><button class="mini-btn" data-stock="${s.name}" data-delta="-1">−</button><button class="mini-btn" data-stock="${s.name}" data-delta="1">+</button></div></div>`).join("")}</div></div><div class="panel" style="margin-top:20px"><div class="panel-head"><div><h2>ประวัติการเคลื่อนไหว</h2><p>5 รายการล่าสุดจากการขาย ซื้อเข้า หรือปรับยอด</p></div></div><div class="table-wrap"><table class="data-table"><thead><tr><th>เวลา</th><th>ประเภท</th><th>รายละเอียด</th><th>เปลี่ยนแปลง</th></tr></thead><tbody>${state.history.slice().reverse().slice(0,12).map(h=>`<tr><td>${h.at}</td><td><span class="history-type ${h.type}">${h.type==="sale"?"ขาย":h.type==="purchase"?"ซื้อเข้า":"ปรับ"}</span></td><td><b>${h.title}</b><br><small>${h.detail}</small></td><td>${h.delta}</td></tr>`).join("")}</tbody></table></div></div>`;
 }
 function equipmentTab(){const items=[
  ["แก้ว 12oz + ฝา + หลอด", "ต้นทุนสุทธิ ฿2.772 / ชุด · ใช้ถ่ายรูปแล้ว 2 ชุด", "มี 48 ชุด"],
@@ -585,7 +585,7 @@ document.addEventListener("click", (event) => {
 
 document.addEventListener("submit", (event) => {
   const form = event.target;
-  if (!["home-editor-form", "add-menu-form", "sale-form-v4", "edit-sale-v4", "purchase-form", "deduct-form"].includes(form.id)) return;
+  if (!["home-editor-form", "add-menu-form", "sale-form-v4", "edit-sale-v4", "purchase-form", "deduct-form", "new-item-form"].includes(form.id)) return;
   event.preventDefault();
   if (form.id === "home-editor-form") saveHomeEditor(form);
   if (form.id === "add-menu-form") { const fd = new FormData(form), id = `custom-${Date.now()}`; const menu = {id,name:fd.get("name"),thai:fd.get("thai") || fd.get("name"),icon:fd.get("emoji") || "🍵",base:Number(fd.get("store")),lineman:Number(fd.get("lineman")),powderG:4,type:"base",milk:true,sweetness:true,art:"Custom menu",description:fd.get("description") || "เมนูใหม่",tag:fd.get("tag") || "New"}; menus.push(menu); state.customMenus.push(menu); state.menuStatus[id] = true; seedHomeEditor(); save(); toast("เพิ่มเมนูใหม่แล้ว"); }
@@ -593,6 +593,19 @@ document.addEventListener("submit", (event) => {
   if (form.id === "edit-sale-v4") { const dialog=document.querySelector("#action-dialog"), old=restoreSale(dialog.dataset.editing,"แก้ไข"); if (recordSale(form.menuId.value,form.powderKey.value,Math.max(1,Number(form.qty.value)||1),old?.sweetness||5,form.brew.value,old?.milk||"Oat milk",form.channel.value,!!form.testOnly?.checked)) dialog.close(); }
   if (form.id === "purchase-form") { const qty=Number(form.qty.value); if (qty>0 && changeStock(form.name.value,qty,"purchase",form.note.value||"ซื้อเข้า")) save(); }
   if (form.id === "deduct-form") { const qty=Number(form.qty.value); if (qty>0 && changeStock(form.name.value,-qty,"adjust",form.note.value||"ตัดสต็อก")) save(); }
+  if (form.id === "new-item-form") {
+    const fd = new FormData(form), name = String(fd.get("name") || "").trim();
+    if (!name) { toast("กรอกชื่อรายการก่อน"); return; }
+    if (getStock(name)) { toast("รายการนี้มีอยู่แล้ว"); return; }
+    const unit = String(fd.get("unit") || "pc").trim();
+    const qty = Number(fd.get("qty")) || 0;
+    const costInput = fd.get("cost");
+    const cost = costInput === "" || costInput === null ? null : Number(costInput) || null;
+    const min = Number(fd.get("min")) || 0;
+    state.stock.push({ name, unit, qty, cost, min, source: "เพิ่มด้วยตนเอง" });
+    state.history.push({ at: today(), type: "purchase", title: name, detail: "สร้างรายการใหม่", delta: `${qty} ${unit}` });
+    save(); toast(`เพิ่มรายการ "${name}" แล้ว`);
+  }
 });
 
 document.addEventListener("change", (event) => {
