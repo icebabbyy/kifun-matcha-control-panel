@@ -1,4 +1,4 @@
-all/* KIFUN MATCHA — Supabase-backed control panel.
+/* KIFUN MATCHA — Supabase-backed control panel.
    State lives in memory here; main.js (ES module) persists it to Supabase. */
 const COMMISSION = 0.321;
 const money = n => `฿${Math.round(n).toLocaleString("th-TH")}`;
