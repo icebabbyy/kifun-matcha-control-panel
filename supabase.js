@@ -1,11 +1,12 @@
-/* KIFUN MATCHA — Supabase client */
-import { createClient } from "@supabase/supabase-js";
+/* KIFUN MATCHA — Supabase client (CDN version for GitHub Pages) */
 
 const SUPABASE_URL = "https://ydwpbygugsrucxvmgbdl.supabase.co";
 const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlkd3BieWd1Z3NydWN4dm1nYmRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY0NTkzMTcsImV4cCI6MjEwMjAzNTMxN30.EfiyPPlkm-j-EPiCtBtlfCVxo0ajidsGon-u8rhNQqg";
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+/* supabase-js is loaded via <script> tag in index.html (CDN).
+   This module uses the global `supabase` client created there. */
+export const supabase = window.supabase;
 
 /* ── Data access helpers ─────────────────────────────────────── */
 
