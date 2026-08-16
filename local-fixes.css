@@ -1,32 +1,83 @@
-/* Local fixes — small overrides that don't belong in the main stylesheets. */
+/* KIFUN MATCHA — Local fixes and menu management styles */
 
-/* Fix cramped "ตัดสต็อก" button - prevent vertical text wrapping */
-.stock-form {
-  grid-template-columns: 1fr 1fr 1.2fr minmax(115px, auto);
+.menu-tools {
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
-.stock-form .primary-btn,
-.stock-form .danger-btn,
-.stock-form button.danger-btn {
-  white-space: nowrap;
-  min-width: 110px;
-  width: auto;
-  padding: 10px 14px;
+.table-menu-art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: var(--surface-2, #f5f5f3);
+  overflow: hidden;
+}
+
+.menu-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.editor-preview {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--border, #e2e2df);
+}
+
+.menu-hidden-row {
+  opacity: 0.55;
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.image-row td {
+  padding-top: 4px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--border, #e8e8e5);
+}
+
+.image-row label {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  margin-right: 16px;
+}
+
+.add-menu-form {
+  margin-top: 24px;
+  padding: 16px;
+  background: var(--surface-2, #f9f9f8);
+  border: 1px solid var(--border, #e2e2df);
+  border-radius: 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  align-items: end;
+}
+
+.add-menu-form h3 {
+  grid-column: 1 / -1;
+  margin: 0 0 4px 0;
+  font-size: 15px;
+  color: var(--primary, #254d3d);
+}
+
+.add-menu-form input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border, #d5d5d0);
+  border-radius: 6px;
   font-size: 13px;
 }
 
-/* Make the Cut stock form button (danger) visible */
-.stock-form .danger-btn,
-.stock-form button.danger-btn {
-  background: var(--red, #9a4539);
-  color: #fff;
-}
-
-/* Keep responsive behavior consistent with styles.css */
-@media (max-width: 900px) {
-  .stock-form { grid-template-columns: 1fr 1fr; }
-}
-
-@media (max-width: 570px) {
-  .stock-form { grid-template-columns: 1fr; }
+.add-menu-form button {
+  height: 38px;
 }

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>KIFUN MATCHA Sync</title>
+  <style>
+    body {
+      width: 320px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      padding: 16px;
+      background: #143024;
+      color: #ffffff;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+    }
+    .header h2 {
+      margin: 0;
+      font-size: 15px;
+      color: #a3e635;
+    }
+    .card {
+      background: rgba(255,255,255,0.08);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+      font-size: 13px;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .row:last-child {
+      margin-bottom: 0;
+    }
+    .badge-ok {
+      color: #a3e635;
+      font-weight: bold;
+    }
+    .btn {
+      width: 100%;
+      background: #a3e635;
+      color: #143024;
+      border: none;
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 13px;
+      cursor: pointer;
+      margin-bottom: 8px;
+    }
+    .btn:hover {
+      background: #bef264;
+    }
+    .btn-secondary {
+      background: rgba(255,255,255,0.15);
+      color: #ffffff;
+    }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.25);
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <span style="font-size: 20px;">🍃</span>
+    <div>
+      <h2>KIFUN MATCHA</h2>
+      <small style="color: #9ca3af;">Wongnai & LINE MAN Auto Sync</small>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <span>สถานะเชื่อมต่อ:</span>
+      <span class="badge-ok" id="db-status">🟢 Supabase Live</span>
+    </div>
+    <div class="row">
+      <span>ร้าน:</span>
+      <span>Kifun Matcha (3884438)</span>
+    </div>
+  </div>
+
+  <button class="btn" id="btn-sync-now">⚡ ซิงก์ยอดขายตัดสต็อกทันที</button>
+  <button class="btn btn-secondary" id="btn-open-panel">📊 เปิด Kifun Control Panel</button>
+
+  <script src="popup.js"></script>
+</body>
+</html>

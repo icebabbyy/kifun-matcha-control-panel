@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "KIFUN MATCHA — Wongnai Sales & Stock Sync",
+  "version": "1.0.0",
+  "description": "ดึงยอดขายจาก Wongnai Merchant / LINE MAN เพื่อตัดสต็อกวัตถุดิบ Kifun Matcha อัตโนมัติ",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://merchant.wongnai.com/*",
+    "https://ydwpbygugsrucxvmgbdl.supabase.co/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "KIFUN MATCHA Sales Sync"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://merchant.wongnai.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "content.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}

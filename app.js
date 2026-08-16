@@ -189,7 +189,7 @@ function legacySalesTab(){
 }
 function stockTab(){
  const options=state.stock.map(s=>`<option value="${s.name}">${s.name} (${s.unit})</option>`).join("");
- return `<div class="split-grid"><div class="panel"${""}"><div class="panel-head"><div><h2>เพิ่มสต็อก / ซื้อเข้า</h2><p>ใช้สำหรับบันทึกของมาถึงหรือปรับยอดนับจริง</p></div></div><form id="purchase-form" class="stock-form"><select name="name">${options}</select><input name="qty" type="number" min="0.1" step="0.1" value="1" aria-label="จำนวน"/><input name="note" placeholder="เช่น ซื้อเข้า / นับใหม่"/><button class="primary-btn">เพิ่ม</button></form></div><div class="panel"><div class="panel-head"><div><h2>ตัดสต็อก / ใช้ไป</h2><p>สำหรับของใช้ไปโดยไม่ใช่ขาย เช่น ชงเทสต์ แตกหัก หรือของเสีย</p></div></div><form id="deduct-form" class="stock-form"><select name="name">${options}</select><input name="qty" type="number" min="0.1" step="0.1" value="1" aria-label="จำนวน"/><input name="note" placeholder="เช่น ชงเทสต์ / แตกหัก / ใช้ไป"/><button class="primary-btn danger-btn">ตัดสต็อก</button></form></div></div><div class="panel" style="margin-top:20px"><div class="panel-head"><div><h2>เพิ่มรายการใหม& / ผง/อุปกรณ์ใหม่</h2><p>เพิ่มชื่อวัตถุดิบ อุปกรณ์ หรือแพ็กเกจจิ้งใหม่เข้าสต็อก</p></div></div><form id="new-item-form" class="stock-form new-item-form"><input name="name" required placeholder="ชื่อรายการใหม่ (เช่น Hojicha 30g)"><input name="unit" required placeholder="หน่วย (เช่น g / ml / pc)" value="g"><input name="qty" type="number" min="0" step="0.1" value="0" aria-label="จำนวนเริ่มต้น"><input name="cost" type="number" min="0" step="0.001" placeholder="ต้นทุน ฿/หน่วย"><input name="min" type="number" min="0" step="0.1" value="0" aria-label="ขั้นต่ำ"><button class="primary-btn">เพิ่มรายการ</button></form></div><div class="panel" style="margin-top:20px"><div class="panel-head"><div><h2>สถานะสต็อก</h2><p>ปุ่ม − / + ปรับทีละ 1 หน่วย</p></div></div>${state.stock.map(s=>`<div class="stock-row"><div><b>${s.name}</b><small>${s.source}</small></div><div class="stock-unit">${s.unit}</div><div class="${s.qty<=s.min?"ล<":""}"><b>${Number(s.qty.toFixed(1))}</b> ${s.qty<=s.min?"ต่ำ":""}</div><div class="stock-cost">${s.cost==null?"รอทุนจริง":money(s.cost)+"/"+s.unit}</div><div class="stock-actions"><button class="mini-btn" data-stock="${s.name}" data-delta="-1">−</button><button class="mini-btn" data-stock="${s.name}" data-delta="1">+</button></div></div>`).join("")}</div></div><div class="panel" style="margin-top:20px"><div class="panel-head"><div><h2>ประวัติการเคลื่อนไหว</h2><p>5 รายการล่าสุดจากการขาย ซื้อเข้า หรือปรับยอด</p></div></div><div class="table-wrap"><table class="data-table"><thead><tr><th>เวลา</th><th>ประเภท</th><th>รายละเอียด</th><th>เปลี่ยนแปลง</th></tr></thead><tbody>${state.history.slice().reverse().slice(0,12).map(h=>`<tr><td>${h.at}</td><td><span class="history-type ${h.type}">${h.type==="sale"?"ขาย":h.type==="purchase"?"ซื้อเข้า":"ปรับ"}</span></td><td><b>${h.title}</b><br><small>${h.detail}</small></td><td>${h.delta}</td></tr>`).join("")}</tbody></table></div></div>`;
+ return `<div class="split-grid"><div class="panel"${""}"><div class="panel-head"><div><h2>เพิ่มสต็อก / ซื้อเข้า</h2><p>ใช้สำหรับบันทึกของมาถึงหรือปรับยอดนับจริง</p></div></div><form id="purchase-form" class="stock-form"><select name="name">${options}</select><input name="qty" type="number" min="0.1" step="0.1" value="1" aria-label="จำนวน"/><input name="note" placeholder="เช่น ซื้อเข้า / นับใหม่"/><button class="primary-btn">เพิ่ม</button></form></div><div class="panel"><div class="panel-head"><div><h2>ตัดสต็อก / ใช้ไป</h2><p>สำหรับของใช้ไปโดยไม่ใช่ขาย เช่น ชงเทสต์ แตกหัก หรือของเสีย</p></div></div><form id="deduct-form" class="stock-form"><select name="name">${options}</select><input name="qty" type="number" min="0.1" step="0.1" value="1" aria-label="จำนวน"/><input name="note" placeholder="เช่น ชงเทสต์ / แตกหัก / ใช้ไป"/><button class="primary-btn danger-btn">ตัดสต็อก</button></form></div></div><div class="panel" style="margin-top:20px"><div class="panel-head"><div><h2>เพิ่มรายการใหม่ / ผง / อุปกรณ์</h2><p>เพิ่มชื่อวัตถุดิบ อุปกรณ์ หรือแพ็กเกจจิ้งใหม่เข้าสต็อก</p></div></div><form id="new-item-form" class="stock-form new-item-form"><input name="name" required placeholder="ชื่อรายการใหม่ (เช่น Hojicha 30g)"><input name="unit" required placeholder="หน่วย (เช่น g / ml / pc)" value="g"><input name="qty" type="number" min="0" step="0.1" value="0" aria-label="จำนวนเริ่มต้น"><input name="cost" type="number" min="0" step="0.001" placeholder="ต้นทุน ฿/หน่วย"><input name="min" type="number" min="0" step="0.1" value="0" aria-label="ขั้นต่ำ"><button class="primary-btn">เพิ่มรายการ</button></form></div><div class="panel" style="margin-top:20px"><div class="panel-head"><div><h2>สถานะสต็อก</h2><p>ปุ่ม − / + ปรับทีละ 1 หน่วย</p></div></div>${state.stock.map(s=>`<div class="stock-row"><div><b>${s.name}</b><small>${s.source}</small></div><div class="stock-unit">${s.unit}</div><div class="${s.qty<=s.min?"ล<":""}"><b>${Number(s.qty.toFixed(1))}</b> ${s.qty<=s.min?"ต่ำ":""}</div><div class="stock-cost">${s.cost==null?"รอทุนจริง":money(s.cost)+"/"+s.unit}</div><div class="stock-actions"><button class="mini-btn" data-stock="${s.name}" data-delta="-1">−</button><button class="mini-btn" data-stock="${s.name}" data-delta="1">+</button></div></div>`).join("")}</div></div><div class="panel" style="margin-top:20px"><div class="panel-head"><div><h2>ประวัติการเคลื่อนไหว</h2><p>5 รายการล่าสุดจากการขาย ซื้อเข้า หรือปรับยอด</p></div></div><div class="table-wrap"><table class="data-table"><thead><tr><th>เวลา</th><th>ประเภท</th><th>รายละเอียด</th><th>เปลี่ยนแปลง</th></tr></thead><tbody>${state.history.slice().reverse().slice(0,12).map(h=>`<tr><td>${h.at}</td><td><span class="history-type ${h.type}">${h.type==="sale"?"ขาย":h.type==="purchase"?"ซื้อเข้า":"ปรับ"}</span></td><td><b>${h.title}</b><br><small>${h.detail}</small></td><td>${h.delta}</td></tr>`).join("")}</tbody></table></div></div>`;
 }
 function equipmentTab(){const items=[
  ["แก้ว 12oz + ฝา + หลอด", "ต้นทุนสุทธิ ฿2.772 / ชุด · ใช้ถ่ายรูปแล้ว 2 ชุด", "มี 48 ชุด"],
@@ -277,21 +277,22 @@ function powderChoices(menu){
   return valid.length ? valid : ["noko"];
 }
 function milkRecipe(milk,ml){ if(milk==="Mixed!") return [{name:"MM Milk",qty:ml*.6},{name:"Goodmate oat milk",qty:ml*.4}]; if(milk==="M Milk" || milk==="Fresh milk") return [{name:"MM Milk",qty:ml}]; return [{name:"Goodmate oat milk",qty:ml}]; }
-function milkCost(milk,ml){ if(milk==="Mixed!") return ml*(.6*.0535+.4*.095); return ml*(milk==="M Milk" || milk==="Fresh milk"?.0535:.095); }
-function recipe(menu,powderKey,milk,sweetness,brew="clear",size=selection.size){
- const powder=powders[validPowderKey(powderKey)?powderKey:"noko"], sizeFactor=menu.id==="latte"&&size==="22"?22/12:1, powderG=(menu.type==="premium"&&brew!=="clear"?5:Number(menu.powderG)||3)*sizeFactor, syrup=menu.sweetness?(Number(sweetness)||0)*sizeFactor:0;
+function milkCost(milk,ml){ const mCost = getStock("MM Milk")?.cost ?? getStock("M Milk")?.cost ?? 0.0485; const oCost = getStock("Goodmate oat milk")?.cost ?? 0.095; if(milk==="Mixed!") return ml*(.6*mCost+.4*oCost); if(milk==="M Milk" || milk==="Fresh milk" || milk==="MM Milk") return ml*mCost; return ml*oCost; }
+function recipe(menu,powderKey,milk,sweetness,brew="clear",size="12"){
+ const safeSize = size || selection.size || "12";
+ const powder=powders[validPowderKey(powderKey)?powderKey:"noko"], sizeFactor=menu.id==="latte"&&safeSize==="22"?22/12:1, powderG=(menu.type==="premium"&&brew!=="clear"?5:Number(menu.powderG)||3)*sizeFactor, syrup=menu.sweetness?(Number(sweetness)||0)*sizeFactor:0;
  const items=[{name:powder.stock,qty:powderG}]; let other=2.772+syrup*.06018, known=true, note="";
- if(menu.id==="latte"){const milkMl=100*sizeFactor,packaging=sizeFactor===1?2.772:.222;items.push(...milkRecipe(milk,milkMl),{name:"Syrup",qty:syrup},{name:sizeFactor===1?"12oz cup + lid set":"22oz cup (free)",qty:1});other=milkCost(milk,milkMl)+syrup*.06018+packaging;}
- if(menu.id==="biscoff"){items.push({name:"Goodmate oat milk",qty:135},{name:"Biscoff spread",qty:15},{name:"12oz cup + lid set",qty:1});other=135*.095+15*.465+2.772;}
- if(menu.id==="nutella"){items.push({name:"MM Milk",qty:100},{name:"Nutella spread",qty:20},{name:"12oz cup + lid set",qty:1});other=100*.0535+20*.47+2.772;}
- if(menu.coconut){items.push({name:"Coconut water",qty:135},{name:"Goodmate oat milk",qty:65},{name:"Syrup",qty:syrup},{name:"12oz cup + lid set",qty:1});other=135*.095+65*.095+syrup*.06018+2.772;}
+ if(menu.id==="latte"){const milkMl=100*sizeFactor,packaging=2.772;items.push(...milkRecipe(milk,milkMl),{name:"Syrup",qty:syrup},{name:sizeFactor===1?"12oz cup + lid set":"22oz cup (free)",qty:1});other=milkCost(milk,milkMl)+syrup*.06018+packaging;}
+ if(menu.id==="biscoff"){const oCost=getStock("Goodmate oat milk")?.cost??.095;items.push({name:"Goodmate oat milk",qty:135},{name:"Biscoff spread",qty:15},{name:"12oz cup + lid set",qty:1});other=135*oCost+15*.465+2.772;}
+ if(menu.id==="nutella"){const mCost=getStock("MM Milk")?.cost??getStock("M Milk")?.cost??.0485;items.push({name:"MM Milk",qty:100},{name:"Nutella spread",qty:20},{name:"12oz cup + lid set",qty:1});other=100*mCost+20*.47+2.772;}
+ if(menu.coconut){const cCost=getStock("Coconut water")?.cost??.115, oCost=getStock("Goodmate oat milk")?.cost??.095;items.push({name:"Coconut water",qty:135},{name:"Goodmate oat milk",qty:65},{name:"Syrup",qty:syrup},{name:"12oz cup + lid set",qty:1});other=135*cCost+65*oCost+syrup*.06018+2.772+(menu.id==="coconutfoam"?1.0659:0);}
  if(menu.id==="clear"){items.push({name:"Syrup",qty:syrup},{name:"12oz cup + lid set",qty:1});other=syrup*.06018+2.772;}
  if(menu.id==="coldwhisk"){items.push(...milkRecipe(milk,150),{name:"Syrup",qty:syrup},{name:"Cold whisk pouch 200ml",qty:1});other=milkCost(milk,150)+syrup*.06018+.99;}
  if(menu.id==="hojicha"){items.push(...milkRecipe(milk,100),{name:"Syrup",qty:syrup},{name:"12oz cup + lid set",qty:1});other=milkCost(milk,100)+syrup*.06018+2.772;}
- if(menu.type==="premium"){ if(brew==="clear"){items.push({name:"Syrup",qty:syrup},{name:"12oz cup + lid set",qty:1});other=syrup*.06018+2.772;} if(brew==="latte"){items.push(...milkRecipe(milk,145),{name:"Syrup",qty:syrup},{name:"12oz cup + lid set",qty:1});other=milkCost(milk,145)+syrup*.06018+.222;} if(brew==="coldwhisk"){items.push(...milkRecipe(milk,150),{name:"Syrup",qty:syrup},{name:"Cold whisk pouch 200ml",qty:1});other=milkCost(milk,150)+syrup*.06018+.99;} }
+ if(menu.type==="premium"){ if(brew==="clear"){items.push({name:"Syrup",qty:syrup},{name:"12oz cup + lid set",qty:1});other=syrup*.06018+2.772;} if(brew==="latte"){items.push(...milkRecipe(milk,145),{name:"Syrup",qty:syrup},{name:"12oz cup + lid set",qty:1});other=milkCost(milk,145)+syrup*.06018+2.772;} if(brew==="coldwhisk"){items.push(...milkRecipe(milk,150),{name:"Syrup",qty:syrup},{name:"Cold whisk pouch 200ml",qty:1});other=milkCost(milk,150)+syrup*.06018+.99;} }
  return {items,powderG,cost:powder.cost*powderG+other,known,note,sizeFactor};
 }
-function menuPrice(menu, brew = "clear", channel = "store") {
+function legacyMenuPrice(menu, brew = "clear", channel = "store") {
   const configured = channel === "lineman" ? menu.lineman : menu.base;
 
   if (typeof configured === "number") {
@@ -304,12 +305,12 @@ function menuPrice(menu, brew = "clear", channel = "store") {
 
   return 0;
 }
-function calc(menu,powderKey=selection.powder,milk=selection.milk,sweetness=selection.sweetness,brew=selection.brew,channel=selection.channel||menuChannel){ const p=powders[powderKey],price=menuPrice(menu,brew,channel)+(p.priceAdd||0),r=recipe(menu,powderKey,milk,sweetness,brew),net=channel==="lineman"?price*(1-COMMISSION):price;return {price,...r,net,profit:net-r.cost}; }
+function legacyCalc2(menu,powderKey=selection.powder,milk=selection.milk,sweetness=selection.sweetness,brew=selection.brew,channel=selection.channel||menuChannel){ const p=powders[powderKey],price=menuPrice(menu,brew,channel)+(p.priceAdd||0),r=recipe(menu,powderKey,milk,sweetness,brew),net=channel==="lineman"?price*(1-COMMISSION):price;return {price,...r,net,profit:net-r.cost}; }
 function renderCustomer(){
  document.querySelectorAll(".channel-btn").forEach(button=>button.classList.toggle("active",button.dataset.channel===menuChannel));
  const available=menus.filter(menu=>state.menuStatus[menu.id]).length;document.querySelector("#available-count").textContent=`พร้อมแสดง ${available}/${menus.length} เมนู · ${menuChannel==="store"?"หน้าร้าน":"LINE MAN"}`;
- document.querySelector("#menu-grid").innerHTML=menus.map(menu=>{const available=isMenuAvailable(menu),c=calc(menu,powderChoices(menu)[0],"M Milk",menu.coconut?5:5,"clear",menuChannel);return `<button class="menu-card ${available?"":"sold-out"}" data-menu="${menu.id}" ${available?"":"disabled"}>${drinkVisual(menu)}<div class="menu-art">${menu.icon}</div><h3>${menu.name}</h3><p>${menu.description}</p><div class="card-foot"><span class="from-price">เริ่ม ${money(c.price)}</span><span class="tag ${menu.type==='premium'?'premium':''}">${available?menu.tag:"ปิดขาย"}</span></div></button>`;}).join("");
- document.querySelector("#snack-grid").innerHTML=snacks.map(snack=>`<article class="menu-card"><div class="menu-art">${snack.icon}</div><h3>${snack.name}</h3><p>${snack.description}</p><div class="card-foot"><span class="from-price">${money(menuChannel==="lineman"?snack.lineman:snack.base)}</span><span class="tag">${snack.art}</span></div></article>`).join("");
+ document.querySelector("#menu-grid").innerHTML=menus.map(menu=>{const available=isMenuAvailable(menu),c=calc(menu,powderChoices(menu)[0],"M Milk",menu.coconut?5:5,"clear",menuChannel);return `<button class="menu-card ${available?"":"sold-out"}" data-menu="${menu.id}" ${available?"":"disabled"}>${drinkVisual(menu)}<div class="menu-art">${menu.icon}</div><h3>${esc(menu.name)}</h3><p>${esc(menu.description)}</p><div class="card-foot"><span class="from-price">เริ่ม ${money(c.price)}</span><span class="tag ${menu.type==='premium'?'premium':''}">${available?menu.tag:"ปิดขาย"}</span></div></button>`;}).join("");
+ document.querySelector("#snack-grid").innerHTML=snacks.map(snack=>`<article class="menu-card"><div class="menu-art">${snack.icon}</div><h3>${esc(snack.name)}</h3><p>${esc(snack.description)}</p><div class="card-foot"><span class="from-price">${money(menuChannel==="lineman"?snack.lineman:snack.base)}</span><span class="tag">${esc(snack.art)}</span></div></article>`).join("");
  const empty=document.querySelector("#selection-empty"),custom=document.querySelector("#customizer");if(!selection.menuId){empty.hidden=false;custom.hidden=true;return;}empty.hidden=true;custom.hidden=false;const menu=getMenu(selection.menuId),c=calc(menu);
  const choices=powderChoices(menu).map(key=>{const powder=powders[key],alias=homeAlias(key),ok=stockAvailable(powder.stock,menu.id==="premium"&&selection.brew!=="clear"?5:menu.powderG);return `<button class="choice ${selection.powder===key?"active":""} ${ok?"":"unavailable-choice"}" data-choice="powder" data-value="${key}" ${ok?"":"disabled"}><b>${esc(alias.name)}</b><small>${esc(alias.note)}</small></button>`;}).join("");
  const sweet=menu.sweetness?(menu.coconut?[0,3,5,7]:[0,5,7]).map(value=>`<button class="choice ${selection.sweetness===value?"active":""}" data-choice="sweetness" data-value="${value}">${value===0?"ไม่หวาน":`หวาน ${value}ml`}</button>`).join(""):"<span class=\"muted\">สูตรนี้ล็อก sweetness</span>";
@@ -333,7 +334,21 @@ function legacySupplierTab(){const cards=[
 ];return `<div class="panel"><div class="panel-head"><div><h2>Supplier + Base selection</h2><p>คัดจาก Excel 9 ส.ค.; สีเขียวคือคำแนะนำสำหรับ next purchase</p></div></div><div class="supplier-grid">${cards.map((card,index)=>`<article class="supplier-card ${index===0?"recommended":""}">${index===0?"<span class=\"base-pick\">BASE PICK · ซื้อ tester ก่อน</span>":""}<div class="supplier-top"><div><h3>${card[0]}</h3><p>${card[1]}</p></div></div><p class="taste-note"><b>รส:</b> ${card[2]}</p><p>${card[3]}</p><small>${card[4]}</small></article>`).join("")}</div><div class="recipe-callout"><b>สรุปที่เชียร์</b><span>ซื้อ Midori Shinsei MI02 เป็น tester base อันดับ 1 แล้วเทียบ SM03/MI01. เลือกเฉพาะตัวที่ยัง nutty–sweet ในนมและหลังเดลิเวอรี. ระหว่างนี้ NOKO เป็น fallback ที่ใช้งานได้จริง.</span></div></div>`;}
 function renderAdmin(){const revenue=state.sales.reduce((sum,sale)=>sum+sale.price*sale.qty,0),profit=state.sales.reduce((sum,sale)=>sum+sale.profit*sale.qty,0),low=state.stock.filter(item=>item.qty<=item.min).length;document.querySelector("#kpi-row").innerHTML=`<div class="kpi emphasis"><small>ยอดขายที่บันทึก</small><b>${money(revenue)}</b></div><div class="kpi"><small>กำไรโดยประมาณ</small><b>${money(profit)}</b></div><div class="kpi"><small>จำนวนแก้ว/ชิ้น</small><b>${state.sales.reduce((sum,sale)=>sum+sale.qty,0)}</b></div><div class="kpi"><small>สต็อกต้องดู</small><b>${low} รายการ</b></div>`;document.querySelectorAll(".tab-btn").forEach(button=>button.classList.toggle("active",button.dataset.tab===activeTab));const out=document.querySelector("#admin-content");out.innerHTML=activeTab==="menu"?menuTab():activeTab==="sales"?salesTab():activeTab==="stock"?stockTab():activeTab==="suppliers"?supplierTab():equipmentTab();}
 const PACKAGING_ITEMS = new Set(["12oz cup + lid set","22oz cup (free)","Cold whisk pouch 200ml","Cold whisk pouch 250ml","Cup bag 12×11+1","Cup bag 6×11","6mm straw","3oz topping cup","Topping tray 98mm"]);
-function recordSale(menuId,powderKey,qty=1,sweetness=5,brew="clear",milk="Oat milk",channel="store",testOnly=false){const menu=getMenu(menuId);if(!menu||!powderChoices(menu).includes(powderKey)){toast("ผงชานี้ใช้กับเมนูนี้ไม่ได้");return false;}const c=calc(menu,powderKey,milk,sweetness,brew,channel),r=recipe(menu,powderKey,milk,sweetness,brew),needs=r.items.map(item=>({...item,qty:item.qty*qty})).filter(item=>!testOnly||!PACKAGING_ITEMS.has(item.name)),missing=needs.find(item=>!stockAvailable(item.name,item.qty));if(missing){toast(`สต็อก ${missing.name} ไม่พอ`);return false;}needs.forEach(item=>changeStock(item.name,-item.qty,"sale",`${menu.name} × ${qty}`));state.sales.push({id:`sale-${Date.now()}-${Math.random().toString(16).slice(2)}`,at:today(),menuId,menu:menu.name,powderKey,powder:powders[powderKey].label,qty,price:c.price,profit:c.profit,known:true,sweetness,brew,milk,channel,testOnly,ingredients:needs});state.history.push({at:today(),type:"sale",title:`บันทึกขาย ${menu.name}`,detail:`${powders[powderKey].label} · ${channel==="lineman"?"LINE MAN":"หน้าร้าน"}${testOnly?" · เทสต์/กินเอง":""}`,delta:`-${r.powderG*qty}g ผง`});save();toast(testOnly?"บันทึกเทสต์/กินเอง (ตัดเฉพาะวัตถุดิบ)":"บันทึกขายและตัดสต็อกแล้ว");return true;}
+function recordSale(menuId,powderKey,qty=1,sweetness=5,brew="clear",milk="Oat milk",channel="store",testOnly=false,size="12"){
+ const menu=getMenu(menuId);
+ if(!menu||!powderChoices(menu).includes(powderKey)){toast("ผงชานี้ใช้กับเมนูนี้ไม่ได้");return false;}
+ const c=calc(menu,powderKey,milk,sweetness,brew,channel,size);
+ const r=recipe(menu,powderKey,milk,sweetness,brew,size);
+ const needs=r.items.map(item=>({...item,qty:item.qty*qty})).filter(item=>!testOnly||!PACKAGING_ITEMS.has(item.name));
+ const missing=needs.find(item=>!stockAvailable(item.name,item.qty));
+ if(missing){toast(`สต็อก ${missing.name} ไม่พอ`);return false;}
+ needs.forEach(item=>changeStock(item.name,-item.qty,"sale",`${menu.name} × ${qty}`));
+ state.sales.push({id:`sale-${Date.now()}-${Math.random().toString(16).slice(2)}`,at:today(),menuId,menu:menu.name,powderKey,powder:powders[powderKey].label,qty,price:c.price,profit:c.profit,known:true,sweetness,brew,milk,channel,testOnly,size,ingredients:needs});
+ state.history.push({at:today(),type:"sale",title:`บันทึกขาย ${menu.name}`,detail:`${powders[powderKey].label} · ${channel==="lineman"?"LINE MAN":"หน้าร้าน"}${testOnly?" · เทสต์/กินเอง":""}`,delta:`-${r.powderG*qty}g ผง`});
+ save();
+ toast(testOnly?"บันทึกเทสต์/กินเอง (ตัดเฉพาะวัตถุดิบ)":"บันทึกขายและตัดสต็อกแล้ว");
+ return true;
+}
 function restoreSale(id,action="ลบ"){const sale=state.sales.find(item=>item.id===id);if(!sale)return null;(sale.ingredients||[]).forEach(item=>changeStock(item.name,item.qty,"adjust",`${action}: ${sale.menu}`));state.sales=state.sales.filter(item=>item.id!==id);state.history.push({at:today(),type:"adjust",title:`${action} รายการขาย ${sale.menu}`,detail:"คืนสต็อกตามสูตรเดิม",delta:"คืนสต็อก"});return sale;}
 function openSaleEditor(id){const sale=state.sales.find(item=>item.id===id);if(!sale)return;const dialog=document.querySelector("#action-dialog");dialog.dataset.editing=id;dialog.innerHTML=`<div class="dialog-inner"><h2>แก้ไขรายการขาย</h2><p>ระบบจะคืนสต็อกสูตรเดิม แล้วตัดตามข้อมูลใหม่เมื่อกดบันทึก</p>${saleForm(sale)}<div class="dialog-actions"><button class="secondary-btn" id="close-v4-dialog">ยกเลิก</button></div></div>`;dialog.showModal();}
 /* Supplier intake — user update 10 Aug. Prices are THB/kg; 'incl. VAT' is
@@ -370,7 +385,11 @@ function supplierTab(){
 function renderSupplierCatalog(filter="shortlist"){
  const out=document.querySelector("#supplier-catalog-table");if(!out)return;
  const shortlistNames=new Set(["Kagoshima P01","MC283 Yame Nutty Roasted","Cafe Latte","Yame Momoko","Yame Saemidori","MI02 Mie Yabukita Blend"]);
- const rows=supplierCatalog.filter(row=>filter==="all"||filter==="eligible"?(row[2]!=null&&row[2]<=10000):shortlistNames.has(row[1]));
+ const rows=supplierCatalog.filter(row=>{
+   if(filter==="all") return true;
+   if(filter==="eligible") return row[2]!=null && row[2]<=10000;
+   return shortlistNames.has(row[1]);
+ });
  out.innerHTML=`<div class="table-wrap supplier-table"><table class="data-table"><thead><tr><th>Supplier</th><th>ชา / SKU</th><th>ราคา</th><th>โน้ต / สถานะ</th></tr></thead><tbody>${rows.map(row=>`<tr><td><b>${row[0]}</b></td><td>${row[1]}</td><td>${moneyKg(row[2])}</td><td>${row[3]} <span class="supplier-status ${row[4].includes("Sweet")||row[4]==="Eligible"?"fit":""}">${row[4]}</span></td></tr>`).join("")}</tbody></table></div><p class="muted" style="font-size:11px">ราคาเป็น snapshot จากข้อมูลที่ส่งวันนี้; รายการ Sold out/Over cap อยู่ใน “ทั้งหมด” เพื่อเก็บ reference แต่ไม่ถูกเสนอเป็น Home Base.</p>`;
 }
 const renderAdminV5=renderAdmin;renderAdmin=function(){renderAdminV5();if(activeTab==="suppliers")renderSupplierCatalog();};
@@ -580,7 +599,15 @@ document.addEventListener("click", (event) => {
   else if (button.dataset.deleteSale && confirm("ลบรายการขายนี้และคืนสต็อกตามสูตรเดิมใช่ไหม?")) { restoreSale(button.dataset.deleteSale); save(); }
   else if (button.dataset.supplierFilter) { document.querySelectorAll("[data-supplier-filter]").forEach((item) => item.classList.toggle("active", item === button)); renderSupplierCatalog(button.dataset.supplierFilter); }
   else if (button.id === "export-data") exportData();
-  else if (button.id === "reset-demo" && confirm("คืนค่าข้อมูลตัวอย่างทั้งหมด?")) { state = defaultState(); state.hiddenMenuIds=[]; state.customMenus=[]; seedHomeEditor(); applyHomeEditor(); save(); }
+  else if (button.id === "reset-demo" && confirm("คืนค่าข้อมูลตัวอย่างทั้งหมด?")) {
+  state = defaultState();
+  state.hiddenMenuIds = [];
+  state.customMenus = [];
+  menus.splice(0, menus.length, ...menus.filter(m => !m.id.startsWith("custom-")));
+  seedHomeEditor();
+  applyHomeEditor();
+  save();
+}
 });
 
 document.addEventListener("submit", (event) => {
@@ -590,7 +617,23 @@ document.addEventListener("submit", (event) => {
   if (form.id === "home-editor-form") saveHomeEditor(form);
   if (form.id === "add-menu-form") { const fd = new FormData(form), id = `custom-${Date.now()}`; const menu = {id,name:fd.get("name"),thai:fd.get("thai") || fd.get("name"),icon:fd.get("emoji") || "🍵",base:Number(fd.get("store")),lineman:Number(fd.get("lineman")),powderG:4,type:"base",milk:true,sweetness:true,art:"Custom menu",description:fd.get("description") || "เมนูใหม่",tag:fd.get("tag") || "New"}; menus.push(menu); state.customMenus.push(menu); state.menuStatus[id] = true; seedHomeEditor(); save(); toast("เพิ่มเมนูใหม่แล้ว"); }
   if (form.id === "sale-form-v4") recordSale(form.menuId.value,form.powderKey.value,Math.max(1,Number(form.qty.value)||1),5,form.brew.value,"Oat milk",form.channel.value,!!form.testOnly?.checked);
-  if (form.id === "edit-sale-v4") { const dialog=document.querySelector("#action-dialog"), old=restoreSale(dialog.dataset.editing,"แก้ไข"); if (recordSale(form.menuId.value,form.powderKey.value,Math.max(1,Number(form.qty.value)||1),old?.sweetness||5,form.brew.value,old?.milk||"Oat milk",form.channel.value,!!form.testOnly?.checked)) dialog.close(); }
+  if (form.id === "edit-sale-v4") {
+  const dialog = document.querySelector("#action-dialog");
+  const saleId = dialog.dataset.editing;
+  const oldSale = state.sales.find(s => s.id === saleId);
+  if (oldSale) {
+    (oldSale.ingredients || []).forEach(item => changeStock(item.name, item.qty, "adjust", "แก้ไข: คืนสต็อกชั่วคราว"));
+    const success = recordSale(form.menuId.value, form.powderKey.value, Math.max(1, Number(form.qty.value) || 1), oldSale.sweetness || 5, form.brew.value, oldSale.milk || "Oat milk", form.channel.value, !!form.testOnly?.checked, oldSale.size || "12");
+    if (success) {
+      state.sales = state.sales.filter(s => s.id !== saleId);
+      save();
+      dialog.close();
+    } else {
+      (oldSale.ingredients || []).forEach(item => changeStock(item.name, -item.qty, "adjust", "ยกเลิกการแก้ไข: หักสต็อกเดิมกลับ"));
+      save();
+    }
+  }
+}
   if (form.id === "purchase-form") { const qty=Number(form.qty.value); if (qty>0 && changeStock(form.name.value,qty,"purchase",form.note.value||"ซื้อเข้า")) save(); }
   if (form.id === "deduct-form") { const qty=Number(form.qty.value); if (qty>0 && changeStock(form.name.value,-qty,"adjust",form.note.value||"ตัดสต็อก")) save(); }
   if (form.id === "new-item-form") {
@@ -676,29 +719,9 @@ function calc(menu, powderKey = selection.powder, milk = selection.milk, sweetne
 /* ④ เขียน anchor ลงเมนูและลง Home editor ด้วย
       (ไม่งั้นค่าที่เคยเซฟใน localStorage จะทับราคาใหม่ตอนรีเฟรช) */
 function syncPricesWithSheet() {
-  Object.values(powders).forEach((powder) => { powder.priceAdd = 0; });  // เลิกใช้ +฿15 แบบเหมา
+  Object.values(powders).forEach((powder) => { powder.priceAdd = 0; });
   seedHomeEditor();
-  Object.entries(SHEET_ANCHORS).forEach(([id, price]) => {
-    const menu = menus.find((item) => item.id === id);
-    if (!menu) return;
-    menu.base = price.store;
-    menu.lineman = price.app;
-    const edit = state.home.menus[id];
-    if (edit) { edit.store = price.store; edit.lineman = price.app; }
-  });
-  const sheetRecipes = {
-    latte: "12oz: 5g · น้ำร้อน 50ml · นม 100ml · 22oz สเกลตาม 22/12",
-    biscoff: "12oz · Matcha 5g · น้ำร้อน 50ml · oat milk 135ml · Biscoff spread 15ml",
-    nutella: "12oz · Matcha 5g · น้ำร้อน 50ml · นม 100ml · Nutella 20g"
-  };
-  Object.entries(sheetRecipes).forEach(([id, recipeText]) => {
-    const menu = menus.find((item) => item.id === id);
-    if (!menu) return;
-    menu.art = recipeText;
-    if (state.home.menus[id]) state.home.menus[id].recipe = recipeText;
-  });
   applyHomeEditor();
-  save();
 }
 syncPricesWithSheet();
 
