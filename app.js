@@ -65,6 +65,7 @@ const defaultState = () => ({
     { name:"Coconut foam mix", unit:"serve", qty:20, cost:null, min:5, source:"Mock stock · รอกรอกทุนจริง" }
   ],
   sales: [],
+  hiddenSupplierKeys: [],
   history: [{ at: today(), type:"adjust", title:"ตั้งต้นข้อมูลในเครื่อง", detail:"นำค่าผง/ต้นทุนจากชีท + น้ำมะพร้าว ฿115/L", delta:"—" }]
 });
 let state = defaultState();
@@ -81,6 +82,7 @@ function save(){
 function setState(next){
   state = next || defaultState();
   state.hiddenMenuIds ??= [];
+  state.hiddenSupplierKeys ??= [];
   state.customMenus ??= [];
   state.menuStatus ??= {};
   seedHomeEditor();
@@ -898,6 +900,7 @@ supplierCatalog.push(
    Single current UI layer — menu lifecycle, backup and editable Home prices.
 ---------------------------------------------------------------------------*/
 state.hiddenMenuIds ??= [];
+  state.hiddenSupplierKeys ??= [];
 state.customMenus ??= [];
 state.customMenus.forEach((menu) => {
   if (!menus.some((item) => item.id === menu.id)) menus.push(menu);
@@ -991,7 +994,8 @@ function exportData() {
 
 function importData(file) {
   const reader = new FileReader();
-  reader.onload = () => { try { const imported = JSON.parse(reader.result); if (!imported || typeof imported !== "object") throw new Error(); state = imported; state.hiddenMenuIds ??= []; state.customMenus ??= []; state.customMenus.forEach((menu) => { if (!menus.some((item) => item.id === menu.id)) menus.push(menu); }); state.menuStatus ??= {}; seedHomeEditor(); applyHomeEditor(); save(); toast("นำเข้าข้อมูลสำรองแล้ว"); } catch { toast("ไฟล์ JSON นี้ใช้ไม่ได้"); } };
+  reader.onload = () => { try { const imported = JSON.parse(reader.result); if (!imported || typeof imported !== "object") throw new Error(); state = imported; state.hiddenMenuIds ??= [];
+  state.hiddenSupplierKeys ??= []; state.customMenus ??= []; state.customMenus.forEach((menu) => { if (!menus.some((item) => item.id === menu.id)) menus.push(menu); }); state.menuStatus ??= {}; seedHomeEditor(); applyHomeEditor(); save(); toast("นำเข้าข้อมูลสำรองแล้ว"); } catch { toast("ไฟล์ JSON นี้ใช้ไม่ได้"); } };
   reader.readAsText(file);
 }
 
@@ -1011,6 +1015,22 @@ document.addEventListener("click", (event) => {
   else if (button.dataset.editSale) openSaleEditor(button.dataset.editSale);
   else if (button.dataset.deleteSale && confirm("ลบรายการขายนี้และคืนสต็อกตามสูตรเดิมใช่ไหม?")) { restoreSale(button.dataset.deleteSale); save(); }
   else if (button.dataset.supplierFilter) { document.querySelectorAll("[data-supplier-filter]").forEach((item) => item.classList.toggle("active", item === button)); renderSupplierCatalog(button.dataset.supplierFilter); }
+  else if (button.dataset.hideSupplier) {
+    const key = button.dataset.hideSupplier;
+    state.hiddenSupplierKeys ??= [];
+    if (!state.hiddenSupplierKeys.includes(key)) {
+      state.hiddenSupplierKeys.push(key);
+      save();
+      toast("ลบ/ซ่อนรายการแล้ว");
+      renderSupplierCatalog();
+    }
+  }
+  else if (button.id === "restore-hidden-suppliers") {
+    state.hiddenSupplierKeys = [];
+    save();
+    toast("กู้คืนรายการทั้งหมดแล้ว");
+    render();
+  }
   else if (button.id === "export-data") exportData();
   else if (button.id === "reset-demo" && confirm("คืนค่าข้อมูลตัวอย่างทั้งหมด?")) {
   state = defaultState();
