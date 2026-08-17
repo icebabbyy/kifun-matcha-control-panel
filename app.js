@@ -894,7 +894,13 @@ supplierCatalog.push(
  ["Rinya Matcha","Hojicha Dark Roasted",4200,"คั่วเข้ม ชัดเจน เข้ม · Latte/Baking · 500g ฿2,625 / 10g ฿105","Other"],
  // ──── Midocha & Haku (Update Aug 2026) ────
  ["Midocha","MOMO Matcha (Viral)",19000,"White peach floral viral matcha · 2-3kg ฿18,000/kg · 4kg+ ฿17,000/kg · รวมค่าส่ง","Over cap"],
- ["Haku Matcha","Uji Mellow (Wholesale Coming End of Month)",12000,"โทน Mellow Umami ละมุน · รอราคาส่งล็อตใหม่สิ้นเดือน (อาจมีตัวเกรด Base ราคาถูกลง)","Over cap"]
+ ["Haku Matcha","Uji Mellow (Wholesale Coming End of Month)",12000,"โทน Mellow Umami ละมุน · รอราคาส่งล็อตใหม่สิ้นเดือน (อาจมีตัวเกรด Base ราคาถูกลง)","Over cap"],
+ // ──── Cloudy Matcha (Update Aug 2026) ────
+ ["Cloudy Matcha","HOSHINO NUTTY 🥜 (Ceremonial)",18000,"Hoshino Village · Kanayamidori+Okumidori · Roasted Nut, Smoky, Creamy, Deep Umami · 500g ฿9,500","Over cap"],
+ ["Cloudy Matcha","Nutty Butter 🧀 (Ceremonial)",17000,"Yame · Saemidori+Yabukita · Nutty, Butter, Avocado, Creamy, Full bodied · 500g ฿9,000","Over cap"],
+ ["Cloudy Matcha","UJI HARMONY ✨️ (Extra Premium)",10800,"Uji · Kanayamidori+Saemidori · Almond Nutty, Malty, Umami, Floral · 500g ฿6,000","Over cap"],
+ ["Cloudy Matcha","Fluffy Umami 🫛 (Kyoto Ceremonial)",12300,"Kyoto · Samidori+Gokou+Okumidori · Edamame, Walnut, Fresh Floral · 500g ฿6,600","Over cap"],
+ ["Cloudy Matcha","Creamy Cloud 🥜 (Yame Ceremonial)",13400,"Yame · Okumidori+Saemidori · Creamy Smooth, Subtle Smoke, Sweetness · 500g ฿6,900","Over cap"],
 );
 /* -------------------------------------------------------------------------
    Single current UI layer — menu lifecycle, backup and editable Home prices.
