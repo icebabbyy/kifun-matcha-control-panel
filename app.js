@@ -332,7 +332,237 @@ function legacySupplierTab(){const cards=[
  ["HAKU Daily Uji Mellow","30g · ฿590","umami · mellow · creamy","Premium candidate","อย่าเอาไปกดราคาเป็น house base"],
  ["Tokocha Yame Dania (SILK)","20g · ฿690","ricotta-like · rich · creamy","Coconut pairing","Rare pairing; ไม่ใช่โทนคั่วหรือ nutty"]
 ];return `<div class="panel"><div class="panel-head"><div><h2>Supplier + Base selection</h2><p>คัดจาก Excel 9 ส.ค.; สีเขียวคือคำแนะนำสำหรับ next purchase</p></div></div><div class="supplier-grid">${cards.map((card,index)=>`<article class="supplier-card ${index===0?"recommended":""}">${index===0?"<span class=\"base-pick\">BASE PICK · ซื้อ tester ก่อน</span>":""}<div class="supplier-top"><div><h3>${card[0]}</h3><p>${card[1]}</p></div></div><p class="taste-note"><b>รส:</b> ${card[2]}</p><p>${card[3]}</p><small>${card[4]}</small></article>`).join("")}</div><div class="recipe-callout"><b>สรุปที่เชียร์</b><span>ซื้อ Midori Shinsei MI02 เป็น tester base อันดับ 1 แล้วเทียบ SM03/MI01. เลือกเฉพาะตัวที่ยัง nutty–sweet ในนมและหลังเดลิเวอรี. ระหว่างนี้ NOKO เป็น fallback ที่ใช้งานได้จริง.</span></div></div>`;}
-function renderAdmin(){const revenue=state.sales.reduce((sum,sale)=>sum+sale.price*sale.qty,0),profit=state.sales.reduce((sum,sale)=>sum+sale.profit*sale.qty,0),low=state.stock.filter(item=>item.qty<=item.min).length;document.querySelector("#kpi-row").innerHTML=`<div class="kpi emphasis"><small>ยอดขายที่บันทึก</small><b>${money(revenue)}</b></div><div class="kpi"><small>กำไรโดยประมาณ</small><b>${money(profit)}</b></div><div class="kpi"><small>จำนวนแก้ว/ชิ้น</small><b>${state.sales.reduce((sum,sale)=>sum+sale.qty,0)}</b></div><div class="kpi"><small>สต็อกต้องดู</small><b>${low} รายการ</b></div>`;document.querySelectorAll(".tab-btn").forEach(button=>button.classList.toggle("active",button.dataset.tab===activeTab));const out=document.querySelector("#admin-content");out.innerHTML=activeTab==="menu"?menuTab():activeTab==="sales"?salesTab():activeTab==="stock"?stockTab():activeTab==="suppliers"?supplierTab():equipmentTab();}
+
+/* ═══════════════════════════════════════════════════════════════
+   TOP 10 RECOMMENDED SUPPLIERS & POWDERS (Curated for Kifun)
+   ═══════════════════════════════════════════════════════════════ */
+const TOP_10_RECOMMENDED = [
+  {
+    rank: 1,
+    supplier: "Toki Matcha",
+    name: "Uji Starter A",
+    badge: "BEST VALUE BASE",
+    tier: "base",
+    priceKg: 4400,
+    priceG: 4.40,
+    tester: "10g ฿80",
+    origin: "Uji, Kyoto",
+    cultivar: "Yabukita breeds",
+    taste: "โทน Uji ดื่มง่าย บอดี้โปร่ง ไม่ฝาดบาดคอ เหมาะเป็น Base ราคาประหยัด",
+    latteCost: 22.00,
+    clearCost: 13.20,
+    recommend: "ตัวเลือก House Base ที่ถูกที่สุดในตลาด (฿4.40/g) มี Tester 10g เพียง ฿80 คุ้มค่าแก่การสั่งมาลองเป็นอันดับแรก"
+  },
+  {
+    rank: 2,
+    supplier: "Rinya Matcha",
+    name: "Ureshino Premium Blend #2",
+    badge: "ALL-ROUND HERO",
+    tier: "base",
+    priceKg: 4600,
+    priceG: 4.60,
+    tester: "Tasting Session ฿500 (4 ท่าน)",
+    origin: "Ureshino, Saga",
+    cultivar: "Premium Blend",
+    taste: "ถั่วนึ่ง ฟลอรัล ขมน้อย สีเขียวสด ชง Clear / Latte / มะพร้าว ได้ครบเครื่อง",
+    latteCost: 23.00,
+    clearCost: 13.80,
+    recommend: "สารพัดประโยชน์ที่สุดในราคาประหยัด ชงใสผ่าน ชงนมและมะพร้าวเด่นมาก แนะนำไปชิมที่ร้าน ฿500 ได้ลอง 10-15 ตัว"
+  },
+  {
+    rank: 3,
+    supplier: "Toki Matcha",
+    name: "Yame Starter A",
+    badge: "BEST BUDGET YAME",
+    tier: "base",
+    priceKg: 4500,
+    priceG: 4.50,
+    tester: "10g ฿80",
+    origin: "Yame, Fukuoka",
+    cultivar: "Yabukita breeds",
+    taste: "ถั่วคั่วละมุน บอดี้สู้นมได้ดี รสเข้มข้นสไตล์ Yame",
+    latteCost: 22.50,
+    clearCost: 13.50,
+    recommend: "ชา Yame แท้ในราคา Base (฿4.50/g) สั่ง Tester 10g ฿80 มาเทียบกับ Uji Starter ได้เลย"
+  },
+  {
+    rank: 4,
+    supplier: "Osha Ocha Matcha",
+    name: "Kagoshima P01",
+    badge: "PROVEN MILK BODY",
+    tier: "base",
+    priceKg: 5270,
+    priceG: 5.27,
+    tester: "20g ฿350",
+    origin: "Kagoshima",
+    cultivar: "Blend (2nd Harvest)",
+    taste: "Dense body, rice milk, floral, nuts, avocado, mango sticky rice",
+    latteCost: 26.35,
+    clearCost: 15.81,
+    recommend: "บอดี้ในนมหนาแน่นที่สุด รสข้าวเหนียวมะม่วง ร้านดังบน LINE MAN ใช้จริง พิสูจน์แล้วว่าลูกค้าชอบ"
+  },
+  {
+    rank: 5,
+    supplier: "TENJU",
+    name: "Kagoshima Ceremonial",
+    badge: "BEST PACKAGING",
+    tier: "base",
+    priceKg: 5550,
+    priceG: 5.55,
+    tester: "ถุง 100g ฿565",
+    origin: "Kagoshima",
+    cultivar: "Ceremonial Blend",
+    taste: "Nutty, Creamy/Smooth, Matcha Aroma, Full Body (เกรดพิธีการ)",
+    latteCost: 27.75,
+    clearCost: 16.65,
+    recommend: "บรรจุแยก 100g x 10 ถุง คุมความสดเยี่ยม ชาไม่เสื่อมสภาพ ชง Clear และ Latte ผ่านทั้งคู่"
+  },
+  {
+    rank: 6,
+    supplier: "Osha Ocha Matcha",
+    name: "Yame Saemidori",
+    badge: "WHITE CHOC MATCH",
+    tier: "signature",
+    priceKg: 6990,
+    priceG: 6.99,
+    tester: "30g ฿390",
+    origin: "Yame, Fukuoka",
+    cultivar: "Single Cultivar: Saemidori",
+    taste: "Choco cream, nutty, avocado, hint of ocean (White Choc นัวๆ)",
+    latteCost: 34.95,
+    clearCost: 20.97,
+    recommend: "โปรไฟล์ตรงกับที่เจ้าของร้านชอบที่สุด (White Choc + Avocado) ในราคาเพียงครึ่งเดียวของ Haku"
+  },
+  {
+    rank: 7,
+    supplier: "Rinya Matcha",
+    name: "Yame Pistachio Cookie",
+    badge: "TOP COOKIE LATTE",
+    tier: "signature",
+    priceKg: 7500,
+    priceG: 7.50,
+    tester: "10g ฿170",
+    origin: "Hoshino, Yame",
+    cultivar: "Premium Blend",
+    taste: "จากหมู่บ้านโฮชิโนะ กลิ่นคุกกี้ถั่วอบเนยสด ครีมมี่ สู้นมดีเลิศ",
+    latteCost: 37.50,
+    clearCost: 22.50,
+    recommend: "กลิ่นหอมแบบขนมคุกกี้เนยสดชัดเจน เหมาะเป็น Signature Latte แก้วโปรดของร้าน"
+  },
+  {
+    rank: 8,
+    supplier: "Sukito",
+    name: "Cafe Latte",
+    badge: "CAFE STANDARD",
+    tier: "signature",
+    priceKg: 7900,
+    priceG: 7.90,
+    tester: "Tester 10g ฿80",
+    origin: "Blend",
+    cultivar: "Blend",
+    taste: "Greenish, almond, edamame, creamy, denser body",
+    latteCost: 39.50,
+    clearCost: 23.70,
+    recommend: "ตัวยอดนิยมของวงการคาเฟ่ มีใบกำกับภาษี บอดี้ถั่วอัลมอนด์ชัดเจนในนม"
+  },
+  {
+    rank: 9,
+    supplier: "Toki Matcha",
+    name: "Souwu - Yame (Ceremonial)",
+    badge: "BEST SELLER CEREMONIAL",
+    tier: "signature",
+    priceKg: 9500,
+    priceG: 9.50,
+    tester: "10g ฿130",
+    origin: "Yame, Fukuoka",
+    cultivar: "Yabukita breeds (Ceremonial)",
+    taste: "หอมละมุน อูมามิสูง ชง Clear สดชื่น ชง Cold Whisk นุ่มฟู",
+    latteCost: 47.50,
+    clearCost: 28.50,
+    recommend: "Ceremonial ระดับ Best Seller ในงบไม่เกิน ฿10/g เหมาะสำหรับเมนู Premium Clear และ Cold Whisk"
+  },
+  {
+    rank: 10,
+    supplier: "Midocha / Haku",
+    name: "MOMO Matcha (฿19/g) & Haku Mellow (฿12/g)",
+    badge: "SPECIAL GUEST / VIRAL",
+    tier: "special",
+    priceKg: 19000,
+    priceG: 19.00,
+    tester: "สั่งรอบละ 100g / 500g",
+    origin: "Kyoto / Specialty",
+    cultivar: "Single / 1st Harvest",
+    taste: "White Peach Floral (MOMO) / Super Umami Mellow (Haku)",
+    latteCost: 95.00,
+    clearCost: 57.00,
+    recommend: "เหมาะสำหรับทำ Special Guest Menu ขายแก้วละ 180–250+ บาท สำหรับลูกค้าสาย Specialty ตัวจริง"
+  }
+];
+
+function top10Tab() {
+  return `
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>⭐ Top 10 ผงชาที่ควรซื้อ / ลองเทสต์มากที่สุด</h2>
+          <p>คัดเลือกและจัดอันดับจากทุก Supplier (Rinya, Toki, Osha Ocha, TENJU, Sukito, Midocha) อัปเดตล่าสุด</p>
+        </div>
+      </div>
+
+      <div class="top10-tier-overview" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 20px;">
+        <div style="background: rgba(163, 230, 53, 0.1); border: 1px solid rgba(163, 230, 53, 0.3); border-radius: 8px; padding: 12px;">
+          <h4 style="margin: 0 0 4px 0; color: #4ade80;">🟢 กลุ่ม House Base (฿4.4 – ฿5.5/g)</h4>
+          <p style="margin: 0; font-size: 12px; color: var(--text-muted, #888);">#1 Toki Uji A, #2 Rinya #2, #3 Toki Yame A, #4 P01, #5 TENJU</p>
+        </div>
+        <div style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 12px;">
+          <h4 style="margin: 0 0 4px 0; color: #38bdf8;">🔵 กลุ่ม Signature & Nutty (฿6.9 – ฿9.5/g)</h4>
+          <p style="margin: 0; font-size: 12px; color: var(--text-muted, #888);">#6 Yame Saemidori, #7 Pistachio Cookie, #8 Sukito Cafe, #9 Souwu</p>
+        </div>
+        <div style="background: rgba(244, 114, 182, 0.1); border: 1px solid rgba(244, 114, 182, 0.3); border-radius: 8px; padding: 12px;">
+          <h4 style="margin: 0 0 4px 0; color: #f472b6;">🟣 กลุ่ม Special Guest (฿12 – ฿19/g)</h4>
+          <p style="margin: 0; font-size: 12px; color: var(--text-muted, #888);">#10 Midocha MOMO (Peach) & Haku Mellow</p>
+        </div>
+      </div>
+
+      <div class="top10-grid" style="display: flex; flex-direction: column; gap: 16px;">
+        ${TOP_10_RECOMMENDED.map((item) => `
+          <div class="top10-card" style="background: var(--surface-2, #f9f9f8); border: 1px solid var(--border, #e5e7eb); border-radius: 12px; padding: 16px; display: grid; grid-template-columns: 48px 1fr auto; gap: 16px; align-items: start;">
+            <div style="width: 44px; height: 44px; border-radius: 50%; background: #254d3d; color: #a3e635; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: bold;">
+              #${item.rank}
+            </div>
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px;">
+                <span style="font-size: 11px; font-weight: bold; padding: 2px 8px; border-radius: 4px; background: ${item.tier === 'base' ? '#166534' : item.tier === 'signature' ? '#075985' : '#831843'}; color: #fff;">
+                  ${item.badge}
+                </span>
+                <span style="font-size: 12px; color: var(--text-muted, #666);">${item.supplier}</span>
+                <b style="font-size: 16px; color: var(--text-main, #1f2937);">${item.name}</b>
+              </div>
+              <p style="margin: 4px 0 8px 0; font-size: 13px; color: var(--text-muted, #555);">
+                <b>Tasting Notes:</b> ${item.taste}
+              </p>
+              <div style="font-size: 12px; background: rgba(0,0,0,0.03); padding: 8px 12px; border-radius: 6px; color: var(--text-main, #333);">
+                💡 <b>ทำไมถึงแนะนำ:</b> ${item.recommend}
+              </div>
+            </div>
+            <div style="text-align: right; min-width: 140px;">
+              <div style="font-size: 18px; font-weight: bold; color: #254d3d;">฿${item.priceG.toFixed(2)}<small style="font-size: 12px; font-weight: normal;">/g</small></div>
+              <div style="font-size: 12px; color: var(--text-muted, #666);">1kg = ฿${item.priceKg.toLocaleString()}</div>
+              <div style="font-size: 11px; margin-top: 6px; padding: 2px 6px; border-radius: 4px; background: #e0f2fe; color: #0369a1; display: inline-block;">
+                Tester: ${item.tester}
+              </div>
+              <div style="font-size: 11px; margin-top: 4px; color: #059669;">
+                ต้นทุน Latte 5g: <b>฿${item.latteCost.toFixed(2)}</b>
+              </div>
+            </div>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function renderAdmin(){const revenue=state.sales.reduce((sum,sale)=>sum+sale.price*sale.qty,0),profit=state.sales.reduce((sum,sale)=>sum+sale.profit*sale.qty,0),low=state.stock.filter(item=>item.qty<=item.min).length;document.querySelector("#kpi-row").innerHTML=`<div class="kpi emphasis"><small>ยอดขายที่บันทึก</small><b>${money(revenue)}</b></div><div class="kpi"><small>กำไรโดยประมาณ</small><b>${money(profit)}</b></div><div class="kpi"><small>จำนวนแก้ว/ชิ้น</small><b>${state.sales.reduce((sum,sale)=>sum+sale.qty,0)}</b></div><div class="kpi"><small>สต็อกต้องดู</small><b>${low} รายการ</b></div>`;document.querySelectorAll(".tab-btn").forEach(button=>button.classList.toggle("active",button.dataset.tab===activeTab));const out=document.querySelector("#admin-content");out.innerHTML=activeTab==="menu"?menuTab():activeTab==="sales"?salesTab():activeTab==="stock"?stockTab():activeTab==="suppliers"?supplierTab():activeTab==="top10"?top10Tab():equipmentTab();}
 const PACKAGING_ITEMS = new Set(["12oz cup + lid set","22oz cup (free)","Cold whisk pouch 200ml","Cold whisk pouch 250ml","Cup bag 12×11+1","Cup bag 6×11","6mm straw","3oz topping cup","Topping tray 98mm"]);
 function recordSale(menuId,powderKey,qty=1,sweetness=5,brew="clear",milk="Oat milk",channel="store",testOnly=false,size="12"){
  const menu=getMenu(menuId);
