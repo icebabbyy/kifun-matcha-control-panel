@@ -591,7 +591,7 @@ const supplierCatalog=[
  ["Wazuka Cha","MC1 Kyoto Okumidori",11770,"ceremonial · incl. 7% VAT","Over cap"],["Wazuka Cha","MC2 Kyoto Kanayamidori",10700,"ceremonial · incl. 7% VAT","Over cap"],["Wazuka Cha","MC3 Kyoto Classic",4173,"all purpose · Okumidori + Kanayamidori · incl. VAT","Below target"],["Wazuka Cha","MC4 Kyoto Premium",5885,"premium · Okumidori + Kanayamidori · incl. VAT","Sweet spot"],["Wazuka Cha","MC5 Tokusen Okumidori",18725,"ceremonial · incl. VAT","Over cap"],["Wazuka Cha","MC13 Organic Yabukita",11770,"ceremonial · incl. VAT","Over cap"],["Wazuka Cha","MC14 Organic Zairai Blend",11770,"ceremonial · incl. VAT","Over cap"],["Wazuka Cha","MC46 Mountain Peak Okumidori",27820,"ceremonial · incl. VAT","Over cap"],
  ["Wazuka Cha","MC21 Yame Exclusive Saemidori",15515,"ceremonial · incl. VAT","Over cap"],["Wazuka Cha","MC22 Yame Excellent Saemidori + Yabukita",12840,"ceremonial · incl. VAT","Over cap"],["Wazuka Cha","MC23 Yame Premium Saemidori + Yabukita",7276,"premium · incl. 7% VAT","Sweet spot"],["Wazuka Cha","MC241 Yame Classic Special Blend",6206,"Yame blend · incl. 7% VAT","Sweet spot"],["Wazuka Cha","MC25 Yame Signature Saemidori + Okumidori",19795,"ceremonial · incl. VAT","Over cap"],["Wazuka Cha","MC27 Yame Medium Firing",9202,"premium · incl. VAT","Eligible"],["Wazuka Cha","MC28 Yame High Firing",10272,"premium · incl. VAT","Over cap"],["Wazuka Cha","MC283 Yame Nutty Roasted",6955,"premium · Okumidori + Yabukita · incl. VAT","Sweet spot"],["Wazuka Cha","MC29 Yame Rich",17655,"ceremonial · incl. VAT","Over cap"],["Wazuka Cha","MC30 Yame Intense Okumidori",16585,"ceremonial · incl. VAT","Over cap"],["Wazuka Cha","MC31 Hoshino Star",10486,"upper premium · incl. VAT","Over cap"],["Wazuka Cha","MC32 Hoshino Village",19795,"ceremonial · incl. VAT","Over cap"],["Wazuka Cha","MC33 Hoshino Signature",27820,"ceremonial · incl. VAT","Over cap"],["Wazuka Cha","MC34 Hoshino Special",34240,"ceremonial · incl. VAT","Over cap"],["Wazuka Cha","MC35 Hoshino Exclusive",18725,"ceremonial · incl. VAT","Over cap"],["Wazuka Cha","MC48 Kagoshima Chirancha",11770,"ceremonial · incl. VAT","Over cap"],["Wazuka Cha","MC482 Kagoshima Chirancha Premium",6634,"premium · incl. VAT","Sweet spot"],["Wazuka Cha","HC1 Hojicha Powder",5136,"hojicha · incl. VAT","Other"],["Wazuka Cha","D1 Daily Okumidori",10165,"daily · incl. VAT","Over cap"],["Wazuka Cha","D2 Daily Yame",8025,"daily · incl. VAT","Eligible"],
  ["SHIKA","Yame Ryouto",22000,"almond / malt / refreshing natural sweetness","Over cap"],["SHIKA","Yame Miku",17400,"nutty / almond / roasty","Over cap"],["SHIKA","Yame Toyoko",17200,"nutty / peanut / roasty","Over cap"],["SHIKA","Yame Ceremonial",26000,"pistachio / broad bean / light smoky","Over cap"],["SHIKA","Yame Yabukita",8500,"nutty · rich umami · naturally sweet · slight hot astringency","Eligible"],["SHIKA","Yame Gyokuro",8700,"nutty / peanut / green pea / creamy","Eligible"],["SHIKA","Yame Yumiko",7500,"nutty / green pea / mellow / roasted","Sweet spot"],["SHIKA","Yame Momoko",6500,"nutty / broad bean / mellow","Sweet spot"],["SHIKA","Yame Café",6250,"lightly nutty / seaweed / mellow / smooth","Sweet spot"],["SHIKA","Yame Houjicha",6350,"dark chocolate / caramel / roasted aroma","Other"],["SHIKA","Uji Gokou",19500,"white floral / broccoli / milky / creamy / slight seaweed","Over cap"],["SHIKA","Uji Okumidori",21000,"grassy / green pea / coconut / refreshing","Over cap"],["SHIKA","Uji Samidori",22000,"rosemary / avocado / chestnut / banana","Over cap"],["SHIKA","Uji Spring Blends",7800,"vegetal sweet / green peas / hazelnut / slight bitterness","Sweet spot"],["SHIKA","Kyoto Basic",5900,"seaweed / milky / bitterness","Sweet spot"],
- ["Midori Shinsei","FY04 Fukuoka Yabukita Blend",6500,"premium 4A","Sweet spot"],["Midori Shinsei","KU03 Kyoto Samidori + Okumidori Blend",7200,"premium 4A · tester ฿260","Sweet spot"],["Midori Shinsei","KU04 Kyoto Blend",6300,"premium 4A · tester ฿230","Sweet spot"],["Midori Shinsei","AN03 Aichi Yabukita Blend",5400,"premium 4A · tester ฿200","Sweet spot"],["Midori Shinsei","SA04 Shizuoka Okumidori",9800,"ceremonial 5A · tester ฿470","Eligible"],["Midori Shinsei","SA05 Ashikubo Blend",4900,"premium 4A · tester ฿190","Below target"],["Midori Shinsei","KC03 Kagoshima Haruto34 Blend",9900,"ceremonial 5A · tester ฿350","Eligible"],["Midori Shinsei","KS04 Kagoshima Seimei Blend",7200,"premium 4A · tester ฿260","Sweet spot"],["Midori Shinsei","KS05 Shibushi Blend",4200,"premium 4A · tester ฿155","Below target"],["Midori Shinsei","MI01 Mie Saemidori + Samidori + Okumidori",11700,"ceremonial 5A · tester ฿410","Over cap"],["Midori Shinsei","MI02 Mie Yabukita Blend",7200,"premium 4A · tester ฿260","Sweet spot"],["Midori Shinsei","MI03 Mie Blend",5400,"premium 4A · tester ฿200","Sweet spot"],["Midori Shinsei","SX01 China Blend",4700,"premium 4A · tester ฿110","Below target"],["Midori Shinsei","SX02 China Blend",2250,"premium 3A · tester ฿95","Below target"],
+ ["Midori Shinsei","FY04 Fukuoka Yabukita Blend",6500,"premium 4A","Sweet spot"],["Midori Shinsei","KU03 Kyoto Samidori + Okumidori Blend",7200,"premium 4A · tester ฿260","Sweet spot"],["Midori Shinsei","KU04 Kyoto Blend",6300,"premium 4A · tester ฿230","Sweet spot"],["Midori Shinsei","AN03 Aichi Yabukita Blend",5400,"premium 4A · tester ฿200","Sweet spot"],["Midori Shinsei","SA04 Shizuoka Okumidori",9800,"ceremonial 5A · tester ฿470","Eligible"],["Midori Shinsei","SA05 Ashikubo Blend",4900,"premium 4A · tester ฿190","Below target"],["Midori Shinsei","KC03 Kagoshima Haruto34 Blend",9900,"ceremonial 5A · tester ฿350","Eligible"],["Midori Shinsei","KS04 Kagoshima Seimei Blend",7200,"premium 4A · tester ฿260","Sweet spot"],["Midori Shinsei","KS05 Shibushi Blend",4200,"premium 4A · tester ฿155","Below target"],["Midori Shinsei","MI01 Mie Saemidori + Samidori + Okumidori",11700,"ceremonial 5A · tester ฿410","Over cap"],["Midori Shinsei","MI02 Mie Yabukita Blend",7200,"premium 4A · tester ฿260","Sweet spot"],["Midori Shinsei","MI03 Mie Blend",5400,"premium 4A · tester ฿200","Sweet spot"],
  ["Seasonal Matcha","Yameka",15500,"30g ฿480 / 100g ฿1,550","Over cap"],["Seasonal Matcha","Wakaba",15500,"30g ฿480 / 100g ฿1,550","Over cap"],["Seasonal Matcha","Kemuri",21000,"20g ฿440 / 100g ฿2,100","Over cap"],["Seasonal Matcha","Kobashi",21000,"20g ฿440 / 100g ฿2,100","Over cap"],["Seasonal Matcha","Kogashi",24500,"20g ฿510 / 100g ฿2,450","Over cap"],["Seasonal Matcha","Yamame",24500,"20g ฿510 / 100g ฿2,450","Over cap"],
  ["OSHA OCHA","Kagoshima P01",5270,"creamier rice milk / floral / nuts / avocado / mango sticky rice","Sweet spot"],["OSHA OCHA","Kagoshima C02",9000,"avocado / floral / roasted nut-rice","Eligible"],["OSHA OCHA","Kagoshima Gyokuro",11090,"creamy / steamed white fish / fruity","Over cap"],["OSHA OCHA","Yame Sancho",8500,"smooth roasted nut / green pea / savory","Eligible"],["OSHA OCHA","Yame Okumidori",15800,"smooth roast nut / fruity pear / buttery","Over cap"],["OSHA OCHA","Yame Saemidori",6990,"choco cream / nutty / avocado","Sweet spot"],["OSHA OCHA","Yame Yabukita",8500,"black roasted nut","Eligible"],["OSHA OCHA","Yame Sanji",6550,"roasted nut / ocean tone","Sweet spot"],["OSHA OCHA","Shizuoka Yabukita Organic",8815,"good balance / seaweed / fruity floral","Eligible"],["OSHA OCHA","Shizuoka Yabukita Culinary",4800,"seaweed / slight astringency","Below target"],["OSHA OCHA","Fuyu no Kaze",6990,"nori / avocado / fruity / creamy","Sweet spot"],["OSHA OCHA","Hajime Culinary",6990,"big grassy / slight bitter","Other"],["OSHA OCHA","Yame C01",11490,"roasted nut-rice / pistachio / fruity","Over cap"],["OSHA OCHA","Yame C02",15000,"macadamia / almond / vanilla / choco","Over cap"],["OSHA OCHA","Yame C03",10500,"nori / floral nutty / strong coconut","Over cap"],["OSHA OCHA","Yame C04",12700,"smooth roasted nuts / peanut / guava / fruity","Over cap"],["OSHA OCHA","Yame No.1",13900,"smoked wood / choco / nutty / floral","Over cap"],["OSHA OCHA","Yame Yabukita 1st",9950,"rich roasted nuts / cacao / vanilla / fruity","Eligible"],["OSHA OCHA","Saga Yabukita",10500,"coconut milk / avocado / almond","Over cap"],["OSHA OCHA","Saga Seimei",8590,"steamed rice / floral / fruity / avocado","Eligible"],
  ["Trial Matcha","Uji Heritage",29000,"100g ฿2,900","Over cap"],["Trial Matcha","Uji Ceremonial",15500,"100g ฿1,550","Over cap"],["Trial Matcha","Uji Premium",10200,"100g ฿1,020","Over cap"],["Trial Matcha","Uji Café",7200,"100g ฿720","Sweet spot"],["Trial Matcha","Yame Heritage Upper",28300,"100g ฿2,830","Over cap"],["Trial Matcha","Yame Premium",16200,"100g ฿1,620","Over cap"],["Trial Matcha","Yame Standard",14800,"100g ฿1,480","Over cap"],["Trial Matcha","Yame Café",13500,"100g ฿1,350","Over cap"],["Trial Matcha","Hoshinomura All Purpose",7200,"100g ฿720","Sweet spot"],["Trial Matcha","Nishio All Purpose",8900,"100g ฿890","Eligible"],["Trial Matcha","Organic Nishio Café",7200,"100g ฿720","Sweet spot"],["Trial Matcha","Ise Café",8500,"100g ฿850","Eligible"],["Trial Matcha","Kagoshima Ceremonial",14500,"100g ฿1,450","Over cap"],["Trial Matcha","Shizuoka Premium",12000,"100g ฿1,200","Over cap"],["Trial Matcha","Everyday Nutty Premium",16900,"100g ฿1,690","Over cap"],
@@ -601,19 +601,25 @@ const supplierCatalog=[
 ];
 function moneyKg(value){return value==null?"—":`฿${value.toLocaleString("th-TH")}/kg`;}
 
+
 let currentSupplierSort = "price-asc";
 let currentSupplierFilter = "all";
 let currentSupplierSearch = "";
 
 function supplierTab(){
- const vendors=[...new Set(supplierCatalog.map(row=>row[0]))];
+ state.hiddenSupplierKeys ??= [];
+ const visibleCatalog = supplierCatalog.filter(row => !state.hiddenSupplierKeys.includes(`${row[0]}_${row[1]}`));
+ const vendors=[...new Set(visibleCatalog.map(row=>row[0]))];
+ const hiddenCount = state.hiddenSupplierKeys.length;
+
  return `
   <div class="panel supplier-panel">
     <div class="panel-head">
       <div>
         <h2>Supplier Library & Live Price Comparison</h2>
-        <p>รวบรวมครบ <b>${vendors.length} เจ้า</b> รวมทั้งหมด <b>${supplierCatalog.length} รายการ</b> (Koyo, Toki, Rinya, Osha Ocha, Sukito, Wazuka, ฯลฯ)</p>
+        <p>รวบรวมครบ <b>${vendors.length} เจ้า</b> รวมทั้งหมด <b>${visibleCatalog.length} รายการ</b> (Koyo, Toki, Rinya, Osha Ocha, Sukito, Wazuka, ฯลฯ)</p>
       </div>
+      ${hiddenCount > 0 ? `<button class="secondary-btn" id="restore-hidden-suppliers" style="font-size: 12px; padding: 6px 12px;">↺ กู้คืนรายการที่ลบ (${hiddenCount})</button>` : ""}
     </div>
 
     <!-- Quick Filter & Sort Controls -->
@@ -638,7 +644,7 @@ function supplierTab(){
 
       <!-- Filter Buttons -->
       <div class="supplier-filters" style="display: flex; gap: 8px; flex-wrap: wrap;">
-        <button class="choice ${currentSupplierFilter==="all"?"active":""}" data-supplier-filter="all">ทั้งหมด (${supplierCatalog.length})</button>
+        <button class="choice ${currentSupplierFilter==="all"?"active":""}" data-supplier-filter="all">ทั้งหมด (${visibleCatalog.length})</button>
         <button class="choice ${currentSupplierFilter==="base"?"active":""}" data-supplier-filter="base">🟢 Base ประหยัด (≤ ฿5.5k/kg)</button>
         <button class="choice ${currentSupplierFilter==="sweet"?"active":""}" data-supplier-filter="sweet">🔵 Sweet Spot (฿5k–฿8k)</button>
         <button class="choice ${currentSupplierFilter==="premium"?"active":""}" data-supplier-filter="premium">🟣 พรีเมียม (฿8k–฿15k)</button>
@@ -654,9 +660,13 @@ function supplierTab(){
 function renderSupplierCatalog(filter=currentSupplierFilter){
  currentSupplierFilter = filter;
  const out=document.querySelector("#supplier-catalog-table");if(!out)return;
+ state.hiddenSupplierKeys ??= [];
  const shortlistNames=new Set(["Kagoshima P01","MC283 Yame Nutty Roasted","Cafe Latte","Yame Momoko","Yame Saemidori","Uji Starter A (Best Seller)","Ureshino Premium Blend #2","HAJIME (Cafe · Uji)","Yame Pistachio Cookie (Premium)","Souwu - Yame (Best Seller)"]);
  
  let rows = supplierCatalog.filter(row => {
+   const key = `${row[0]}_${row[1]}`;
+   if (state.hiddenSupplierKeys.includes(key)) return false;
+
    // Search query filter
    if (currentSupplierSearch) {
      const query = currentSupplierSearch.toLowerCase();
@@ -697,7 +707,7 @@ function renderSupplierCatalog(filter=currentSupplierFilter){
  out.innerHTML=`
    <div style="margin-bottom: 8px; font-size: 13px; color: var(--text-muted, #666); display: flex; justify-content: space-between;">
      <span>แสดง <b>${rows.length}</b> รายการ</span>
-     <span>*คลิกเปลี่ยนการเรียงราคาหรือพิมพ์ค้นหาได้จากแถบด้านบน</span>
+     <span>*คลิก 🗑️ เพื่อซ่อน/ลบรายการที่ไม่สนใจออกได้</span>
    </div>
    <div class="table-wrap supplier-table">
      <table class="data-table">
@@ -709,12 +719,14 @@ function renderSupplierCatalog(filter=currentSupplierFilter){
            <th style="text-align: right;">฿/g</th>
            <th style="text-align: right;">Latte 5g</th>
            <th>โน้ต / Tasting Notes</th>
+           <th style="text-align: center; width: 44px;">จัดการ</th>
          </tr>
        </thead>
        <tbody>
          ${rows.map(row=>{
            const priceG = row[2] != null ? (row[2] / 1000) : null;
            const latte5g = priceG != null ? (priceG * 5) : null;
+           const key = `${row[0]}_${row[1]}`;
            return `
              <tr>
                <td><b>${row[0]}</b></td>
@@ -722,9 +734,12 @@ function renderSupplierCatalog(filter=currentSupplierFilter){
                <td style="text-align: right; font-weight: bold; color: #254d3d;">${moneyKg(row[2])}</td>
                <td style="text-align: right; color: var(--text-muted, #666);">${priceG != null ? `฿${priceG.toFixed(2)}` : "—"}</td>
                <td style="text-align: right; font-weight: 600; color: #059669;">${latte5g != null ? `฿${latte5g.toFixed(2)}` : "—"}</td>
-               <td style="font-size: 12px; max-width: 320px;">
+               <td style="font-size: 12px; max-width: 300px;">
                  ${row[3]}
                  <span class="supplier-status ${row[4] && (row[4].includes("Sweet") || row[4]==="Eligible") ? "fit" : ""}">${row[4] || ""}</span>
+               </td>
+               <td style="text-align: center;">
+                 <button data-hide-supplier="${esc(key)}" title="ลบ/ซ่อนรายการนี้" style="background: none; border: none; cursor: pointer; opacity: 0.5; font-size: 14px; padding: 4px;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.5">🗑️</button>
                </td>
              </tr>
            `;
@@ -734,6 +749,7 @@ function renderSupplierCatalog(filter=currentSupplierFilter){
    </div>
  `;
 }
+
 const renderAdminV5=renderAdmin;renderAdmin=function(){renderAdminV5();if(activeTab==="suppliers")renderSupplierCatalog();};
 /* Home is private-facing too: names, copy and prices are intentionally editable
    from the panel and the customer view only receives the house codenames. */
