@@ -351,10 +351,26 @@ const TOP_10_RECOMMENDED = [
     taste: "โทน Uji ดื่มง่าย บอดี้โปร่ง ไม่ฝาดบาดคอ เหมาะเป็น Base ราคาประหยัด",
     latteCost: 22.00,
     clearCost: 13.20,
-    recommend: "ตัวเลือก House Base ที่ถูกที่สุดในตลาด (฿4.40/g) มี Tester 10g เพียง ฿80 คุ้มค่าแก่การสั่งมาลองเป็นอันดับแรก"
+    recommend: "ตัวเลือก House Base ที่ถูกและคุ้มค่าที่สุดในกลุ่ม Uji (฿4.40/g) มี Tester 10g เพียง ฿80 ให้ลองชงได้ทันที"
   },
   {
     rank: 2,
+    supplier: "Koyo Tearoom",
+    name: "HAJIME (Uji) / YT4 (Yame)",
+    badge: "ULTRA BUDGET BASE",
+    tier: "base",
+    priceKg: 3800,
+    priceG: 3.80,
+    tester: "500g ฿2,660 / ฿3,500/kg",
+    origin: "Uji / Yame",
+    cultivar: "Blends (Autumn Harvest)",
+    taste: "Grassy, High Body, Mild Bitter · บอดี้ชัด เหมาะทำเมนูชาเขียวเข้มข้นหรือขนม",
+    latteCost: 19.00,
+    clearCost: 11.40,
+    recommend: "ราคาถูกที่สุดในบรรดาผงชาแท้จากญี่ปุ่น (฿3.50 - ฿3.80/g) ดึงต้นทุนต่อแก้วให้ต่ำกว่า ฿20 ได้อย่างแท้จริง"
+  },
+  {
+    rank: 3,
     supplier: "Rinya Matcha",
     name: "Ureshino Premium Blend #2",
     badge: "ALL-ROUND HERO",
@@ -367,10 +383,10 @@ const TOP_10_RECOMMENDED = [
     taste: "ถั่วนึ่ง ฟลอรัล ขมน้อย สีเขียวสด ชง Clear / Latte / มะพร้าว ได้ครบเครื่อง",
     latteCost: 23.00,
     clearCost: 13.80,
-    recommend: "สารพัดประโยชน์ที่สุดในราคาประหยัด ชงใสผ่าน ชงนมและมะพร้าวเด่นมาก แนะนำไปชิมที่ร้าน ฿500 ได้ลอง 10-15 ตัว"
+    recommend: "สารพัดประโยชน์ที่สุดในงบประหยัด ชงใสผ่าน ชงนมและมะพร้าวเด่นมาก แนะนำไปชิมที่ร้าน ฿500 ได้ลอง 10-15 ตัว"
   },
   {
-    rank: 3,
+    rank: 4,
     supplier: "Toki Matcha",
     name: "Yame Starter A",
     badge: "BEST BUDGET YAME",
@@ -386,7 +402,7 @@ const TOP_10_RECOMMENDED = [
     recommend: "ชา Yame แท้ในราคา Base (฿4.50/g) สั่ง Tester 10g ฿80 มาเทียบกับ Uji Starter ได้เลย"
   },
   {
-    rank: 4,
+    rank: 5,
     supplier: "Osha Ocha Matcha",
     name: "Kagoshima P01",
     badge: "PROVEN MILK BODY",
@@ -402,7 +418,7 @@ const TOP_10_RECOMMENDED = [
     recommend: "บอดี้ในนมหนาแน่นที่สุด รสข้าวเหนียวมะม่วง ร้านดังบน LINE MAN ใช้จริง พิสูจน์แล้วว่าลูกค้าชอบ"
   },
   {
-    rank: 5,
+    rank: 6,
     supplier: "TENJU",
     name: "Kagoshima Ceremonial",
     badge: "BEST PACKAGING",
@@ -418,7 +434,7 @@ const TOP_10_RECOMMENDED = [
     recommend: "บรรจุแยก 100g x 10 ถุง คุมความสดเยี่ยม ชาไม่เสื่อมสภาพ ชง Clear และ Latte ผ่านทั้งคู่"
   },
   {
-    rank: 6,
+    rank: 7,
     supplier: "Osha Ocha Matcha",
     name: "Yame Saemidori",
     badge: "WHITE CHOC MATCH",
@@ -434,7 +450,7 @@ const TOP_10_RECOMMENDED = [
     recommend: "โปรไฟล์ตรงกับที่เจ้าของร้านชอบที่สุด (White Choc + Avocado) ในราคาเพียงครึ่งเดียวของ Haku"
   },
   {
-    rank: 7,
+    rank: 8,
     supplier: "Rinya Matcha",
     name: "Yame Pistachio Cookie",
     badge: "TOP COOKIE LATTE",
@@ -450,52 +466,36 @@ const TOP_10_RECOMMENDED = [
     recommend: "กลิ่นหอมแบบขนมคุกกี้เนยสดชัดเจน เหมาะเป็น Signature Latte แก้วโปรดของร้าน"
   },
   {
-    rank: 8,
+    rank: 9,
+    supplier: "Wazuka Cha",
+    name: "MC283 Yame Nutty Roasted",
+    badge: "ROASTED NUTTY VALUE",
+    tier: "signature",
+    priceKg: 6955,
+    priceG: 6.96,
+    tester: "100g pack",
+    origin: "Yame, Fukuoka",
+    cultivar: "Okumidori + Yabukita",
+    taste: "Nutty, roasted cacao, lightly smoky butter, medium-dense body",
+    latteCost: 34.78,
+    clearCost: 20.87,
+    recommend: "ตัวเลือกสาย Nutty Cacao สำหรับลาเต้ที่คุ้มราคาที่สุดในตระกูล Wazuka"
+  },
+  {
+    rank: 10,
     supplier: "Sukito",
     name: "Cafe Latte",
     badge: "CAFE STANDARD",
     tier: "signature",
     priceKg: 7900,
     priceG: 7.90,
-    tester: "Tester 10g ฿80",
+    tester: "Tester 10g ฿80 / Free",
     origin: "Blend",
     cultivar: "Blend",
     taste: "Greenish, almond, edamame, creamy, denser body",
     latteCost: 39.50,
     clearCost: 23.70,
     recommend: "ตัวยอดนิยมของวงการคาเฟ่ มีใบกำกับภาษี บอดี้ถั่วอัลมอนด์ชัดเจนในนม"
-  },
-  {
-    rank: 9,
-    supplier: "Toki Matcha",
-    name: "Souwu - Yame (Ceremonial)",
-    badge: "BEST SELLER CEREMONIAL",
-    tier: "signature",
-    priceKg: 9500,
-    priceG: 9.50,
-    tester: "10g ฿130",
-    origin: "Yame, Fukuoka",
-    cultivar: "Yabukita breeds (Ceremonial)",
-    taste: "หอมละมุน อูมามิสูง ชง Clear สดชื่น ชง Cold Whisk นุ่มฟู",
-    latteCost: 47.50,
-    clearCost: 28.50,
-    recommend: "Ceremonial ระดับ Best Seller ในงบไม่เกิน ฿10/g เหมาะสำหรับเมนู Premium Clear และ Cold Whisk"
-  },
-  {
-    rank: 10,
-    supplier: "Midocha / Haku",
-    name: "MOMO Matcha (฿19/g) & Haku Mellow (฿12/g)",
-    badge: "SPECIAL GUEST / VIRAL",
-    tier: "special",
-    priceKg: 19000,
-    priceG: 19.00,
-    tester: "สั่งรอบละ 100g / 500g",
-    origin: "Kyoto / Specialty",
-    cultivar: "Single / 1st Harvest",
-    taste: "White Peach Floral (MOMO) / Super Umami Mellow (Haku)",
-    latteCost: 95.00,
-    clearCost: 57.00,
-    recommend: "เหมาะสำหรับทำ Special Guest Menu ขายแก้วละ 180–250+ บาท สำหรับลูกค้าสาย Specialty ตัวจริง"
   }
 ];
 
@@ -600,27 +600,139 @@ const supplierCatalog=[
  ["Okucha Matcha","Nishio / Aichi",null,"seaweed / roastnut / umami salty","Reference profile"],["Okucha Matcha","Honyama / Shizuoka",null,"seaweed / nutty / umami salty","Reference profile"],["Okucha Matcha","Uji / Kyoto",null,"seaweed / mellow / smooth-silky","Reference profile"],["Okucha Matcha","Shibushi / Kagoshima",null,"umami salty / bitter / smoky roast","Reference profile"],["Okucha Matcha","Yame / Fukuoka",null,"roastnut / malty / umami salty / mellow","Reference profile"]
 ];
 function moneyKg(value){return value==null?"—":`฿${value.toLocaleString("th-TH")}/kg`;}
+
+let currentSupplierSort = "price-asc";
+let currentSupplierFilter = "all";
+let currentSupplierSearch = "";
+
 function supplierTab(){
- const picks=[
-  ["OSHA OCHA · Kagoshima P01",5270,"Closest to your creamy avocado / mango-sticky-rice brief","Creamier rice milk · floral · nuts · avocado · mango sticky rice. This is the clearest flavour match and lives well inside budget; test its body in milk before calling it Home Base."],
-  ["Wazuka Cha · MC283 Yame Nutty Roasted",6955,"Best Yame nutty-roasted value","Yame Okumidori + Yabukita, premium grade, about ฿6.96/g including VAT. This is the best direct lane toward nutty / roasted cacao / lightly smoky latte body."],
-  ["Sukito · Cafe Latte",7900,"Best operational test","Free tester, 1kg ฿7,900 incl. VAT; grassy / edamame / almond. It is not the exact avocado profile, but makes a very practical comparison for milk."],
-  ["SHIKA · Yame Momoko",6500,"Nutty-mellow comparison","Nutty / broad bean / mellow at ฿6.5/g. Good low-risk reference against P01 and MC283."],
-  ["OSHA OCHA · Yame Saemidori",6990,"Creamy avocado alternative","Choco cream / nutty / avocado at ฿6.99/g. A strong alternative if P01 is too rice-forward."],
-  ["Midori Shinsei · MI02",7200,"Tester-friendly comparator","Mie Yabukita blend, ฿7.2/g with ฿260 tester. Sensory note needs testing, so it is a comparator—not a claimed winner."]
- ];
  const vendors=[...new Set(supplierCatalog.map(row=>row[0]))];
- return `<div class="panel supplier-panel"><div class="panel-head"><div><h2>Supplier library + Home Base shortlist</h2><p>ครบ ${vendors.length} suppliers · ${supplierCatalog.length} รายการที่ส่งมา · คัดตาม Sweet Spot ฿5–8k/kg และเพดาน ฿10k/kg</p></div></div><div class="profile-callout"><b>Profile ที่กำลังหา</b><span>1) creamy avocado + nutty sweet + floral เบา ๆ เมื่อลงนมให้นึกถึงข้าวเหนียวมะม่วง  2) Yame-style macadamia / avocado + roasted cacao + lightly smoky butter สำหรับลาเต้</span></div><div class="supplier-grid">${picks.map((pick,index)=>`<article class="supplier-card recommended"><span class="base-pick">${index===0?"TOP FLAVOUR MATCH":index===1?"TOP YAME VALUE":"SHORTLIST"}</span><div class="supplier-top"><div><h3>${pick[0]}</h3><p>${moneyKg(pick[1])} · ${pick[2]}</p></div></div><small>${pick[3]}</small></article>`).join("")}</div><div class="recipe-callout"><b>ข้อสรุปการซื้อ</b><span>อย่าตัดสินจาก note อย่างเดียว: ซื้อ/ขอ tester ของ <strong>P01 + MC283 + Sukito Cafe Latte</strong> ก่อน แล้ว blind test Latte 4g/5g, Cold Whisk 5g และพักเดลิเวอรี 20–30 นาที. Home Base ต้องเลือกจากรสที่ยังแน่นและนุ่มหลังลงนม ไม่ใช่แค่ราคาต่อกิโล.</span></div><div class="supplier-filters"><button class="choice active" data-supplier-filter="shortlist">Shortlist</button><button class="choice" data-supplier-filter="eligible">≤ ฿10k/kg</button><button class="choice" data-supplier-filter="all">ทั้งหมด</button></div><div id="supplier-catalog-table"></div></div>`;
+ return `
+  <div class="panel supplier-panel">
+    <div class="panel-head">
+      <div>
+        <h2>Supplier Library & Live Price Comparison</h2>
+        <p>รวบรวมครบ <b>${vendors.length} เจ้า</b> รวมทั้งหมด <b>${supplierCatalog.length} รายการ</b> (Koyo, Toki, Rinya, Osha Ocha, Sukito, Wazuka, ฯลฯ)</p>
+      </div>
+    </div>
+
+    <!-- Quick Filter & Sort Controls -->
+    <div class="supplier-controls" style="background: var(--surface-2, #f9f9f8); border: 1px solid var(--border, #e5e7eb); border-radius: 12px; padding: 16px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 12px;">
+      <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+        <!-- Search input -->
+        <div style="flex: 1; min-width: 240px;">
+          <input type="search" id="supplier-search-input" placeholder="🔍 พิมพ์ค้นหา เช่น Yame, Coconut, Koyo, Nutty, Base..." value="${esc(currentSupplierSearch)}" style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border, #ccc); font-size: 13px;">
+        </div>
+
+        <!-- Sort dropdown -->
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 12px; font-weight: bold; color: var(--text-muted, #666);">เรียงตาม:</span>
+          <select id="supplier-sort-select" style="padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border, #ccc); font-size: 13px; background: #fff; cursor: pointer;">
+            <option value="price-asc" ${currentSupplierSort==="price-asc"?"selected":""}>🔽 ราคาต่อ กก. (ถูก → แพง)</option>
+            <option value="price-desc" ${currentSupplierSort==="price-desc"?"selected":""}>🔼 ราคาต่อ กก. (แพง → ถูก)</option>
+            <option value="vendor" ${currentSupplierSort==="vendor"?"selected":""}>🏷️ ชื่อ Supplier (A-Z)</option>
+            <option value="name" ${currentSupplierSort==="name"?"selected":""}>🍵 ชื่อชา (A-Z)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Filter Buttons -->
+      <div class="supplier-filters" style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button class="choice ${currentSupplierFilter==="all"?"active":""}" data-supplier-filter="all">ทั้งหมด (${supplierCatalog.length})</button>
+        <button class="choice ${currentSupplierFilter==="base"?"active":""}" data-supplier-filter="base">🟢 Base ประหยัด (≤ ฿5.5k/kg)</button>
+        <button class="choice ${currentSupplierFilter==="sweet"?"active":""}" data-supplier-filter="sweet">🔵 Sweet Spot (฿5k–฿8k)</button>
+        <button class="choice ${currentSupplierFilter==="premium"?"active":""}" data-supplier-filter="premium">🟣 พรีเมียม (฿8k–฿15k)</button>
+        <button class="choice ${currentSupplierFilter==="shortlist"?"active":""}" data-supplier-filter="shortlist">⭐ Shortlist</button>
+      </div>
+    </div>
+
+    <div id="supplier-catalog-table"></div>
+  </div>
+ `;
 }
-function renderSupplierCatalog(filter="shortlist"){
+
+function renderSupplierCatalog(filter=currentSupplierFilter){
+ currentSupplierFilter = filter;
  const out=document.querySelector("#supplier-catalog-table");if(!out)return;
- const shortlistNames=new Set(["Kagoshima P01","MC283 Yame Nutty Roasted","Cafe Latte","Yame Momoko","Yame Saemidori","MI02 Mie Yabukita Blend"]);
- const rows=supplierCatalog.filter(row=>{
-   if(filter==="all") return true;
-   if(filter==="eligible") return row[2]!=null && row[2]<=10000;
-   return shortlistNames.has(row[1]);
+ const shortlistNames=new Set(["Kagoshima P01","MC283 Yame Nutty Roasted","Cafe Latte","Yame Momoko","Yame Saemidori","Uji Starter A (Best Seller)","Ureshino Premium Blend #2","HAJIME (Cafe · Uji)","Yame Pistachio Cookie (Premium)","Souwu - Yame (Best Seller)"]);
+ 
+ let rows = supplierCatalog.filter(row => {
+   // Search query filter
+   if (currentSupplierSearch) {
+     const query = currentSupplierSearch.toLowerCase();
+     const fullText = (row[0] + " " + row[1] + " " + (row[3] || "")).toLowerCase();
+     if (!fullText.includes(query)) return false;
+   }
+
+   // Group filter
+   if (filter === "all") return true;
+   if (filter === "base") return row[2] != null && row[2] <= 5500;
+   if (filter === "sweet") return row[2] != null && row[2] > 5500 && row[2] <= 8000;
+   if (filter === "premium") return row[2] != null && row[2] > 8000 && row[2] <= 15000;
+   if (filter === "eligible") return row[2] != null && row[2] <= 10000;
+   return shortlistNames.has(row[1]) || (row[0] && row[0].includes("Toki") && row[2] <= 5000);
  });
- out.innerHTML=`<div class="table-wrap supplier-table"><table class="data-table"><thead><tr><th>Supplier</th><th>ชา / SKU</th><th>ราคา</th><th>โน้ต / สถานะ</th></tr></thead><tbody>${rows.map(row=>`<tr><td><b>${row[0]}</b></td><td>${row[1]}</td><td>${moneyKg(row[2])}</td><td>${row[3]} <span class="supplier-status ${row[4].includes("Sweet")||row[4]==="Eligible"?"fit":""}">${row[4]}</span></td></tr>`).join("")}</tbody></table></div><p class="muted" style="font-size:11px">ราคาเป็น snapshot จากข้อมูลที่ส่งวันนี้; รายการ Sold out/Over cap อยู่ใน “ทั้งหมด” เพื่อเก็บ reference แต่ไม่ถูกเสนอเป็น Home Base.</p>`;
+
+ // Sorting logic
+ rows.sort((a, b) => {
+   if (currentSupplierSort === "price-asc") {
+     if (a[2] == null) return 1;
+     if (b[2] == null) return -1;
+     return a[2] - b[2];
+   }
+   if (currentSupplierSort === "price-desc") {
+     if (a[2] == null) return 1;
+     if (b[2] == null) return -1;
+     return b[2] - a[2];
+   }
+   if (currentSupplierSort === "vendor") {
+     return a[0].localeCompare(b[0]);
+   }
+   if (currentSupplierSort === "name") {
+     return a[1].localeCompare(b[1]);
+   }
+   return 0;
+ });
+
+ out.innerHTML=`
+   <div style="margin-bottom: 8px; font-size: 13px; color: var(--text-muted, #666); display: flex; justify-content: space-between;">
+     <span>แสดง <b>${rows.length}</b> รายการ</span>
+     <span>*คลิกเปลี่ยนการเรียงราคาหรือพิมพ์ค้นหาได้จากแถบด้านบน</span>
+   </div>
+   <div class="table-wrap supplier-table">
+     <table class="data-table">
+       <thead>
+         <tr>
+           <th>Supplier</th>
+           <th>ชา / SKU</th>
+           <th style="text-align: right;">ราคา 1kg</th>
+           <th style="text-align: right;">฿/g</th>
+           <th style="text-align: right;">Latte 5g</th>
+           <th>โน้ต / Tasting Notes</th>
+         </tr>
+       </thead>
+       <tbody>
+         ${rows.map(row=>{
+           const priceG = row[2] != null ? (row[2] / 1000) : null;
+           const latte5g = priceG != null ? (priceG * 5) : null;
+           return `
+             <tr>
+               <td><b>${row[0]}</b></td>
+               <td><span style="font-weight: 600;">${row[1]}</span></td>
+               <td style="text-align: right; font-weight: bold; color: #254d3d;">${moneyKg(row[2])}</td>
+               <td style="text-align: right; color: var(--text-muted, #666);">${priceG != null ? `฿${priceG.toFixed(2)}` : "—"}</td>
+               <td style="text-align: right; font-weight: 600; color: #059669;">${latte5g != null ? `฿${latte5g.toFixed(2)}` : "—"}</td>
+               <td style="font-size: 12px; max-width: 320px;">
+                 ${row[3]}
+                 <span class="supplier-status ${row[4] && (row[4].includes("Sweet") || row[4]==="Eligible") ? "fit" : ""}">${row[4] || ""}</span>
+               </td>
+             </tr>
+           `;
+         }).join("")}
+       </tbody>
+     </table>
+   </div>
+ `;
 }
 const renderAdminV5=renderAdmin;renderAdmin=function(){renderAdminV5();if(activeTab==="suppliers")renderSupplierCatalog();};
 /* Home is private-facing too: names, copy and prices are intentionally editable
