@@ -709,7 +709,62 @@ function maskHomeSupplierNames(){
 const renderCustomerV7=renderCustomer;renderCustomer=function(){renderCustomerV7();maskHomeSupplierNames();};
 supplierCatalog.push(
  ["Santipanich","Mie Matcha Ceremonial Grade",9800,"50g ฿520 · 100g ฿1,010 · 200g ฿1,990 · 500g ฿4,900 · 1kg ฿9,800; smooth body · clear umami · nutty · lightly sweet · long clean finish","Eligible"],
- ["Sukito","Cafe Latte — factory update",7900,"free tester · body denser than the small 100g pack (฿1,100–1,200); bulk price becomes lower","Sweet spot"]
+ // ──── Koyo Tearoom (Update Aug 2026) ────
+ ["Koyo Tearoom","SUIKA (Ceremonial · Uji)",25900,"Stone Mill · 1st Harvest · Marine, High Aroma, High Umami · Clear/Usucha/Koicha · 500g ฿15,900 · ใหม่","Over cap"],
+ ["Koyo Tearoom","KASUMI (Ceremonial · Yame)",18900,"1st Harvest · Roasted Nut, Creamy, Macadamia · Latte/Clear/Usucha · 500g ฿12,900 · ใหม่","Over cap"],
+ ["Koyo Tearoom","HARUKI (Ceremonial · Nishio)",14900,"1st Harvest · Okumidori+Saemidori+Yabukita · Floral, Refreshing, Umami · 500g ฿8,900","Over cap"],
+ ["Koyo Tearoom","KAZE (Ceremonial · Yame)",14000,"1st Harvest · Mainly Okumidori · Nutty, Floral, Umami · 500g ฿8,500","Over cap"],
+ ["Koyo Tearoom","YAME SAEMIDORI (Ceremonial)",13900,"Stone Mill · Single Cultivar Saemidori · Creamy, Light Body, Umami · 500g ฿8,500","Over cap"],
+ ["Koyo Tearoom","YUGIRI (Ceremonial · Uji)",12900,"1st Harvest · Yabukita+Okumidori · Seaweed, Rich Aroma, Umami · 500g ฿7,900 · สินค้าจำกัด","Over cap"],
+ ["Koyo Tearoom","AKI (Premium · Yame)",10900,"1st+2nd Harvest · Nutty, Creamy, Almond · Latte/Mocktail · 500g ฿5,900","Over cap"],
+ ["Koyo Tearoom","NATSU (Premium · Uji)",6900,"2nd Harvest · Vegetal, Fresh, Mild Bitter · Latte/Mocktail · 500g ฿4,900 · สินค้าจำกัด","Sweet spot"],
+ ["Koyo Tearoom","MIZUUMI (Cafe · Yame)",6900,"2nd Harvest · Stirred Nut, High Body, Mild Bitter · Latte/Dessert · 500g ฿4,900","Sweet spot"],
+ ["Koyo Tearoom","HAJIME (Cafe · Uji)",3800,"Autumn · Grassy, Light, Mild Bitter · Latte/Dessert · 500g ฿2,660 · สินค้าจำกัด","Below target"],
+ ["Koyo Tearoom","S-EU FF (Cafe · Shizuoka)",3900,"1st+2nd Harvest · Floral, Creamy, Refreshing, Body · Latte/Dessert · 500g ฿2,800","Below target"],
+ ["Koyo Tearoom","S-TSUYU SF (Cafe · Shizuoka)",3900,"Single Cultivar Tsuyu Hikari · Green, Grassy, High Body · Latte/Dessert · 500g ฿2,800","Below target"],
+ ["Koyo Tearoom","YT4 (Cafe · Yame)",3500,"Autumn · Grassy, High Body, Mild Bitter · Latte/Dessert · ฿3.50/g · สินค้าจำนวนจำกัด","Below target"],
+ ["Koyo Tearoom","DARK Hojicha (Nishio)",6900,"Chocolate, Smoke, Rich · Latte/Dessert · 500g ฿4,900","Other"],
+ ["Koyo Tearoom","MEDIUM Hojicha (Uji)",5900,"Roasted Nut, Smoke, Umami · Latte/Dessert · 500g ฿3,900","Other"],
+ ["Koyo Tearoom","LIGHT Hojicha (Yame)",2900,"Deep Smoked, Wood, Mellow · Latte/Dessert · 500g ฿1,500 · ถูกที่สุดในตลาด ฿2.90/g","Other"],
+ ["Koyo Tearoom","GENMAI ผงเก็นไมฉะ (Uji)",4900,"Roasted Rice, Smoked, Mellow · Latte/Dessert · 500g ฿3,500","Other"],
+ ["Koyo Tearoom","SAYAKA Sencha (Yame)",4900,"ชาใบ · Samidori+Tsuyuhikari · Rich Aroma, High Umami · 500g ฿3,500","Other"],
+ // ──── Toki Matcha (Update Aug 2026) ────
+ ["Toki Matcha","Uji Starter A (Best Seller)",4400,"Starter · Uji Yabukita · Tester 10g ฿80 · ตัวเลือก Base ถูกที่สุด","Sweet spot"],
+ ["Toki Matcha","Yame Starter A",4500,"Starter · Yame Yabukita · Tester 10g ฿80","Sweet spot"],
+ ["Toki Matcha","Okumidori Starter",4500,"Starter · Okumidori · Tester 10g ฿80","Sweet spot"],
+ ["Toki Matcha","Uji Premium",6000,"Premium · Uji Yabukita · Tester 10g ฿90","Sweet spot"],
+ ["Toki Matcha","Yame Premium K3",8500,"Premium · Yabukita+Okumidori Blend · Tester 10g ฿120","Eligible"],
+ ["Toki Matcha","Souwu - Yame (Best Seller)",9500,"Ceremonial · Yame Yabukita · Tester 10g ฿130","Eligible"],
+ ["Toki Matcha","Yame Okumidori",15500,"Ceremonial · Okumidori Breeds · Tester 100g ฿1,550","Over cap"],
+ ["Toki Matcha","Uji Hikari",17000,"Ceremonial · Yabukita · Tester 100g ฿1,700","Over cap"],
+ ["Toki Matcha","Iwai Shiro",14500,"Ceremonial · Yabukita · Tester 100g ฿1,450","Over cap"],
+ ["Toki Matcha","Takeshin - Uji Ceremonial (Best Seller)",14000,"Ceremonial · Yabukita · Tester 100g ฿1,400","Over cap"],
+ ["Toki Matcha","Ume no Mukashi - Uji",10300,"Premium+Ceremonial · Yabukita · Tester 100g ฿1,030","Over cap"],
+ ["Toki Matcha","Seirin - Nishio Ceremonial",18000,"Ceremonial · Yabukita · Tester 100g ฿1,800","Over cap"],
+ ["Toki Matcha","Shibushi Ceremonial",10500,"Ceremonial · Yabukita · Tester 100g ฿1,050","Over cap"],
+ ["Toki Matcha","Hojicha - Uji",3500,"Premium Hojicha · Yabukita · Tester 10g ฿70","Other"],
+ // ──── Rinya Matcha (Update Aug 2026) ────
+ ["Rinya Matcha","Ureshino Premium Blend #2",4600,"Ureshino · ถั่วนึ่ง ฟลอรัล ขมน้อย สีเขียวสด · Clear/Latte/มะพร้าว · Tasting Session ฿500 (4 ท่าน)","Sweet spot"],
+ ["Rinya Matcha","Ureshino Yabukita (Premium)",8160,"โทนสาหร่าย หญ้า Grassy · ดื่มง่าย หวานปน · 500g ฿5,100 / 10g ฿180","Eligible"],
+ ["Rinya Matcha","Ureshino White Flora (Ceremonial)",13120,"ฟลอรัล ดอกไม้ขาว ขมน้อยมาก สีเขียวสด · 500g ฿8,200 / 10g ฿280","Over cap"],
+ ["Rinya Matcha","Ureshino Edamame Bite (Ceremonial)",15350,"Tsuyuhikari+Yabukita · ถั่วแระนึ่ง บอดี้ชัด · 500g ฿9,600 / 10g ฿320","Over cap"],
+ ["Rinya Matcha","Ureshino Edamame Velvet (Competition)",26100,"Tsuyuhikari · เก็บเกี่ยวครั้งที่ 1 · ครีมมี่ อูมามิสูง ไม่ขม ไม่ฝาด · 500g ฿16,530 / 10g ฿540","Over cap"],
+ ["Rinya Matcha","Yame Green Dots (Premium)",6700,"โทนหญ้าและดอกไม้นิดๆ ชงมะพร้าวสดกลมกล่อม · 500g ฿4,190 / 10g ฿155","Sweet spot"],
+ ["Rinya Matcha","Yame Pistachio Cookie (Premium)",7500,"บ้านโฮชิโนะ · คุกกี้ถั่วอบ ครีมมี่ · Meiji Ray เทสโน้ตพิตาชิโอ · 500g ฿4,690 / 10g ฿170","Sweet spot"],
+ ["Rinya Matcha","Yame Dreamy Nut (Premium)",9500,"บ้านโฮชิโนะ · Pistachio Cookie ถั่วคั่วน้ำ ครีมมี่ · 500g ฿5,950 / 10g ฿210","Eligible"],
+ ["Rinya Matcha","Yame Dark Pistachio (Ceremonial)",9500,"ฟลอรัล พิตาชิโอ คุกกี้เนยสด · 500g ฿5,950 / 10g ฿210","Eligible"],
+ ["Rinya Matcha","Yame Toasted Nut (Entry Ceremonial)",11890,"เบลนด์หลายพันธุ์ · ถั่วคั่ว กลิ่นหอมชัด ครีมมี่ · Latte+มะพร้าว อร่อยมาก · 500g ฿7,450 / 10g ฿260","Over cap"],
+ ["Rinya Matcha","Yame Floral Bloom Yabukita (Ceremonial)",13500,"โทนฟลอรัลค่อนข้างชัด ถั่วคั่วเบาๆ กลิ่นขนมไทย · 500g ฿8,450 / 10g ฿285","Over cap"],
+ ["Rinya Matcha","Yame Gentle Ground (Organic Ceremonial)",14250,"ออแกนิคสี่และบอดี้ชัด กลิ่นไอโอดีน Seaweed+Earthy · 500g ฿8,950 / 10g ฿300","Over cap"],
+ ["Rinya Matcha","Yame Smooth Macadamia Kirari 31 (Ceremonial)",16950,"คล้ายถั่วแมคคาดาเมีย ฟลอรัลปลาย ไม่ขม ไม่ฝาด · 500g ฿10,590 / 10g ฿355","Over cap"],
+ ["Rinya Matcha","Yame Avocado Mellow Saemisori (Ceremonial)",17000,"ขนมผิง สโมคนิดหน่อย ครีมมี่อะโวคาโด · Single Cultivar Saemidori · 500g ฿10,625 / 10g ฿360","Over cap"],
+ ["Rinya Matcha","Yame Sakura Blade Tsuyuhikari (Ceremonial)",18400,"โทนดอกไม้ ถั่วแระนึ่ง After Taste ขมนิดๆ · 500g ฿11,500 / 10g ฿380","Over cap"],
+ ["Rinya Matcha","Gyokuro Mist Powder",8990,"เกียวกุโระ Sencha ชั้นสูง · เค็มนิดหน่อย ฟลอรัล ถั่วนึ่ง · 500g ฿5,620 / 10g ฿200","Eligible"],
+ ["Rinya Matcha","Hojicha Medium Roasted",3990,"คั่วนุ่ม คล้ายคาราเมล · Latte/Baking · 500g ฿2,500 / 10g ฿90","Other"],
+ ["Rinya Matcha","Hojicha Dark Roasted",4200,"คั่วเข้ม ชัดเจน เข้ม · Latte/Baking · 500g ฿2,625 / 10g ฿105","Other"],
+ // ──── Midocha & Haku (Update Aug 2026) ────
+ ["Midocha","MOMO Matcha (Viral)",19000,"White peach floral viral matcha · 2-3kg ฿18,000/kg · 4kg+ ฿17,000/kg · รวมค่าส่ง","Over cap"],
+ ["Haku Matcha","Uji Mellow (Wholesale Coming End of Month)",12000,"โทน Mellow Umami ละมุน · รอราคาส่งล็อตใหม่สิ้นเดือน (อาจมีตัวเกรด Base ราคาถูกลง)","Over cap"]
 );
 /* -------------------------------------------------------------------------
    Single current UI layer — menu lifecycle, backup and editable Home prices.
