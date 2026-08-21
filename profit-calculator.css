@@ -1,21 +1,473 @@
-/* KIFUN MATCHA — Profit calculator styles */
-.profit-calc{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.profit-calc .panel{min-width:0}
-.profit-inputs{display:grid;gap:14px}
-.profit-field label{display:block;font-size:12px;font-weight:700;color:#5b6f5f;margin-bottom:6px}
-.profit-field input,.profit-field select{width:100%;font:inherit;color:var(--ink);padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:#fff}
-.profit-field input:focus,.profit-field select:focus{outline:2px solid var(--leaf);border-color:var(--leaf)}
-.profit-result{background:var(--pale);border:1px solid #d7e8d1;border-radius:15px;padding:18px;margin-top:16px}
-.profit-result h3{margin:0 0 12px;font-size:15px;color:var(--green)}
-.profit-line{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px dashed #cfe0cb;font-size:14px}
-.profit-line:last-child{border-bottom:0}
-.profit-line b{font-size:16px}
-.profit-line.net{border-top:2px solid var(--green);margin-top:6px;padding-top:12px}
-.profit-line.net b{color:var(--green);font-size:20px}
-.profit-line.negative b{color:var(--red)}
-.profit-note{font-size:11px;color:#6c7b6f;margin-top:10px;line-height:1.6}
-.profit-toggle{display:flex;align-items:center;gap:8px;font-size:13px;color:#4c6b52;cursor:pointer}
-.profit-toggle input{width:auto;accent-color:var(--green)}
-.profit-breakdown{margin-top:14px;padding:12px;background:#fff;border:1px solid var(--line);border-radius:12px;font-size:12px;color:#5b6f5f;line-height:1.7}
-.profit-breakdown b{color:var(--green)}
-@media(max-width:900px){.profit-calc{grid-template-columns:1fr}}
+/* ═══════════════════════════════════════════════════════════════
+   KIFUN MATCHA — Profit & Campaign Calculator Styles
+   Optimized for Mobile & Desktop (Phone, Tablet, PC)
+   ═══════════════════════════════════════════════════════════════ */
+
+.profit-calculator-root {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* ── Top Header & Quick Selector ── */
+.profit-top-card {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 4px 14px rgba(24, 53, 43, 0.05);
+}
+
+.profit-top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.profit-top-header h2 {
+  font-size: 22px;
+  margin: 0 0 4px;
+  color: var(--green);
+}
+
+.profit-top-header p {
+  margin: 0;
+  color: #63756a;
+  font-size: 13px;
+}
+
+.campaign-badge-pill {
+  background: linear-gradient(135deg, #fff1f2, #ffe4e6);
+  border: 1px solid #fecdd3;
+  color: #e11d48;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.campaign-badge-pill i {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #e11d48;
+}
+
+/* ── Grid Controls ── */
+.profit-controls-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  align-items: end;
+}
+
+.profit-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.profit-field label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #4a6352;
+}
+
+.profit-field input,
+.profit-field select {
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  color: var(--ink);
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #ffffff;
+  font-size: 14px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.profit-field input:focus,
+.profit-field select:focus {
+  outline: none;
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(37, 77, 61, 0.15);
+}
+
+/* ── GP Preset Buttons ── */
+.gp-preset-group {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.gp-preset-btn {
+  border: 1px solid var(--line);
+  background: #f8faf7;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #435b4b;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.gp-preset-btn.active {
+  background: var(--green);
+  color: #ffffff;
+  border-color: var(--green);
+}
+
+/* ── Campaign Discount Pills ── */
+.discount-pills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.discount-pill-btn {
+  border: 1px solid #fbcfe8;
+  background: #fff5f7;
+  color: #9d174d;
+  padding: 6px 11px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.discount-pill-btn:hover {
+  background: #fce7f3;
+}
+
+.discount-pill-btn.active {
+  background: #be185d;
+  color: #ffffff;
+  border-color: #be185d;
+}
+
+/* ── Two Column Layout for Breakdown & Scenarios ── */
+.profit-two-col {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 960px) {
+  .profit-two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── BOM & Packaging Itemized Card ── */
+.bom-card {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 14px rgba(24, 53, 43, 0.05);
+}
+
+.bom-section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--green);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+  margin-top: 14px;
+  margin-bottom: 10px;
+}
+
+.bom-section-title:first-child {
+  margin-top: 0;
+}
+
+.bom-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.bom-table th {
+  text-align: left;
+  font-size: 11px;
+  color: #718776;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 6px 4px;
+  border-bottom: 1px solid #edf2eb;
+}
+
+.bom-table td {
+  padding: 8px 4px;
+  border-bottom: 1px solid #f4f7f3;
+}
+
+.bom-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.bom-special-note {
+  background: #edf6ec;
+  border: 1px solid #c9e2c4;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: #244b36;
+  line-height: 1.5;
+  margin-top: 12px;
+}
+
+.bom-total-bar {
+  background: linear-gradient(135deg, #1b3d30, #275240);
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bom-total-bar small {
+  font-size: 12px;
+  color: #c0e0c8;
+}
+
+.bom-total-bar b {
+  font-size: 20px;
+  letter-spacing: -0.03em;
+}
+
+/* ── Financial Comparison Cards ── */
+.scenarios-container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.scenario-card {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 16px 18px;
+  box-shadow: 0 3px 10px rgba(24, 53, 43, 0.04);
+  transition: transform 0.15s, box-shadow 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+
+.scenario-card.store {
+  border-left: 5px solid #3b82f6;
+}
+
+.scenario-card.lineman-standard {
+  border-left: 5px solid #10b981;
+}
+
+.scenario-card.lineman-campaign {
+  border-left: 5px solid #f43f5e;
+  background: #fffdfd;
+}
+
+.scenario-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.scenario-title {
+  font-size: 15px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.scenario-card.store .scenario-title { color: #1e40af; }
+.scenario-card.lineman-standard .scenario-title { color: #065f46; }
+.scenario-card.lineman-campaign .scenario-title { color: #9f1239; }
+
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 14px;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.scenario-row {
+  display: flex;
+  justify-content: space-between;
+  color: #556b5c;
+}
+
+.scenario-row b {
+  color: var(--ink);
+}
+
+.scenario-footer {
+  border-top: 1px dashed #d1e2cd;
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profit-badge {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+
+.profit-badge.good { color: #15803d; }
+.profit-badge.medium { color: #b45309; }
+.profit-badge.bad { color: #b91c1c; }
+
+.margin-chip {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.margin-chip.good { background: #dcfce7; color: #166534; }
+.margin-chip.medium { background: #fef3c7; color: #92400e; }
+.margin-chip.bad { background: #fee2e2; color: #991b1b; }
+
+/* ── Master Campaign Multi-Tier Table ── */
+.campaign-matrix-card {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 4px 14px rgba(24, 53, 43, 0.05);
+}
+
+.campaign-matrix-card h3 {
+  margin: 0 0 6px;
+  font-size: 17px;
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.campaign-matrix-card p {
+  margin: 0 0 16px;
+  font-size: 13px;
+  color: #617368;
+}
+
+.matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.matrix-table th {
+  background: #f4f8f3;
+  color: #4b6352;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 10px 8px;
+  border-bottom: 1px solid #d9e6d6;
+  white-space: nowrap;
+}
+
+.matrix-table td {
+  padding: 11px 8px;
+  border-bottom: 1px solid #edf2eb;
+  vertical-align: middle;
+}
+
+.matrix-table tr:hover td {
+  background: #fbfdfa;
+}
+
+.matrix-table tr.active-tier td {
+  background: #fdf2f8;
+  font-weight: 600;
+}
+
+.tier-tag {
+  display: inline-block;
+  padding: 3px 7px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.tier-tag.none { background: #f3f4f6; color: #4b5563; }
+.tier-tag.promo5 { background: #fef9c3; color: #854d0e; }
+.tier-tag.promo10 { background: #fee2e2; color: #991b1b; }
+.tier-tag.promo15 { background: #ffedd5; color: #9a3412; }
+.tier-tag.promo20 { background: #fce7f3; color: #9d174d; }
+.tier-tag.promo25 { background: #fae8ff; color: #86198f; }
+
+/* ── All Menus Comparison Matrix ── */
+.all-menus-matrix-card {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 4px 14px rgba(24, 53, 43, 0.05);
+}
+
+.all-menus-matrix-card h3 {
+  margin: 0 0 6px;
+  font-size: 17px;
+  color: var(--green);
+}
+
+.all-menus-matrix-card p {
+  margin: 0 0 16px;
+  font-size: 13px;
+  color: #617368;
+}
+
+/* ── Mobile responsiveness adjustments ── */
+@media (max-width: 600px) {
+  .profit-top-card,
+  .bom-card,
+  .campaign-matrix-card,
+  .all-menus-matrix-card {
+    padding: 16px;
+    border-radius: 16px;
+  }
+  
+  .profit-controls-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .scenario-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .matrix-table {
+    font-size: 12px;
+  }
+  
+  .matrix-table th,
+  .matrix-table td {
+    padding: 8px 5px;
+  }
+}

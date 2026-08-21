@@ -439,7 +439,58 @@ function renderCustomer(){
   const formula=menu.id==="latte"?(selection.size==="22"?"22oz · Matcha 9.2g · น้ำร้อน 92ml · นม 183ml · ความหวานสเกลตามขนาด":"12oz · Matcha 5g · น้ำร้อน 50ml · นม 100ml"):menu.coconut?"Matcha 4g · น้ำมะพร้าวสด 135ml · oat milk เย็นจัด 65ml · syrup 0 / 3 / 5 / 7ml":menu.art;
   custom.innerHTML=`<div class="customizer-title"><div><h2>${menu.name}</h2><p>${formula}</p></div><span class="tag">${menu.tag}</span></div>${sizes?`<div class="option-group"><label>1 · ขนาดแก้ว</label><div class="choice-list">${sizes}</div></div>`:""}${brew?`<div class="option-group"><label>${sizes?2:1} · วิธีชง</label><div class="choice-list">${brew}</div></div>`:""}<div class="option-group"><label>${sizes||brew?3:1} · Matcha Taste — ดื่มแล้วรู้สึกอะไร</label><div class="choice-list taste-choices">${choices}</div></div><div class="option-group"><label>Sweetness</label><div class="choice-list">${sweet}</div></div><div class="option-group"><label>Milk</label><div class="choice-list">${milk}</div></div><div class="price-box"><div><small>${menuChannel==="lineman"?"LINE MAN · รวมค่าคอมฯ แล้ว":"หน้าร้าน · ราคาปกติ"}</small><div class="price">${money(c.price*selection.qty)}</div></div><div class="qty-row"><button class="qty-btn" data-qty="-1">−</button><b>${selection.qty}</b><button class="qty-btn" data-qty="1">+</button></div></div><button class="primary-btn" id="preview-price">ดูสรุปสูตรและราคา</button><p class="customizer-note">ต้นทุนประมาณ ${money(c.cost)} / แก้ว · กำไร ${money(c.profit)}${c.note||""}</p>`;
 }
-function menuTab(){return `<div class="panel"><div class="panel-head"><div><h2>เมนูขาย — หน้าร้าน และ LINE MAN</h2><p>ราคา LINE MAN รวม GP + VAT ของ GP 32.1% แล้ว</p></div></div><div class="table-wrap"><table class="data-table"><thead><tr><th>เมนู + สูตร</th><th>หน้าร้าน</th><th>LINE MAN</th><th>ต้นทุน</th><th>สถานะ</th></tr></thead><tbody>${menus.map(menu=>{const p=powderChoices(menu)[0],store=calc(menu,p,"Oat milk",menu.coconut?5:5,"clear","store"),app=calc(menu,p,"Oat milk",menu.coconut?5:5,"clear","lineman"),on=state.menuStatus[menu.id];return `<tr><td><b>${menu.name}</b><small class="muted">${menu.art}</small></td><td><b>${money(store.price)}</b><small>กำไร ${money(store.profit)}</small></td><td><b>${money(app.price)}</b><small>หลัง GP ${money(app.profit)}</small></td><td>${money(store.cost)}</td><td><button class="switch ${on?"on":""}" data-toggle-menu="${menu.id}"><span></span></button> ${on?"เปิดขาย":"ปิดขาย"}</td></tr>`;}).join("")}</tbody></table></div><div class="recipe-callout"><b>สูตร Coconut ที่ล็อก</b><span>Matcha 4g · น้ำมะพร้าวสด 135ml · oat milk เย็นจัด 65ml · syrup 0 / 3 / 5 / 7ml · ราคาเริ่มต้นหน้าร้าน ฿95 และ LINE MAN ฿125 (อ้างอิง Daia แล้วปรับได้ใน Home editor)</span></div></div>`;}
+function menuTab(){
+  return `
+    <div class="panel">
+      <div class="panel-head" style="flex-wrap:wrap;gap:12px;">
+        <div>
+          <h2>เมนูขาย — หน้าร้าน และ LINE MAN</h2>
+          <p>จัดการเปิด-ปิดการขาย และดูราคา/สูตรมาตรฐาน</p>
+        </div>
+        <button class="tab-btn" data-tab="profit" style="background:var(--green);color:#fff;padding:9px 16px;border-radius:12px;font-size:13px;font-weight:700;border:0;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 6px #173d2130;">
+          📊 ดูแจกแจงแพ็กเกจจิ้ง & คำนวณกำไรแคมเปญ ➜
+        </button>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>เมนู + สูตร / BOM</th>
+              <th>ราคาหน้าร้าน</th>
+              <th>ราคา LINE MAN</th>
+              <th>ต้นทุนสุทธิ (COGS)</th>
+              <th>สถานะ</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${menus.map(menu=>{
+              const p=powderChoices(menu)[0];
+              const store=calc(menu,p,"Oat milk",menu.coconut?5:5,"clear","store");
+              const app=calc(menu,p,"Oat milk",menu.coconut?5:5,"clear","lineman");
+              const on=state.menuStatus[menu.id];
+              return `
+                <tr>
+                  <td><b>${menu.name}</b><br><small class="muted">${menu.art}</small></td>
+                  <td><b>${money(store.price)}</b></td>
+                  <td><b>${money(app.price)}</b></td>
+                  <td><b style="color:var(--green);">${money(store.cost)}</b></td>
+                  <td>
+                    <button class="switch ${on?"on":""}" data-toggle-menu="${menu.id}"><span></span></button>
+                    ${on?"เปิดขาย":"ปิดขาย"}
+                  </td>
+                </tr>
+              `;
+            }).join("")}
+          </tbody>
+        </table>
+      </div>
+      <div class="recipe-callout">
+        <b>สูตร Coconut ที่ล็อก</b>
+        <span>Matcha 4g · น้ำมะพร้าวสด 135ml · oat milk เย็นจัด 65ml · syrup 0 / 3 / 5 / 7ml · ราคาเริ่มต้นหน้าร้าน ฿95 และ LINE MAN ฿125 (อ้างอิง Daia แล้วปรับได้ใน Home editor)</span>
+      </div>
+    </div>
+  `;
+}
 function salesTab(){const rows=state.sales.length?state.sales.slice().reverse().map(sale=>`<tr><td>${sale.at}</td><td><b>${sale.menu}</b><br><small>${sale.powder} · ${sale.channel==="lineman"?"LINE MAN":"หน้าร้าน"}</small></td><td>${sale.qty}</td><td>${money(sale.price*sale.qty)}</td><td class="profit-good">${money(sale.profit*sale.qty)}</td><td class="sale-actions"><button class="edit-btn" data-edit-sale="${sale.id}">แก้ไข</button><button class="danger-btn" data-delete-sale="${sale.id}">ลบ</button></td></tr>`).join(""):`<tr><td colspan="6" class="muted">ยังไม่มีรายการ</td></tr>`;return `<div class="split-grid"><div class="panel"><div class="panel-head"><div><h2>บันทึกขายจริง</h2><p>แก้ไข/ลบจะคืนสต็อกสูตรเดิมก่อน</p></div></div>${saleForm()}</div><div class="panel"><h2>หลักคำนวณ</h2><p class="muted">MM Milk 2L ฿101.50 ยังไม่ซื้อ (ซื้อ 14/08). นมสด ฿48.75 / 830ml เป็นของกินเล่น จึงแยกจากสต็อกร้าน.</p></div></div><div class="panel" style="margin-top:20px"><div class="panel-head"><div><h2>ประวัติการขาย</h2><p>${state.sales.length} รายการ · แก้ไขหรือลบได้</p></div></div><div class="table-wrap"><table class="data-table"><thead><tr><th>เวลา</th><th>รายการ</th><th>จำนวน</th><th>ยอดขาย</th><th>กำไร</th><th></th></tr></thead><tbody>${rows}</tbody></table></div></div>`;}
 function saleForm(sale){return `<form id="${sale?"edit-sale-v4":"sale-form-v4"}" class="sale-form"><select name="menuId">${menus.map(menu=>`<option value="${menu.id}" ${sale?.menuId===menu.id?"selected":""}>${menu.name}</option>`).join("")}</select><select name="powderKey">${Object.entries(powders).map(([key,powder])=>`<option value="${key}" ${sale?.powderKey===key?"selected":""}>${powder.label}</option>`).join("")}</select><select name="channel"><option value="store" ${sale?.channel==="store"?"selected":""}>หน้าร้าน</option><option value="lineman" ${sale?.channel==="lineman"?"selected":""}>LINE MAN</option></select><select name="brew"><option value="clear" ${sale?.brew==="clear"?"selected":""}>Clear</option><option value="latte" ${sale?.brew==="latte"?"selected":""}>Latte</option><option value="coldwhisk" ${sale?.brew==="coldwhisk"?"selected":""}>Cold Whisk</option></select><input name="qty" type="number" min="1" value="${sale?.qty||1}"><label class="sale-test-toggle"><input type="checkbox" name="testOnly" ${sale?.testOnly?"checked":""}> ชงเทสต์/กินเอง (ไม่ตัดแพ็กเกจจิ้ง)</label><button class="primary-btn">${sale?"บันทึกการแก้ไข":"บันทึกขาย"}</button></form>`;}
 function legacySupplierTab(){const cards=[
@@ -1299,7 +1350,12 @@ window.__kifun = {
   get activeTab() { return activeTab; },
   get menuChannel() { return menuChannel; },
   get state() { return state; },
+  get powders() { return powders; },
+  get BASIC_PACK_ITEMS() { return BASIC_PACK_ITEMS; },
+  get BASIC_PACK_COST() { return BASIC_PACK_COST; },
   calc,
+  recipe,
+  getStock,
   powderChoices,
   esc,
   money,
