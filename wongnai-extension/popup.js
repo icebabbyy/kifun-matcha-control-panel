@@ -8,13 +8,17 @@ document.querySelector("#btn-sync-now").addEventListener("click", async () => {
           const orders = scrapeOrdersFromPage();
           syncOrdersToSupabase(orders);
         } else {
-          alert("กรุณารีเฟรชหน้า Wongnai Merchant 1 ครั้งก่อนซิงก์ครับ");
+          alert("กรุณารีเฟรชหน้า Wongnai Merchant (กด F5) 1 ครั้งแล้วลองใหม่อีกครั้งครับ");
         }
       }
     });
   } else {
-    chrome.tabs.create({ url: "https://merchant.wongnai.com/businesses/3884438/menu" });
+    chrome.tabs.create({ url: "https://merchant.wongnai.com/report/menus" });
   }
+});
+
+document.querySelector("#btn-open-report").addEventListener("click", () => {
+  chrome.tabs.create({ url: "https://merchant.wongnai.com/report/menus" });
 });
 
 document.querySelector("#btn-open-panel").addEventListener("click", () => {

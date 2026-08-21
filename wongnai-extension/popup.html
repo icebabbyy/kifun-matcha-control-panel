@@ -15,7 +15,7 @@
     .header {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       border-bottom: 1px solid rgba(255,255,255,0.15);
       padding-bottom: 12px;
       margin-bottom: 12px;
@@ -55,32 +55,44 @@
       font-size: 13px;
       cursor: pointer;
       margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background 0.15s;
     }
     .btn:hover {
       background: #bef264;
     }
     .btn-secondary {
-      background: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.12);
       color: #ffffff;
     }
     .btn-secondary:hover {
-      background: rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.22);
+    }
+    .hint {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 8px;
+      line-height: 1.4;
+      text-align: center;
     }
   </style>
 </head>
 <body>
   <div class="header">
-    <span style="font-size: 20px;">🍃</span>
+    <span style="font-size: 24px;">🍵</span>
     <div>
-      <h2>KIFUN MATCHA</h2>
+      <h2>HAPPIHAUS · KIFUN MATCHA</h2>
       <small style="color: #9ca3af;">Wongnai & LINE MAN Auto Sync</small>
     </div>
   </div>
 
   <div class="card">
     <div class="row">
-      <span>สถานะเชื่อมต่อ:</span>
-      <span class="badge-ok" id="db-status">🟢 Supabase Live</span>
+      <span>สถานะ Supabase:</span>
+      <span class="badge-ok" id="db-status">🟢 เชื่อมต่อแล้ว</span>
     </div>
     <div class="row">
       <span>ร้าน:</span>
@@ -88,8 +100,13 @@
     </div>
   </div>
 
-  <button class="btn" id="btn-sync-now">⚡ ซิงก์ยอดขายตัดสต็อกทันที</button>
-  <button class="btn btn-secondary" id="btn-open-panel">📊 เปิด Kifun Control Panel</button>
+  <button class="btn" id="btn-sync-now">🔄 สแกนออเดอร์หน้าปัจจุบัน</button>
+  <button class="btn btn-secondary" id="btn-open-report">📊 เปิดหน้ารายงานสินค้า (Wongnai)</button>
+  <button class="btn btn-secondary" id="btn-open-panel">💻 เปิด Kifun Control Panel</button>
+
+  <p class="hint">
+    💡 หากหน้ารายงานไม่มีออเดอร์ในวันที่เลือก ให้กดปุ่ม <b>"⚡ ตัดด่วน"</b> ที่มุมขวาล่างของหน้าจอได้เลยครับ
+  </p>
 
   <script src="popup.js"></script>
 </body>

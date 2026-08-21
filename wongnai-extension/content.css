@@ -1,48 +1,52 @@
-/* KIFUN MATCHA — Floating Sync Widget on Wongnai Merchant */
+/* KIFUN MATCHA — Floating Sync Widget on Wongnai Merchant (Top Right & Collapsible) */
 .kifun-sync-widget {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  top: 14px;
+  right: 70px;
   z-index: 999999;
-  background: #254d3d;
+  background: #143024;
   color: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  padding: 12px 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  padding: 8px 14px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  transition: all 0.2s ease;
+  gap: 10px;
+  border: 1px solid rgba(163, 230, 53, 0.4);
+  backdrop-filter: blur(8px);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
 }
 
 .kifun-sync-widget:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+  border-color: rgba(163, 230, 53, 0.7);
 }
 
 .kifun-sync-badge {
-  font-size: 20px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 
 .kifun-sync-info {
   display: flex;
   flex-direction: column;
+  gap: 1px;
 }
 
 .kifun-sync-title {
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 800;
   color: #a3e635;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  letter-spacing: 0.3px;
 }
 
 .kifun-sync-status {
-  font-size: 11px;
-  color: #e5e7eb;
+  font-size: 10px;
+  color: #d1d5db;
 }
 
 .kifun-sync-btn {
@@ -51,34 +55,88 @@
   border: none;
   padding: 6px 12px;
   border-radius: 6px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 4px;
-  transition: background 0.15s;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .kifun-sync-btn:hover {
   background: #bef264;
+  transform: scale(1.02);
 }
 
-.kifun-sync-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+.kifun-sync-btn:active {
+  transform: scale(0.98);
 }
 
+.kifun-minimize-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 2px 5px;
+  border-radius: 4px;
+  margin-left: 2px;
+  transition: all 0.15s;
+}
+
+.kifun-minimize-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Collapsed State (Mini Floating Pill) */
+.kifun-sync-widget.kifun-collapsed {
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  background: rgba(20, 48, 36, 0.92);
+}
+
+.kifun-sync-widget.kifun-collapsed .kifun-sync-info,
+.kifun-sync-widget.kifun-collapsed .kifun-actions,
+.kifun-sync-widget.kifun-collapsed .kifun-minimize-btn {
+  display: none !important;
+}
+
+.kifun-sync-widget.kifun-collapsed .kifun-collapsed-label {
+  display: inline-block !important;
+  font-size: 12px;
+  font-weight: 700;
+  color: #a3e635;
+  margin-left: 4px;
+}
+
+.kifun-collapsed-label {
+  display: none;
+}
+
+/* Toast Notifications */
 .kifun-sync-toast {
   position: fixed;
-  bottom: 80px;
-  right: 24px;
-  background: #143024;
+  top: 68px;
+  right: 70px;
+  background: #0f241b;
   color: #f3f4f6;
-  padding: 10px 18px;
-  border-radius: 8px;
+  padding: 12px 20px;
+  border-radius: 10px;
   font-size: 13px;
+  line-height: 1.4;
   z-index: 1000000;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  border: 1px solid rgba(163,230,53,0.4);
   display: none;
+  max-width: 380px;
+  animation: kifunFadeIn 0.2s ease-out;
+}
+
+@keyframes kifunFadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
 }

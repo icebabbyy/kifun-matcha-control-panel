@@ -48,21 +48,20 @@ const defaultState = () => ({
     { name:"Coconut water", unit:"ml", qty:1000, cost:.115, min:300, source:"อัปเดตผู้ใช้ · ฿115 / L" },
     { name:"Syrup", unit:"ml", qty:800, cost:.06018, min:150, source:"ชีท · ฿48.15 / 800ml" },
     { name:"Nutella spread", unit:"g", qty:200, cost:.47, min:80, source:"ซื้อแล้ว · ฿94 / 200g" },
-    { name:"Biscoff spread", unit:"g", qty:400, cost:.465, min:60, source:"ชีท · ฿186 / 400g · 15ml ใช้ 15g ชั่วคราวจนกว่าจะชั่งจริง" },
+    { name:"Biscoff spread", unit:"g", qty:400, cost:.465, min:60, source:"ชีท · ฿186 / 400g · 15ml ใช้ 15g" },
     { name:"Lotus Biscoff biscuit", unit:"g", qty:250, cost:.2762, min:40, source:"บิลสุทธิ ฿69.05 / 250g" },
-    { name:"12oz cup + lid set", unit:"set", qty:48, cost:2.772, min:12, source:"บิลสุทธิ · แก้วใช้แล้ว 2 ใบ" },
-    { name:"22oz cup (free)", unit:"pc", qty:50, cost:0, min:12, source:"ของที่บ้าน · รอฝา 22oz" },
-    { name:"Cold whisk pouch 200ml", unit:"pc", qty:49, cost:.99, min:12, source:"บิลสุทธิ · ใช้แล้ว 1 ใบ" },
-    { name:"Cold whisk pouch 250ml", unit:"pc", qty:50, cost:.99, min:12, source:"บิลสุทธิ" },
-    { name:"3oz topping cup", unit:"pc", qty:50, cost:.8, min:10, source:"บิลสุทธิ ฿147 (จัดสรรส่วนลด)" },
-    { name:"Topping tray 98mm", unit:"pc", qty:100, cost:1.07, min:20, source:"บิลสุทธิ ฿147 (จัดสรรส่วนลด)" },
+    { name:"14oz PET cup (Basic Pac FP-14)", unit:"pc", qty:1000, cost:2.80, min:100, source:"Basic Pac 1,000 ใบ ฟรีบล็อก (2.65฿ + ส่ง 0.15฿)" },
+    { name:"98mm sipper lid with plug (ฝายกดื่มมีจุก)", unit:"pc", qty:1000, cost:0.47, min:100, source:"ลัง 1,000 ชิ้น (ช่วงราคา ฿380–฿557)" },
+    { name:"Spill-proof lid sheet (แผ่นรองฝาแก้ว)", unit:"pc", qty:500, cost:0.096, min:50, source:"บิล 500 ใบ ฿48 (฿0.096/ใบ)" },
+    { name:"Cold whisk pouch 200ml", unit:"pc", qty:100, cost:0.99, min:20, source:"บิลสุทธิ 100 ใบ ฿99 (แยกน้ำแข็งใส่ถุง)" },
+    { name:"Topping tray 98mm", unit:"pc", qty:100, cost:1.07, min:20, source:"บิลสุทธิ 100 ชิ้น ฿107 (ถาดรองโฟม)" },
+    { name:"3oz topping cup", unit:"pc", qty:100, cost:0.80, min:10, source:"บิลสุทธิ 100 ชิ้น ฿80 (ถ้วย Biscoff/ท็อปปิ้ง)" },
+    { name:"Cup bag 6×11", unit:"pc", qty:125, cost:0.40, min:25, source:"ซื้อแล้ว · ฿50 / 125 ใบ (ถุงหิ้วใส 1 แก้ว)" },
+    { name:"Brown craft bag 12×11", unit:"pc", qty:50, cost:1.90, min:20, source:"ซื้อแล้ว · ฿95 / 50 ใบ (ถุงน้ำตาล 2 แก้วขึ้น)" },
+    { name:"6mm straw", unit:"pc", qty:50, cost:0.15, min:10, source:"บิลสุทธิ · ฿7.50 / 50 ชิ้น" },
+    { name:"12oz cup + lid set", unit:"set", qty:48, cost:2.772, min:12, source:"บิลสุทธิ · ใช้ก่อนเปิดร้าน" },
     { name:"Cream roll — Hojicha", unit:"pc", qty:22, cost:10.4545, min:4, source:"บิลสุทธิ ฿460 (จัดสรรส่วนลด)" },
-    { name:"Cream roll — Matcha", unit:"pc", qty:22, cost:10.4545, min:4, source:"บิลสุทธิ ฿460 (จัดสรรส่วนลด)" },
-    { name:"Cup bag 12×11+1", unit:"pc", qty:125, cost:.76, min:25, source:"ซื้อแล้ว · ฿95 / 125 ใบ" },
-    { name:"Cup bag 6×11", unit:"pc", qty:125, cost:.4, min:25, source:"ซื้อแล้ว · ฿50 / 125 ใบ" },
-    { name:"Earl Grey jelly powder", unit:"g", qty:14, cost:.6429, min:3, source:"บิลสุทธิ · ฿9 / 14g (เมนูยังไม่เปิด)" },
-    { name:"6mm straw", unit:"pc", qty:50, cost:.15, min:10, source:"บิลสุทธิ · ฿7.50 / 50 ชิ้น" },
-    { name:"Coconut foam mix", unit:"serve", qty:20, cost:null, min:5, source:"Mock stock · รอกรอกทุนจริง" }
+    { name:"Cream roll — Matcha", unit:"pc", qty:22, cost:10.4545, min:4, source:"บิลสุทธิ ฿460 (จัดสรรส่วนลด)" }
   ],
   sales: [],
   hiddenSupplierKeys: [],
@@ -71,6 +70,109 @@ const defaultState = () => ({
 let state = defaultState();
 let activeMode = "customer", activeTab = "menu";
 let selection = { kind:"drink", menuId:null, powder:"noko", milk:"M Milk", sweetness:5, brew:"clear", size:"12", channel:"store", qty:1 };
+
+/* ── Admin Gate Authentication (Passcode: happi888) ──────────── */
+const ADMIN_PASSCODE = "happi888";
+const ADMIN_AUTH_KEY = "happihaus_admin_auth";
+
+function isAdminAuthenticated() {
+  try {
+    return localStorage.getItem(ADMIN_AUTH_KEY) === "true";
+  } catch {
+    return false;
+  }
+}
+
+function setAdminAuthenticated(val) {
+  try {
+    if (val) localStorage.setItem(ADMIN_AUTH_KEY, "true");
+    else localStorage.removeItem(ADMIN_AUTH_KEY);
+  } catch (e) {
+    console.warn(e);
+  }
+}
+
+function promptAdminPasscode(onSuccess) {
+  const dialog = document.querySelector("#action-dialog");
+  if (!dialog) {
+    const input = prompt("กรุณากรอกรหัสผ่านเพื่อเข้าสู่ Control Panel:");
+    if (input === ADMIN_PASSCODE) {
+      setAdminAuthenticated(true);
+      if (onSuccess) onSuccess();
+    } else {
+      if (input !== null && input !== "") toast("รหัสผ่านไม่ถูกต้อง");
+      activeMode = "customer";
+      render();
+    }
+    return;
+  }
+
+  dialog.innerHTML = `
+    <div class="dialog-inner" style="max-width:360px;margin:auto;text-align:center;">
+      <div style="font-size:38px;margin-bottom:8px;">🔒</div>
+      <h2 style="font-size:20px;margin-bottom:6px;">Admin Access Gate</h2>
+      <p style="color:#617368;font-size:13px;margin:0 0 16px;">กรุณากรอกรหัสผ่านเพื่อเข้าถึง Control panel</p>
+      <form id="admin-auth-form" style="margin:0;">
+        <input type="password" id="admin-passcode-input" placeholder="กรอกรหัสผ่าน" autocomplete="current-password" autofocus style="width:100%;box-sizing:border-box;font:inherit;padding:12px 14px;border:1px solid var(--line);border-radius:12px;text-align:center;font-size:18px;letter-spacing:4px;margin-bottom:10px;background:#fff;" />
+        <div id="admin-auth-error" style="display:none;color:var(--red);font-size:12px;margin-bottom:12px;font-weight:700;">รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่</div>
+        <div class="dialog-actions" style="display:flex;gap:10px;justify-content:stretch;margin-top:8px;">
+          <button type="button" class="secondary-btn" id="cancel-admin-auth" style="flex:1;">ยกเลิก</button>
+          <button type="submit" class="primary-btn" style="flex:1;">เข้าสู่ระบบ</button>
+        </div>
+      </form>
+    </div>
+  `;
+
+  if (typeof dialog.showModal === "function") {
+    dialog.showModal();
+  } else {
+    dialog.setAttribute("open", "");
+  }
+
+  const inputEl = dialog.querySelector("#admin-passcode-input");
+  if (inputEl) inputEl.focus();
+
+  const form = dialog.querySelector("#admin-auth-form");
+  if (form) {
+    form.onsubmit = (e) => {
+      e.preventDefault();
+      const val = inputEl ? inputEl.value.trim() : "";
+      if (val === ADMIN_PASSCODE) {
+        setAdminAuthenticated(true);
+        dialog.close();
+        toast("ยืนยันตัวตนสำเร็จ เข้าสู่ Control panel");
+        if (onSuccess) onSuccess();
+        else {
+          activeMode = "admin";
+          render();
+        }
+      } else {
+        const errEl = dialog.querySelector("#admin-auth-error");
+        if (errEl) errEl.style.display = "block";
+        if (inputEl) {
+          inputEl.value = "";
+          inputEl.focus();
+        }
+      }
+    };
+  }
+
+  const cancelBtn = dialog.querySelector("#cancel-admin-auth");
+  if (cancelBtn) {
+    cancelBtn.onclick = () => {
+      dialog.close();
+      activeMode = "customer";
+      render();
+    };
+  }
+
+  dialog.onclose = () => {
+    if (!isAdminAuthenticated() && activeMode === "admin") {
+      activeMode = "customer";
+      render();
+    }
+  };
+}
 
 /* Persistence bridge: app.js never touches localStorage.  Every mutation
    calls save(), which re-renders and notifies main.js to write to Supabase. */
@@ -143,6 +245,9 @@ function drinkVisual(menu){
 }
 
 function render(){
+  if (activeMode === "admin" && !isAdminAuthenticated()) {
+    activeMode = "customer";
+  }
   document.querySelectorAll(".mode-btn").forEach(b=>b.classList.toggle("active",b.dataset.mode===activeMode));
   document.querySelector("#customer-view").classList.toggle("active",activeMode==="customer");
   document.querySelector("#admin-view").classList.toggle("active",activeMode==="admin");
@@ -234,7 +339,8 @@ Object.assign(powders, {
 });
 Object.assign(powders, {
   mori:{label:"Harusaki Oku no Mori",stock:"Harusaki Oku no Mori",priceAdd:0,cost:20.7666666667,note:"Clean · bright · gentle umami",taste:"สดใส สะอาด มี umami นุ่ม และหวานธรรมชาติ"},
-  yameReserve:{label:"Yame no Shiro",stock:"Yame no Shiro",priceAdd:0,cost:19.75,note:"Roasted nut · buttery · creamy",taste:"กลิ่นถั่วอบ เนื้อครีมมี่คล้ายเนย และ umami สมดุล"}
+  yameReserve:{label:"Yame no Shiro",stock:"Yame no Shiro",priceAdd:0,cost:19.75,note:"Roasted nut · buttery · creamy",taste:"กลิ่นถั่วอบ เนื้อครีมมี่คล้ายเนย และ umami สมดุล"},
+  haku:{label:"Haku Daily Uji Mellow",stock:"Haku Daily Uji Mellow",priceAdd:0,cost:21.3333333333,note:"Uji · mellow · smooth",taste:"นุ่มละมุน ครีมมี่ ไม่ขมโดด umami พอดี ดื่มง่าย"}
 });
 Object.assign(powders.horii,{priceAdd:0});
 Object.assign(powders.marukyu,{priceAdd:0});
@@ -242,13 +348,14 @@ Object.assign(powders.lumi,{priceAdd:0});
 Object.assign(powders.silk,{priceAdd:0});
 menus.splice(0, menus.length,
   {id:"latte",name:"Matcha Latte",thai:"มัทฉะลาเต้",icon:"🥛",base:99,lineman:149,powderG:5,type:"base",milk:true,sweetness:true,sizes:["12","22"],art:"12oz: 5g · น้ำ 50ml · นม 100ml",description:"นมวัวเป็น base; เปลี่ยนเป็นนมโอ๊ตได้",tag:"Daily"},
-  {id:"biscoff",name:"Biscoff Matcha Latte",thai:"มัทฉะลาเต้บิสคอฟ",icon:"🍪",base:89,lineman:129,powderG:5,type:"base",milk:false,fixedMilk:true,sweetness:false,art:"12oz · Matcha 5g · น้ำ 50ml · oat milk 135ml · Biscoff spread 15ml",description:"Biscoff เข้ม นมโอ๊ตนุ่ม พร้อมขาย",tag:"Ready",biscoff:true},
+  {id:"biscoff",name:"Biscoff Matcha Latte",thai:"มัทฉะลาเต้บิสคอฟ",icon:"🍪",base:89,lineman:129,powderG:5,type:"base",milk:false,fixedMilk:true,sweetness:false,art:"12oz · Matcha 5g · oat milk 135ml · ทาสเปรดข้างแก้ว 15g · บิสกิตบนถาด 98mm",description:"Biscoff เข้ม นมโอ๊ตนุ่ม พร้อมขาย",tag:"Ready",biscoff:true},
   {id:"nutella",name:"Nutella Matcha Latte",thai:"มัทฉะลาเต้นูเทลล่า",icon:"🍫",base:149,lineman:199,powderG:5,type:"base",milk:false,fixedMilk:true,sweetness:false,art:"12oz · Matcha 5g · น้ำร้อน 50ml · นม 100ml · Nutella 20g",description:"นูเทลล่าเข้มข้นกับมัทฉะนุ่ม ๆ",tag:"Ready",nutella:true},
   {id:"coconut",name:"Cloudy Coconut Matcha",thai:"มัทฉะมะพร้าวคลาวดี้",icon:"🥥",base:95,lineman:125,powderG:4,type:"base",milk:false,sweetness:true,art:"Matcha 4g · น้ำมะพร้าว 135ml · oat milk 65ml · Sweetness 4 levels",description:"มะพร้าวสดและ oat milk เย็นจัด — พร้อมขาย",tag:"Ready",coconut:true},
   {id:"coconutfoam",name:"Coconut Foam Matcha",thai:"มัทฉะโฟมมะพร้าว",icon:"☁️",base:95,lineman:125,powderG:4,type:"base",milk:false,sweetness:true,art:"Matcha 4g · น้ำมะพร้าว 135ml · oat milk 65ml · Sweetness 4 levels",description:"สูตร coconut ของร้าน เนื้อนุ่มและเย็นจัด",tag:"Ready",coconut:true,foam:true},
   {id:"clear",name:"Clear Matcha",thai:"เคลียร์มัทฉะ",icon:"🫧",base:65,lineman:99,powderG:3,type:"base",milk:false,sweetness:true,art:"3g · น้ำ 150ml",description:"ชาใสเย็นสำหรับอ่านรสของผง",tag:"Clear"},
   {id:"coldwhisk",name:"Cold Whisk Matcha",thai:"โคลด์วิสก์มัทฉะ",icon:"🌿",base:119,lineman:179,powderG:5,type:"base",milk:true,sweetness:true,art:"5g · oat 150ml · whisk 30+60+60",description:"ตีสดให้เนื้อนุ่มฟู",tag:"Hand whisk"},
   {id:"hojicha",name:"Hojicha Latte",thai:"โฮจิฉะลาเต้",icon:"🔥",base:179,lineman:269,powderG:4,type:"hojicha",milk:true,sweetness:true,art:"4g · milk 100ml",description:"กลิ่นคั่วนุ่ม คล้ายโกโก้และถั่ว",tag:"Roasted"},
+  {id:"haku",name:"Haku Daily Uji Mellow",thai:"ฮาคุ เดลี่ อุจิ เมลโลว์",icon:"🍵",base:{clear:139,latte:189,coldwhisk:209},lineman:{clear:199,latte:279,coldwhisk:299},powderG:3,type:"premium",powderKey:"haku",milk:true,sweetness:true,art:"Clear 3g · Latte / Cold Whisk 5g",description:"อุจิมัทฉะโทนเมลโลว์ นุ่มนวล กลมกล่อม ดื่มง่าย",tag:"Special"},
   {id:"mori",name:"Harusaki Oku no Mori",thai:"ฮารุซากิ โอคุ โนะ โมริ",icon:"🌲",base:{clear:139,latte:219,coldwhisk:239},lineman:{clear:199,latte:319,coldwhisk:349},powderG:3,type:"premium",powderKey:"mori",milk:true,sweetness:true,art:"Clear 3g · Latte / Cold Whisk 5g",description:"สดใส สะอาด · umami นุ่ม · หวานธรรมชาติ",tag:"Limited"},
   {id:"yame-reserve",name:"Yame no Shiro",thai:"ยาเมะ โนะ ชิโระ",icon:"🌾",base:{clear:129,latte:149,coldwhisk:169},lineman:{clear:189,latte:219,coldwhisk:239},powderG:3,type:"premium",powderKey:"yameReserve",milk:true,sweetness:true,art:"Clear 3g · Latte / Cold Whisk 5g",description:"ถั่วอบ · buttery · เนื้อครีมมี่ · umami สมดุล",tag:"Limited"},
   {id:"uromi",name:"Horii Uji Mukashi",thai:"โฮริอิ อุจิ มุคาชิ",icon:"🍃",base:{clear:179,latte:219,coldwhisk:239},lineman:{clear:259,latte:319,coldwhisk:339},powderG:3,type:"premium",powderKey:"horii",milk:true,sweetness:true,art:"Clear 3g · Latte / Cold Whisk 5g",description:"ชาเขียวสด · umami · savory นุ่ม · ขมปลายเบา",tag:"Limited"},
@@ -280,18 +387,28 @@ function powderChoices(menu){
 }
 function milkRecipe(milk,ml){ if(milk==="Mixed!") return [{name:"MM Milk",qty:ml*.6},{name:"Goodmate oat milk",qty:ml*.4}]; if(milk==="M Milk" || milk==="Fresh milk") return [{name:"MM Milk",qty:ml}]; return [{name:"Goodmate oat milk",qty:ml}]; }
 function milkCost(milk,ml){ const mCost = getStock("MM Milk")?.cost ?? getStock("M Milk")?.cost ?? 0.0485; const oCost = getStock("Goodmate oat milk")?.cost ?? 0.095; if(milk==="Mixed!") return ml*(.6*mCost+.4*oCost); if(milk==="M Milk" || milk==="Fresh milk" || milk==="MM Milk") return ml*mCost; return ml*oCost; }
+const BASIC_PACK_ITEMS = [
+  { name: "14oz PET cup (Basic Pac FP-14)", qty: 1 },
+  { name: "98mm sipper lid with plug (ฝายกดื่มมีจุก)", qty: 1 },
+  { name: "Spill-proof lid sheet (แผ่นรองฝาแก้ว)", qty: 1 },
+  { name: "Cold whisk pouch 200ml", qty: 1 },
+  { name: "Cup bag 6×11", qty: 1 },
+  { name: "6mm straw", qty: 1 }
+];
+const BASIC_PACK_COST = 2.80 + 0.47 + 0.096 + 0.99 + 0.40 + 0.15; // 4.906
+
 function recipe(menu,powderKey,milk,sweetness,brew="clear",size="12"){
  const safeSize = size || selection.size || "12";
  const powder=powders[validPowderKey(powderKey)?powderKey:"noko"], sizeFactor=menu.id==="latte"&&safeSize==="22"?22/12:1, powderG=(menu.type==="premium"&&brew!=="clear"?5:Number(menu.powderG)||3)*sizeFactor, syrup=menu.sweetness?(Number(sweetness)||0)*sizeFactor:0;
- const items=[{name:powder.stock,qty:powderG}]; let other=2.772+syrup*.06018, known=true, note="";
- if(menu.id==="latte"){const milkMl=100*sizeFactor,packaging=2.772;items.push(...milkRecipe(milk,milkMl),{name:"Syrup",qty:syrup},{name:sizeFactor===1?"12oz cup + lid set":"22oz cup (free)",qty:1});other=milkCost(milk,milkMl)+syrup*.06018+packaging;}
- if(menu.id==="biscoff"){const oCost=getStock("Goodmate oat milk")?.cost??.095;items.push({name:"Goodmate oat milk",qty:135},{name:"Biscoff spread",qty:15},{name:"12oz cup + lid set",qty:1});other=135*oCost+15*.465+2.772;}
- if(menu.id==="nutella"){const mCost=getStock("MM Milk")?.cost??getStock("M Milk")?.cost??.0485;items.push({name:"MM Milk",qty:100},{name:"Nutella spread",qty:20},{name:"12oz cup + lid set",qty:1});other=100*mCost+20*.47+2.772;}
- if(menu.coconut){const cCost=getStock("Coconut water")?.cost??.115, oCost=getStock("Goodmate oat milk")?.cost??.095;items.push({name:"Coconut water",qty:135},{name:"Goodmate oat milk",qty:65},{name:"Syrup",qty:syrup},{name:"12oz cup + lid set",qty:1});other=135*cCost+65*oCost+syrup*.06018+2.772+(menu.id==="coconutfoam"?1.0659:0);}
- if(menu.id==="clear"){items.push({name:"Syrup",qty:syrup},{name:"12oz cup + lid set",qty:1});other=syrup*.06018+2.772;}
- if(menu.id==="coldwhisk"){items.push(...milkRecipe(milk,150),{name:"Syrup",qty:syrup},{name:"Cold whisk pouch 200ml",qty:1});other=milkCost(milk,150)+syrup*.06018+.99;}
- if(menu.id==="hojicha"){items.push(...milkRecipe(milk,100),{name:"Syrup",qty:syrup},{name:"12oz cup + lid set",qty:1});other=milkCost(milk,100)+syrup*.06018+2.772;}
- if(menu.type==="premium"){ if(brew==="clear"){items.push({name:"Syrup",qty:syrup},{name:"12oz cup + lid set",qty:1});other=syrup*.06018+2.772;} if(brew==="latte"){items.push(...milkRecipe(milk,145),{name:"Syrup",qty:syrup},{name:"12oz cup + lid set",qty:1});other=milkCost(milk,145)+syrup*.06018+2.772;} if(brew==="coldwhisk"){items.push(...milkRecipe(milk,150),{name:"Syrup",qty:syrup},{name:"Cold whisk pouch 200ml",qty:1});other=milkCost(milk,150)+syrup*.06018+.99;} }
+ const items=[{name:powder.stock,qty:powderG}]; let other=BASIC_PACK_COST+syrup*.06018, known=true, note="";
+ if(menu.id==="latte"){const milkMl=100*sizeFactor;items.push(...milkRecipe(milk,milkMl),{name:"Syrup",qty:syrup},...BASIC_PACK_ITEMS);other=milkCost(milk,milkMl)+syrup*.06018+BASIC_PACK_COST;}
+ if(menu.id==="biscoff"){const oCost=getStock("Goodmate oat milk")?.cost??.095;const bPackCost=BASIC_PACK_COST+1.07;items.push({name:"Goodmate oat milk",qty:135},{name:"Biscoff spread",qty:15},{name:"Lotus Biscoff biscuit",qty:16},...BASIC_PACK_ITEMS,{name:"Topping tray 98mm",qty:1});other=135*oCost+15*.465+16*.2762+bPackCost;}
+ if(menu.id==="nutella"){const mCost=getStock("MM Milk")?.cost??getStock("M Milk")?.cost??.0535;items.push({name:"MM Milk",qty:100},{name:"Nutella spread",qty:20},...BASIC_PACK_ITEMS);other=100*mCost+20*.47+BASIC_PACK_COST;}
+ if(menu.coconut || menu.id==="coconutfoam" || menu.id==="coconut"){const cCost=getStock("Coconut water")?.cost??.115, oCost=getStock("Goodmate oat milk")?.cost??.095;const cPackCost=BASIC_PACK_COST+1.07;items.push({name:"Coconut water",qty:135},{name:"Goodmate oat milk",qty:65},{name:"Syrup",qty:syrup},...BASIC_PACK_ITEMS,{name:"Topping tray 98mm",qty:1});other=135*cCost+65*oCost+syrup*.06018+cPackCost;}
+ if(menu.id==="clear"){items.push({name:"Syrup",qty:syrup},...BASIC_PACK_ITEMS);other=syrup*.06018+BASIC_PACK_COST;}
+ if(menu.id==="coldwhisk"){items.push(...milkRecipe(milk,150),{name:"Syrup",qty:syrup},...BASIC_PACK_ITEMS);other=milkCost(milk,150)+syrup*.06018+BASIC_PACK_COST;}
+ if(menu.id==="hojicha"){items.push(...milkRecipe(milk,100),{name:"Syrup",qty:syrup},...BASIC_PACK_ITEMS);other=milkCost(milk,100)+syrup*.06018+BASIC_PACK_COST;}
+ if(menu.type==="premium"){ if(brew==="clear"){items.push({name:"Syrup",qty:syrup},...BASIC_PACK_ITEMS);other=syrup*.06018+BASIC_PACK_COST;} if(brew==="latte"){items.push(...milkRecipe(milk,145),{name:"Syrup",qty:syrup},...BASIC_PACK_ITEMS);other=milkCost(milk,145)+syrup*.06018+BASIC_PACK_COST;} if(brew==="coldwhisk"){items.push(...milkRecipe(milk,150),{name:"Syrup",qty:syrup},...BASIC_PACK_ITEMS);other=milkCost(milk,150)+syrup*.06018+BASIC_PACK_COST;} }
  return {items,powderG,cost:powder.cost*powderG+other,known,note,sizeFactor};
 }
 function legacyMenuPrice(menu, brew = "clear", channel = "store") {
@@ -1007,7 +1124,18 @@ function importData(file) {
 
 document.addEventListener("click", (event) => {
   const button = event.target.closest("button"); if (!button) return;
-  if (button.classList.contains("mode-btn")) { activeMode = button.dataset.mode; render(); }
+  if (button.classList.contains("mode-btn")) {
+    const targetMode = button.dataset.mode;
+    if (targetMode === "admin" && !isAdminAuthenticated()) {
+      promptAdminPasscode(() => {
+        activeMode = "admin";
+        render();
+      });
+      return;
+    }
+    activeMode = targetMode;
+    render();
+  }
   else if (button.classList.contains("tab-btn")) { activeTab = button.dataset.tab; render(); }
   else if (button.classList.contains("channel-btn")) { menuChannel = button.dataset.channel; selection.channel = menuChannel; renderCustomer(); }
   else if (button.dataset.menu) { selection = {menuId:button.dataset.menu,powder:powderChoices(getMenu(button.dataset.menu))[0],milk:"M Milk",sweetness:5,brew:"clear",size:"12",channel:menuChannel,qty:1}; renderCustomer(); }
@@ -1177,5 +1305,8 @@ window.__kifun = {
   money,
   renderAdmin,
   setState,
-  setMenuImage
+  setMenuImage,
+  isAdminAuthenticated,
+  setAdminAuthenticated,
+  promptAdminPasscode
 };
