@@ -774,12 +774,13 @@ function moneyKg(value){return value==null?"—":`฿${value.toLocaleString("th-
 
 let currentSupplierSort = "price-asc";
 let currentSupplierFilter = "all";
+let currentSupplierVendor = "all";
 let currentSupplierSearch = "";
 
 function supplierTab(){
  state.hiddenSupplierKeys ??= [];
  const visibleCatalog = supplierCatalog.filter(row => !state.hiddenSupplierKeys.includes(`${row[0]}_${row[1]}`));
- const vendors=[...new Set(visibleCatalog.map(row=>row[0]))];
+ const vendors = [...new Set(visibleCatalog.map(row=>row[0]))].sort((a, b) => a.localeCompare(b, "th"));
  const hiddenCount = state.hiddenSupplierKeys.length;
 
  return `
@@ -787,34 +788,55 @@ function supplierTab(){
     <div class="panel-head">
       <div>
         <h2>Supplier Library & Live Price Comparison</h2>
-        <p>รวบรวมครบ <b>${vendors.length} เจ้า</b> รวมทั้งหมด <b>${visibleCatalog.length} รายการ</b> (Koyo, Toki, Rinya, Osha Ocha, Sukito, Wazuka, ฯลฯ)</p>
+        <p>รวบรวมครบ <b>${vendors.length} เจ้า</b> รวมทั้งหมด <b>${visibleCatalog.length} รายการ</b> (เพิ่ม เทพมัทฉะ, YUMEMATCHA, Koyo, Toki, Rinya, ฯลฯ)</p>
       </div>
       ${hiddenCount > 0 ? `<button class="secondary-btn" id="restore-hidden-suppliers" style="font-size: 12px; padding: 6px 12px;">↺ กู้คืนรายการที่ลบ (${hiddenCount})</button>` : ""}
     </div>
 
     <!-- Quick Filter & Sort Controls -->
-    <div class="supplier-controls" style="background: var(--surface-2, #f9f9f8); border: 1px solid var(--border, #e5e7eb); border-radius: 12px; padding: 16px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 12px;">
-      <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+    <div class="supplier-controls" style="background: var(--surface-2, #f9f9f8); border: 1px solid var(--border, #e5e7eb); border-radius: 12px; padding: 16px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 14px;">
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; align-items: center;">
+        
         <!-- Search input -->
-        <div style="flex: 1; min-width: 240px;">
-          <input type="search" id="supplier-search-input" placeholder="🔍 พิมพ์ค้นหา เช่น Yame, Coconut, Koyo, Nutty, Base..." value="${esc(currentSupplierSearch)}" style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border, #ccc); font-size: 13px;">
+        <div>
+          <label style="font-size: 11px; font-weight: bold; color: var(--text-muted, #666); display: block; margin-bottom: 4px;">🔍 ค้นหา (ชื่อชา / รส / คาแรกเตอร์):</label>
+          <input type="search" id="supplier-search-input" placeholder="พิมพ์ค้นหา เช่น Thep, Yume, Yame, Nutty, Base..." value="${esc(currentSupplierSearch)}" style="width: 100%; box-sizing: border-box; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border, #ccc); font-size: 13px; background: #fff;">
+        </div>
+
+        <!-- Supplier / Vendor Dropdown -->
+        <div>
+          <label style="font-size: 11px; font-weight: bold; color: var(--text-muted, #666); display: block; margin-bottom: 4px;">🏢 กรองตาม Supplier:</label>
+          <select id="supplier-vendor-select" style="width: 100%; box-sizing: border-box; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border, #ccc); font-size: 13px; background: #fff; cursor: pointer; font-weight: 600;">
+            <option value="all" ${currentSupplierVendor==="all"?"selected":""}>🏢 ทุก Supplier ทั้งหมด (${vendors.length} เจ้า)</option>
+            <option value="thep" ${currentSupplierVendor==="thep"?"selected":""}>🍃 เทพมัทฉะ (Thep Matcha) — 8 รายการ</option>
+            <option value="yume" ${currentSupplierVendor==="yume"?"selected":""}>🍵 YUMEMATCHA — 8 รายการ</option>
+            ${vendors.filter(v => !v.includes("เทพมัทฉะ") && !v.includes("Thep") && !v.includes("YUMEMATCHA")).map(v => {
+              const cnt = visibleCatalog.filter(r => r[0] === v).length;
+              return `<option value="${esc(v)}" ${currentSupplierVendor===v?"selected":""}>${esc(v)} (${cnt})</option>`;
+            }).join("")}
+          </select>
         </div>
 
         <!-- Sort dropdown -->
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span style="font-size: 12px; font-weight: bold; color: var(--text-muted, #666);">เรียงตาม:</span>
-          <select id="supplier-sort-select" style="padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border, #ccc); font-size: 13px; background: #fff; cursor: pointer;">
+        <div>
+          <label style="font-size: 11px; font-weight: bold; color: var(--text-muted, #666); display: block; margin-bottom: 4px;">📊 เรียงลำดับราคา:</label>
+          <select id="supplier-sort-select" style="width: 100%; box-sizing: border-box; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border, #ccc); font-size: 13px; background: #fff; cursor: pointer;">
             <option value="price-asc" ${currentSupplierSort==="price-asc"?"selected":""}>🔽 ราคาต่อ กก. (ถูก → แพง)</option>
             <option value="price-desc" ${currentSupplierSort==="price-desc"?"selected":""}>🔼 ราคาต่อ กก. (แพง → ถูก)</option>
             <option value="vendor" ${currentSupplierSort==="vendor"?"selected":""}>🏷️ ชื่อ Supplier (A-Z)</option>
             <option value="name" ${currentSupplierSort==="name"?"selected":""}>🍵 ชื่อชา (A-Z)</option>
           </select>
         </div>
+
       </div>
 
-      <!-- Filter Buttons -->
-      <div class="supplier-filters" style="display: flex; gap: 8px; flex-wrap: wrap;">
+      <!-- Quick Filter Buttons -->
+      <div class="supplier-filters" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+        <span style="font-size: 11px; font-weight: bold; color: var(--text-muted, #666);">แท็กด่วน:</span>
         <button class="choice ${currentSupplierFilter==="all"?"active":""}" data-supplier-filter="all">ทั้งหมด (${visibleCatalog.length})</button>
+        <button class="choice ${currentSupplierFilter==="thep"?"active":""}" data-supplier-filter="thep" style="font-weight:700;">🍃 เทพมัทฉะ (8)</button>
+        <button class="choice ${currentSupplierFilter==="yume"?"active":""}" data-supplier-filter="yume" style="font-weight:700;">🍵 YUMEMATCHA (8)</button>
         <button class="choice ${currentSupplierFilter==="base"?"active":""}" data-supplier-filter="base">🟢 Base ประหยัด (≤ ฿5.5k/kg)</button>
         <button class="choice ${currentSupplierFilter==="sweet"?"active":""}" data-supplier-filter="sweet">🔵 Sweet Spot (฿5k–฿8k)</button>
         <button class="choice ${currentSupplierFilter==="premium"?"active":""}" data-supplier-filter="premium">🟣 พรีเมียม (฿8k–฿15k)</button>
@@ -831,11 +853,22 @@ function renderSupplierCatalog(filter=currentSupplierFilter){
  currentSupplierFilter = filter;
  const out=document.querySelector("#supplier-catalog-table");if(!out)return;
  state.hiddenSupplierKeys ??= [];
- const shortlistNames=new Set(["Kagoshima P01","MC283 Yame Nutty Roasted","Cafe Latte","Yame Momoko","Yame Saemidori","Uji Starter A (Best Seller)","Ureshino Premium Blend #2","HAJIME (Cafe · Uji)","Yame Pistachio Cookie (Premium)","Souwu - Yame (Best Seller)"]);
+ const shortlistNames=new Set(["Kagoshima P01","MC283 Yame Nutty Roasted","Cafe Latte","Yame Momoko","Yame Saemidori","Uji Starter A (Best Seller)","Ureshino Premium Blend #2","HAJIME (Cafe · Uji)","Yame Pistachio Cookie (Premium)","Souwu - Yame (Best Seller)","Yame Nutty (Best Seller)","Kagoshima (Recommended)","NO.5 (Ceremonial Premium)","NO.7 (Ceremonial Balanced)"]);
  
  let rows = supplierCatalog.filter(row => {
    const key = `${row[0]}_${row[1]}`;
    if (state.hiddenSupplierKeys.includes(key)) return false;
+
+   // Vendor filter (from dropdown or buttons)
+   if (currentSupplierVendor !== "all") {
+     if (currentSupplierVendor === "thep") {
+       if (!(row[0].includes("เทพมัทฉะ") || row[0].includes("Thep"))) return false;
+     } else if (currentSupplierVendor === "yume") {
+       if (!row[0].includes("YUMEMATCHA")) return false;
+     } else if (row[0] !== currentSupplierVendor) {
+       return false;
+     }
+   }
 
    // Search query filter
    if (currentSupplierSearch) {
@@ -844,8 +877,10 @@ function renderSupplierCatalog(filter=currentSupplierFilter){
      if (!fullText.includes(query)) return false;
    }
 
-   // Group filter
+   // Quick Category Filter
    if (filter === "all") return true;
+   if (filter === "thep") return row[0].includes("เทพมัทฉะ") || row[0].includes("Thep");
+   if (filter === "yume") return row[0].includes("YUMEMATCHA");
    if (filter === "base") return row[2] != null && row[2] <= 5500;
    if (filter === "sweet") return row[2] != null && row[2] > 5500 && row[2] <= 8000;
    if (filter === "premium") return row[2] != null && row[2] > 8000 && row[2] <= 15000;
@@ -866,16 +901,16 @@ function renderSupplierCatalog(filter=currentSupplierFilter){
      return b[2] - a[2];
    }
    if (currentSupplierSort === "vendor") {
-     return a[0].localeCompare(b[0]);
+     return a[0].localeCompare(b[0], "th");
    }
    if (currentSupplierSort === "name") {
-     return a[1].localeCompare(b[1]);
+     return a[1].localeCompare(b[1], "th");
    }
    return 0;
  });
 
  out.innerHTML=`
-   <div style="margin-bottom: 8px; font-size: 13px; color: var(--text-muted, #666); display: flex; justify-content: space-between;">
+   <div style="margin-bottom: 8px; font-size: 13px; color: var(--text-muted, #666); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
      <span>แสดง <b>${rows.length}</b> รายการ</span>
      <span>*คลิก 🗑️ เพื่อซ่อน/ลบรายการที่ไม่สนใจออกได้</span>
    </div>
@@ -887,7 +922,7 @@ function renderSupplierCatalog(filter=currentSupplierFilter){
            <th>ชา / SKU</th>
            <th style="text-align: right;">ราคา 1kg</th>
            <th style="text-align: right;">฿/g</th>
-           <th style="text-align: right;">Latte 5g</th>
+           <th style="text-align: right;">Latte (5g)</th>
            <th>โน้ต / Tasting Notes</th>
            <th style="text-align: center; width: 44px;">จัดการ</th>
          </tr>
@@ -897,14 +932,20 @@ function renderSupplierCatalog(filter=currentSupplierFilter){
            const priceG = row[2] != null ? (row[2] / 1000) : null;
            const latte5g = priceG != null ? (priceG * 5) : null;
            const key = `${row[0]}_${row[1]}`;
+           const isThep = row[0].includes("เทพมัทฉะ") || row[0].includes("Thep");
+           const isYume = row[0].includes("YUMEMATCHA");
            return `
-             <tr>
-               <td><b>${row[0]}</b></td>
+             <tr style="${isThep ? "background:#f0f9ff;" : isYume ? "background:#fffbeb;" : ""}">
+               <td>
+                 <b>${row[0]}</b>
+                 ${isThep ? '<span style="display:inline-block;padding:2px 5px;border-radius:4px;background:#bae6fd;color:#0369a1;font-size:10px;font-weight:700;margin-left:4px;">NEW</span>' : ""}
+                 ${isYume ? '<span style="display:inline-block;padding:2px 5px;border-radius:4px;background:#fde68a;color:#92400e;font-size:10px;font-weight:700;margin-left:4px;">NEW</span>' : ""}
+               </td>
                <td><span style="font-weight: 600;">${row[1]}</span></td>
                <td style="text-align: right; font-weight: bold; color: #254d3d;">${moneyKg(row[2])}</td>
-               <td style="text-align: right; color: var(--text-muted, #666);">${priceG != null ? `฿${priceG.toFixed(2)}` : "—"}</td>
-               <td style="text-align: right; font-weight: 600; color: #059669;">${latte5g != null ? `฿${latte5g.toFixed(2)}` : "—"}</td>
-               <td style="font-size: 12px; max-width: 300px;">
+               <td style="text-align: right; color: var(--text-muted, #666); font-weight:600;">${priceG != null ? `฿${priceG.toFixed(2)}` : "—"}</td>
+               <td style="text-align: right; font-weight: 700; color: #059669;">${latte5g != null ? `฿${latte5g.toFixed(2)}` : "—"}</td>
+               <td style="font-size: 12px; max-width: 320px;">
                  ${row[3]}
                  <span class="supplier-status ${row[4] && (row[4].includes("Sweet") || row[4]==="Eligible") ? "fit" : ""}">${row[4] || ""}</span>
                </td>
@@ -924,16 +965,16 @@ const renderAdminV5=renderAdmin;renderAdmin=function(){renderAdminV5();if(active
 /* Home is private-facing too: names, copy and prices are intentionally editable
    from the panel and the customer view only receives the house codenames. */
 const defaultHomeAliases={
- noko:{name:"KOME",note:"เนียนนุ่ม · ถั่วอ่อน · umami เบา"},
- sukito:{name:"YAME",note:"floral บาง · ครีมมี่ · ถั่วทอง"},
- mie:{name:"SORA",note:"smooth · umami ชัด · nutty · หวานเบา"},
- mori:{name:"Harusaki Oku no Mori",note:"สดใส · umami นุ่ม · หวานธรรมชาติ"},
- yameReserve:{name:"Yame no Shiro",note:"ถั่วอบ · buttery · creamy"},
- horii:{name:"Horii Uji Mukashi",note:"ชาเขียวสด · umami · savory นุ่ม"},
- marukyu:{name:"Marukyu Yugen",note:"เนียนนุ่ม · umami กลม · ขมบาง"},
- lumi:{name:"Tokocha Shizuoka Okumidori",note:"pistachio · white chocolate · creamy"},
- silk:{name:"Tokocha Yame Dania",note:"ricotta-like · rich · creamy"},
- hojicha:{name:"KOGASHI",note:"roasted · nutty · cocoa-like"}
+  noko:{name:"KOME",note:"เนียนนุ่ม · ถั่วอ่อน · umami เบา"},
+  sukito:{name:"YAME",note:"floral บาง · ครีมมี่ · ถั่วทอง"},
+  mie:{name:"SORA",note:"smooth · umami ชัด · nutty · หวานเบา"},
+  mori:{name:"Harusaki Oku no Mori",note:"สดใส · umami นุ่ม · หวานธรรมชาติ"},
+  yameReserve:{name:"Yame no Shiro",note:"ถั่วอบ · buttery · creamy"},
+  horii:{name:"Horii Uji Mukashi",note:"ชาเขียวสด · umami · savory นุ่ม"},
+  marukyu:{name:"Marukyu Yugen",note:"เนียนนุ่ม · umami กลม · ขมบาง"},
+  lumi:{name:"Tokocha Shizuoka Okumidori",note:"pistachio · white chocolate · creamy"},
+  silk:{name:"Tokocha Yame Dania",note:"ricotta-like · rich · creamy"},
+  hojicha:{name:"KOGASHI",note:"roasted · nutty · cocoa-like"}
 };
 function seedHomeEditor(){
  state.home??={};state.home.brand??={mark:"🍃",name:"KIFUN",subline:"MATCHA"};state.home.hero??={eyebrow:"KIFUN MATCHA · PRIVATE MENU",title:"เลือกชาในแบบของคุณ",subtitle:"เมนูส่วนตัวของร้าน · ปรับแก้ได้จาก Control panel",status:"เปิดรับชมเมนู"};
@@ -1116,21 +1157,64 @@ menuTab = function () {
   const rows = menus.map((menu) => {
     const powder = powderChoices(menu)[0];
     const price = calc(menu, powder, "M Milk", menu.coconut ? 5 : 5, "clear", "store");
-    const profits = [0.679, 0.55, 0.4].map((rate) => money(price.price * rate - price.cost)).join(" / ");
+    const app = calc(menu, powder, "M Milk", menu.coconut ? 5 : 5, "clear", "lineman");
     const hidden = isHiddenMenu(menu);
     return `<tr class="${hidden ? "menu-hidden-row" : ""}">
       <td><div class="menu-art table-menu-art">${menuArt(menu)}</div></td>
-      <td><b>${esc(menu.name)}</b><small class="muted">${esc(menu.art)}</small></td>
-      <td>${money(price.price)}</td><td>${money(price.cost)}</td>
-      <td class="profit-good">${profits}<br><small>67.9% / 55% / 40%</small></td>
-      <td><button class="switch ${state.menuStatus[menu.id] ? "on" : ""}" data-toggle-menu="${esc(menu.id)}"><span></span></button></td>
+      <td><b>${esc(menu.name)}</b><br><small class="muted">${esc(menu.art)}</small></td>
+      <td><b>${money(price.price)}</b></td>
+      <td><b>${money(app.price)}</b></td>
+      <td><b style="color:var(--green);">${money(price.cost)}</b></td>
+      <td><button class="switch ${state.menuStatus[menu.id] ? "on" : ""}" data-toggle-menu="${esc(menu.id)}"><span></span></button> ${state.menuStatus[menu.id] ? "เปิดขาย" : "ปิดขาย"}</td>
       <td><button class="${hidden ? "edit-btn" : "danger-btn"}" data-menu-visibility="${esc(menu.id)}">${hidden ? "กู้คืน" : "ซ่อนเมนู"}</button></td>
     </tr>`;
   }).join("");
-  return `<div class="panel"><div class="panel-head"><div><h2>จัดการเมนู</h2><p>ซ่อนเมนูจะไม่ลบข้อมูล และกู้คืนได้ทุกเมื่อ</p></div><div class="menu-tools"><button class="secondary-btn" id="export-data">Export JSON</button><label class="secondary-btn">Import JSON<input id="data-import" type="file" accept="application/json" hidden></label></div></div>
-    <div class="table-wrap"><table class="data-table"><thead><tr><th></th><th>เมนู + สูตร</th><th>ราคาเริ่ม</th><th>ต้นทุน</th><th>กำไรสุทธิ</th><th>เปิดขาย</th><th>การแสดงผล</th></tr></thead><tbody>${rows}</tbody></table></div>
-    <form id="add-menu-form" class="add-menu-form"><h3>เพิ่มเมนูใหม่</h3><input name="name" required placeholder="ชื่ออังกฤษ"><input name="thai" placeholder="ชื่อไทย"><input name="emoji" value="🍵" aria-label="Emoji"><input name="store" type="number" min="0" required placeholder="ราคาหน้าร้าน"><input name="lineman" type="number" min="0" required placeholder="ราคา LINE MAN"><input name="description" placeholder="คำอธิบาย"><input name="tag" placeholder="Tag"><button class="primary-btn">เพิ่มเมนู</button></form>
-  </div>`;
+  return `
+    <div class="panel">
+      <div class="panel-head" style="flex-wrap:wrap;gap:12px;">
+        <div>
+          <h2>จัดการเมนู — หน้าร้าน และ LINE MAN</h2>
+          <p>เปิด-ปิดการขาย ซ่อน/กู้คืนเมนู หรือเพิ่มเมนูใหม่ (ดูการคำนวณกำไรละเอียดที่แท็บคำนวณกำไร)</p>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+          <button class="tab-btn" data-tab="profit" style="background:var(--green);color:#fff;padding:8px 14px;border-radius:10px;font-size:12px;font-weight:700;border:0;cursor:pointer;">
+            📊 คำนวณกำไร & แคมเปญ LINE MAN ➜
+          </button>
+          <div class="menu-tools">
+            <button class="secondary-btn" id="export-data">Export JSON</button>
+            <label class="secondary-btn">Import JSON<input id="data-import" type="file" accept="application/json" hidden></label>
+          </div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>เมนู + สูตร / BOM</th>
+              <th>ราคาหน้าร้าน</th>
+              <th>ราคา LINE MAN</th>
+              <th>ต้นทุนสุทธิ</th>
+              <th>เปิดขาย</th>
+              <th>การแสดงผล</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+      <form id="add-menu-form" class="add-menu-form">
+        <h3>เพิ่มเมนูใหม่</h3>
+        <input name="name" required placeholder="ชื่ออังกฤษ">
+        <input name="thai" placeholder="ชื่อไทย">
+        <input name="emoji" value="🍵" aria-label="Emoji">
+        <input name="store" type="number" min="0" required placeholder="ราคาหน้าร้าน">
+        <input name="lineman" type="number" min="0" required placeholder="ราคา LINE MAN">
+        <input name="description" placeholder="คำอธิบาย">
+        <input name="tag" placeholder="Tag">
+        <button class="primary-btn">เพิ่มเมนู</button>
+      </form>
+    </div>
+  `;
 };
 
 function homeEditorTab() {

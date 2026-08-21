@@ -31,6 +31,26 @@ export async function saveAppState(stateObj) {
   return data?.[0] || null;
 }
 
+/** ดึงรายการผงชาและราคาต่อกรัมทั้งหมดจาก Supabase powders table */
+export async function fetchPowders() {
+  const { data, error } = await supabase
+    .from("powders")
+    .select("*")
+    .order("cost_per_gram", { ascending: true });
+  if (error) throw error;
+  return data || [];
+}
+
+/** บันทึก/อัปเดตผงชาลง Supabase powders table */
+export async function savePowder(powderObj) {
+  const { data, error } = await supabase
+    .from("powders")
+    .upsert(powderObj)
+    .select();
+  if (error) throw error;
+  return data?.[0] || null;
+}
+
 /* ── Menu photo upload (storage bucket `menu-images`) ─────────── */
 
 /** Resize a photo to fit within 640×640 (keeps aspect ratio) */
