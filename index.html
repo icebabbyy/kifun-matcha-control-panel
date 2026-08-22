@@ -1,88 +1,100 @@
 <!doctype html>
 <html lang="th">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#254d3d" />
-    <title>KIFUN MATCHA — Menu & Control Panel</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍵</text></svg>" />
-    <link rel="stylesheet" href="styles.css?v=20260822_v16" />
-    <link rel="stylesheet" href="visual-refresh.css?v=20260822_v16" />
-    <link rel="stylesheet" href="local-fixes.css?v=20260822_v16" />
-    <link rel="stylesheet" href="profit-calculator.css?v=20260822_v16" />
-  </head>
-  <body>
-    <div class="app-shell">
-      <header class="topbar">
-        <a class="brand" href="#customer" aria-label="Kifun Matcha home">
-          <span class="brand-mark" id="brand-mark">🍃</span>
-          <span><b id="brand-name">KIFUN</b><small id="brand-subline">MATCHA</small></span>
-        </a>
-        <nav class="mode-switch" aria-label="เปลี่ยนหน้าจอ">
-          <button class="mode-btn active" data-mode="customer">เมนูลูกค้า</button>
-          <button class="mode-btn" data-mode="admin">Control panel</button>
-        </nav>
-        <button class="icon-btn" id="reset-demo" title="คืนค่าข้อมูลตัวอย่าง">↺</button>
-      </header>
 
-      <main>
-        <section id="customer-view" class="view active">
-          <div class="customer-head">
-            <div>
-              <p class="eyebrow">KIFUN MATCHA · MENU</p>
-              <h1>เลือกชาในแบบของคุณ</h1>
-              <p class="muted">เมนูของคุณ — ข้อมูลซิงก์กับ Supabase อัตโนมัติ</p>
-            </div>
-            <div class="status-pill"><i></i> เปิดรับชมเมนู</div>
-          </div>
-          <div class="menu-channel-tabs" role="tablist" aria-label="เลือกราคาขาย">
-            <button class="channel-btn active" data-channel="store">หน้าร้าน <small>ราคาปกติ</small></button>
-            <button class="channel-btn" data-channel="lineman">LINE MAN <small>รวมค่าคอมฯ แล้ว</small></button>
-          </div>
-          <div class="customer-layout">
-            <section>
-              <div class="section-title"><h2>Drinks menu</h2><span id="available-count"></span></div>
-              <div id="menu-grid" class="menu-grid"></div>
-              <div class="section-title snack-title"><h2>Sweets & side</h2><span>ขายจริงแล้ว</span></div>
-              <div id="snack-grid" class="menu-grid snack-grid"></div>
-            </section>
-            <aside class="selection-panel" aria-live="polite">
-              <div class="selection-empty" id="selection-empty">
-                <span class="empty-art">🍵</span>
-                <h2>แตะเมนูเพื่อปรับแก้ว</h2>
-                <p>อ่าน Test note ของชา เลือกความหวานและนม แล้วระบบจะคำนวณราคาให้ทันที</p>
-              </div>
-              <div id="customizer" hidden></div>
-            </aside>
-          </div>
-        </section>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#254d3d" />
+  <title>KIFUN MATCHA — Menu & Control Panel</title>
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍵</text></svg>" />
+  <link rel="stylesheet" href="styles.css?v=20260822_v16" />
+  <link rel="stylesheet" href="visual-refresh.css?v=20260822_v16" />
+  <link rel="stylesheet" href="local-fixes.css?v=20260822_v16" />
+  <link rel="stylesheet" href="profit-calculator.css?v=20260822_v16" />
+</head>
 
-        <section id="admin-view" class="view">
-          <div class="admin-head" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
-            <div><p class="eyebrow">KIFUN MATCHA · WORKSPACE</p><h1>Control panel</h1></div>
-            <div style="display:flex;align-items:center;gap:10px;">
-              <p class="muted" style="margin:0;">ซิงก์กับ Supabase Cloud</p>
-              <button class="secondary-btn" id="admin-logout-btn" style="padding:6px 12px;font-size:12px;border-radius:8px;">🚪 ออกจากระบบ</button>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#customer" aria-label="Kifun Matcha home">
+        <span class="brand-mark" id="brand-mark">🍃</span>
+        <span><b id="brand-name">KIFUN</b><small id="brand-subline">MATCHA</small></span>
+      </a>
+      <nav class="mode-switch" aria-label="เปลี่ยนหน้าจอ">
+        <button class="mode-btn active" data-mode="customer">เมนูลูกค้า</button>
+        <button class="mode-btn" data-mode="admin">Control panel</button>
+      </nav>
+      <button class="icon-btn" id="reset-demo" title="คืนค่าข้อมูลตัวอย่าง">↺</button>
+    </header>
+
+    <main>
+      <section id="customer-view" class="view active">
+        <div class="customer-head">
+          <div>
+            <p class="eyebrow">KIFUN MATCHA · MENU</p>
+            <h1>เลือกชาในแบบของคุณ</h1>
+            <p class="muted">เมนูของคุณ — ข้อมูลซิงก์กับ Supabase อัตโนมัติ</p>
+          </div>
+          <div class="status-pill"><i></i> เปิดรับชมเมนู</div>
+        </div>
+        <div class="menu-channel-tabs" role="tablist" aria-label="เลือกราคาขาย">
+          <button class="channel-btn active" data-channel="store">หน้าร้าน <small>ราคาปกติ</small></button>
+          <button class="channel-btn" data-channel="lineman">LINE MAN <small>รวมค่าคอมฯ แล้ว</small></button>
+        </div>
+        <div class="customer-layout">
+          <section>
+            <div class="section-title">
+              <h2>Drinks menu</h2><span id="available-count"></span>
             </div>
+            <div id="menu-grid" class="menu-grid"></div>
+            <div class="section-title snack-title">
+              <h2>Sweets & side</h2><span>ขายจริงแล้ว</span>
+            </div>
+            <div id="snack-grid" class="menu-grid snack-grid"></div>
+          </section>
+          <aside class="selection-panel" aria-live="polite">
+            <div class="selection-empty" id="selection-empty">
+              <span class="empty-art">🍵</span>
+              <h2>แตะเมนูเพื่อปรับแก้ว</h2>
+              <p>อ่าน Test note ของชา เลือกความหวานและนม แล้วระบบจะคำนวณราคาให้ทันที</p>
+            </div>
+            <div id="customizer" hidden></div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="admin-view" class="view">
+        <div class="admin-head"
+          style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+          <div>
+            <p class="eyebrow">KIFUN MATCHA · WORKSPACE</p>
+            <h1>Control panel</h1>
           </div>
-          <div id="kpi-row" class="kpi-row"></div>
-          <div class="admin-tabs" role="tablist">
-            <button class="tab-btn active" data-tab="menu">เมนูขาย</button>
-            <button class="tab-btn" data-tab="homeedit">แก้หน้า Home</button>
-            <button class="tab-btn" data-tab="sales">บันทึกขายจริง</button>
-            <button class="tab-btn" data-tab="stock">สต็อก + ประวัติ</button>
-            <button class="tab-btn" data-tab="suppliers">Supplier + Base</button>
-            <button class="tab-btn" data-tab="top10">Top 10 แนะนำ ⭐</button>
-            <button class="tab-btn" data-tab="equipment">อุปกรณ์ & แพ็ก</button>
-            <button class="tab-btn" data-tab="profit">คำนวณกำไร</button>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <p class="muted" style="margin:0;">ซิงก์กับ Supabase Cloud</p>
+            <button class="secondary-btn" id="admin-logout-btn"
+              style="padding:6px 12px;font-size:12px;border-radius:8px;">🚪 ออกจากระบบ</button>
           </div>
-          <section id="admin-content"></section>
-        </section>
-      </main>
-    </div>
-    <div id="toast" role="status" aria-live="polite"></div>
-    <dialog id="action-dialog"></dialog>
-    <script src="app.js?v=20260822_v16"></script>
-    <script type="module" src="main.js?v=20260822_v16"></script>
-  </body>
+        </div>
+        <div id="kpi-row" class="kpi-row"></div>
+        <div class="admin-tabs" role="tablist">
+          <button class="tab-btn active" data-tab="menu">เมนูขาย</button>
+          <button class="tab-btn" data-tab="homeedit">แก้หน้า Home</button>
+          <button class="tab-btn" data-tab="sales">บันทึกขายจริง</button>
+          <button class="tab-btn" data-tab="stock">สต็อก + ประวัติ</button>
+          <button class="tab-btn" data-tab="suppliers">Supplier & Top 10 ⭐</button>
+          <button class="tab-btn" data-tab="equipment">อุปกรณ์ & แพ็ก</button>
+          <button class="tab-btn" data-tab="profit">คำนวณกำไร</button>
+        </div>
+        <section id="admin-content"></section>
+      </section>
+    </main>
+  </div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <dialog id="action-dialog"></dialog>
+  <script src="app.js?v=20260822_v17"></script>
+  <script type="module" src="main.js?v=20260822_v17"></script>
+</body>
+
 </html>
