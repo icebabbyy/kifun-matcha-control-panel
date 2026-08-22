@@ -273,9 +273,6 @@ function drinkVisual(menu){
 }
 
 function render(){
-  if (activeMode === "admin" && !isAdminAuthenticated()) {
-    activeMode = "customer";
-  }
   document.querySelectorAll(".mode-btn").forEach(b=>b.classList.toggle("active",b.dataset.mode===activeMode));
   document.querySelector("#customer-view").classList.toggle("active",activeMode==="customer");
   document.querySelector("#admin-view").classList.toggle("active",activeMode==="admin");
