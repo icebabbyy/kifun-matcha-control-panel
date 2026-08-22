@@ -856,7 +856,14 @@ function renderAdmin() {
     kpiRow.innerHTML = `<div class="kpi emphasis"><small>ยอดขายที่บันทึก</small><b>${money(revenue)}</b></div><div class="kpi"><small>กำไรโดยประมาณ</small><b>${money(profit)}</b></div><div class="kpi"><small>จำนวนแก้ว/ชิ้น</small><b>${state.sales.reduce((sum,sale)=>sum+sale.qty,0)}</b></div><div class="kpi"><small>สต็อกต้องดู</small><b>${low} รายการ</b></div>`;
   }
   document.querySelectorAll(".tab-btn").forEach(button=>button.classList.toggle("active",button.dataset.tab===activeTab));
-  out.innerHTML = activeTab==="menu"?menuTab():activeTab==="sales"?salesTab():activeTab==="stock"?stockTab():activeTab==="suppliers"?supplierTab():activeTab==="top10"?top10Tab():equipmentTab();
+  
+  if (activeTab === "menu") out.innerHTML = menuTab();
+  else if (activeTab === "homeedit" && typeof homeEditorTab === "function") out.innerHTML = homeEditorTab();
+  else if (activeTab === "sales") out.innerHTML = salesTab();
+  else if (activeTab === "stock") out.innerHTML = stockTab();
+  else if (activeTab === "suppliers") { out.innerHTML = supplierTab(); renderSupplierCatalog(); }
+  else if (activeTab === "top10") out.innerHTML = top10Tab();
+  else out.innerHTML = equipmentTab();
 }
 const PACKAGING_ITEMS = new Set(["12oz cup + lid set","22oz cup (free)","Cold whisk pouch 200ml","Cold whisk pouch 250ml","Cup bag 12×11+1","Cup bag 6×11","6mm straw","3oz topping cup","Topping tray 98mm"]);
 function recordSale(menuId,powderKey,qty=1,sweetness=5,brew="clear",milk="Oat milk",channel="store",testOnly=false,size="12"){
@@ -1086,7 +1093,7 @@ function renderSupplierCatalog(filter=currentSupplierFilter){
  `;
 }
 
-const renderAdminV5=renderAdmin;renderAdmin=function(){renderAdminV5();if(activeTab==="suppliers")renderSupplierCatalog();};
+// Supplier catalog helpers
 /* Home is private-facing too: names, copy and prices are intentionally editable
    from the panel and the customer view only receives the house codenames. */
 const defaultHomeAliases={
@@ -1161,11 +1168,11 @@ if (state.schemaVersion !== 2) {
   state.schemaVersion = 2;
 }
 applyHomeEditor();
-function legacyHomeEditorTab(){
+function homeEditorTab(){
  const h=state.home.hero,b=state.home.brand;
  return `<div class="panel home-editor"><div class="panel-head"><div><h2>แก้หน้า Home</h2><p>ทุกช่องนี้เปลี่ยนหน้าเมนูทันทีในเบราว์เซอร์เครื่องนี้; ชื่อ supplier จะไม่ปรากฏฝั่ง Home</p></div></div><form id="home-editor-form"><section class="edit-section"><h3>ชื่อร้านและหัวหน้า Home</h3><div class="editor-grid"><label>สัญลักษณ์ร้าน<input name="brand-mark" value="${esc(b.mark)}"></label><label>ชื่อร้าน<input name="brand-name" value="${esc(b.name)}"></label><label>คำใต้ชื่อร้าน<input name="brand-subline" value="${esc(b.subline)}"></label><label>Eyebrow<input name="hero-eyebrow" value="${esc(h.eyebrow)}"></label><label>หัวเรื่อง<input name="hero-title" value="${esc(h.title)}"></label><label>คำอธิบาย<input name="hero-subtitle" value="${esc(h.subtitle)}"></label><label>สถานะ<input name="hero-status" value="${esc(h.status)}"></label></div></section><section class="edit-section"><h3>เมนู ราคา และสูตร</h3><div class="table-wrap"><table class="data-table editor-table"><thead><tr><th>เมนู</th><th>ชื่อไทย / คำอธิบาย</th><th>หน้าร้าน</th><th>LINE MAN</th><th>สูตรที่แสดง</th><th>Tag</th></tr></thead><tbody>${menus.map(menu=>{const edit=state.home.menus[menu.id];return `<tr><td><input name="menu-${menu.id}-name" value="${esc(edit.name)}"><small>${menu.id}</small></td><td><input name="menu-${menu.id}-thai" value="${esc(edit.thai)}"><input name="menu-${menu.id}-description" value="${esc(edit.description)}"></td><td><input name="menu-${menu.id}-store" type="number" min="0" value="${edit.store}"></td><td><input name="menu-${menu.id}-lineman" type="number" min="0" value="${edit.lineman}"></td><td><input name="menu-${menu.id}-recipe" value="${esc(edit.recipe)}"></td><td><input name="menu-${menu.id}-tag" value="${esc(edit.tag)}"></td></tr>`;}).join("")}</tbody></table></div></section><section class="edit-section"><h3>รหัส Matcha Test ที่ลูกค้าเห็น</h3><p class="muted">แก้รหัสและ taste note ได้ แต่ชื่อผงจริง/ชื่อ supplier จะไม่ขึ้นหน้า Home</p><div class="alias-editor">${Object.entries(defaultHomeAliases).map(([key,fallback])=>{const alias=homeAlias(key);return `<label><small>${key}</small><input name="alias-${key}-name" value="${esc(alias.name)}"><input name="alias-${key}-note" value="${esc(alias.note)}"></label>`;}).join("")}</div></section><button class="primary-btn">บันทึกหน้า Home</button></form></div>`;
 }
-const renderAdminV6=renderAdmin;renderAdmin=function(){renderAdminV6();if(activeTab==="homeedit")document.querySelector("#admin-content").innerHTML=homeEditorTab();};
+// Home editor helpers
 function maskHomeSupplierNames(){
  const customer=document.querySelector("#customer-view");if(!customer)return;const h=state.home.hero;
  const heading=customer.querySelector(".customer-head h1"),sub=customer.querySelector(".customer-head .muted"),eyebrow=customer.querySelector(".customer-head .eyebrow"),status=customer.querySelector(".status-pill"),brandName=document.querySelector("#brand-name"),brandSubline=document.querySelector("#brand-subline"),brandMark=document.querySelector("#brand-mark");if(heading)heading.textContent=h.title;if(sub)sub.textContent=h.subtitle;if(eyebrow)eyebrow.textContent=h.eyebrow;if(status)status.innerHTML=`<i></i> ${esc(h.status)}`;if(brandName)brandName.textContent=state.home.brand.name;if(brandSubline)brandSubline.textContent=state.home.brand.subline;if(brandMark)brandMark.textContent=state.home.brand.mark;document.title=`${state.home.brand.name} — Menu & Control Panel`;
