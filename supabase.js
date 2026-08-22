@@ -107,3 +107,51 @@ export async function uploadMenuImage(menuId, file) {
   const { data } = supabase.storage.from("menu-images").getPublicUrl(path);
   return data.publicUrl;
 }
+
+/* ── Native Supabase Authentication (Session & Cookie Persistence) ── */
+
+/** ดึง Session ล่าสุดที่บันทึกไว้ในเบราว์เซอร์อัตโนมัติ */
+export async function getAdminSession() {
+  try {
+    const { data, error } = await supabase.auth.getSession();
+    if (error) return null;
+    return data?.session || null;
+  } catch {
+    return null;
+  }
+}
+
+/** เข้าสู่ระบบ Admin ผ่าน Supabase Auth (Persistent Session) */
+export async function loginAdminWithSupabase(email, password) {
+  const cleanEmail = String(email || "admin@happihaus.com").trim();
+  const cleanPassword = String(password || "").trim();
+  
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: cleanEmail,
+    password: cleanPassword
+  });
+  
+  if (error) throw error;
+  return data.session;
+}
+
+/** ออกจากระบบ Supabase Auth */
+export async function logoutAdminWithSupabase() {
+  try {
+    await supabase.auth.signOut();
+  } catch (err) {
+    console.warn("[KIFUN] Sign out error:", err);
+  }
+}
+
+/** ตรวจสอบรหัสผ่าน Admin ผ่าน Supabase Auth */
+export async function verifyAdminPasscodeWithSupabase(passcode, email = "admin@happihaus.com") {
+  if (!passcode) return false;
+  try {
+    const session = await loginAdminWithSupabase(email, passcode);
+    return !!session;
+  } catch (authErr) {
+    console.warn("[KIFUN] Supabase Auth login failed:", authErr.message || authErr);
+    return false;
+  }
+}

@@ -5,7 +5,25 @@
    2. Comprehensive Dynamic Profit, Recipe, Packaging & Campaign Simulator
    ═══════════════════════════════════════════════════════════════ */
 
-import { supabase, fetchAppState, saveAppState, fetchPowders, uploadMenuImage } from "./supabase.js";
+import { 
+  supabase, 
+  fetchAppState, 
+  saveAppState, 
+  fetchPowders, 
+  uploadMenuImage, 
+  getAdminSession,
+  loginAdminWithSupabase,
+  logoutAdminWithSupabase,
+  verifyAdminPasscodeWithSupabase 
+} from "./supabase.js";
+
+window.__kifun_auth = {
+  getAdminSession,
+  loginAdminWithSupabase,
+  logoutAdminWithSupabase,
+  verifyPasscode: verifyAdminPasscodeWithSupabase
+};
+window.__kifun_verifyPasscode = verifyAdminPasscodeWithSupabase;
 
 /* Bridge to app.js globals (classic script) */
 const K = () => window.__kifun;
@@ -35,6 +53,17 @@ async function initSupabase() {
 
     supabaseReady = true;
     console.log("[KIFUN] Supabase connected");
+
+    // Restore persistent session from Supabase Auth / Cookie
+    try {
+      const session = await getAdminSession();
+      if (session) {
+        K().setAdminAuthenticated(true);
+        console.log("[KIFUN] Restored persistent admin session from Supabase Auth");
+      }
+    } catch (authErr) {
+      console.warn("[KIFUN] Session check:", authErr);
+    }
 
     // Load powders table
     try {

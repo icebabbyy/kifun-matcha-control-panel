@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#254d3d" />
     <title>KIFUN MATCHA — Menu & Control Panel</title>
-    <link rel="stylesheet" href="styles.css?v=20260821_v12" />
-    <link rel="stylesheet" href="visual-refresh.css?v=20260821_v12" />
-    <link rel="stylesheet" href="local-fixes.css?v=20260821_v12" />
-    <link rel="stylesheet" href="profit-calculator.css?v=20260821_v12" />
+    <link rel="stylesheet" href="styles.css?v=20260822_v14" />
+    <link rel="stylesheet" href="visual-refresh.css?v=20260822_v14" />
+    <link rel="stylesheet" href="local-fixes.css?v=20260822_v14" />
+    <link rel="stylesheet" href="profit-calculator.css?v=20260822_v14" />
   </head>
   <body>
     <div class="app-shell">
@@ -57,9 +57,12 @@
         </section>
 
         <section id="admin-view" class="view">
-          <div class="admin-head">
+          <div class="admin-head" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
             <div><p class="eyebrow">KIFUN MATCHA · WORKSPACE</p><h1>Control panel</h1></div>
-            <p class="muted">ข้อมูลซิงก์กับ Supabase · เปิดที่ไหนก็เห็นเหมือนกัน</p>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <p class="muted" style="margin:0;">ซิงก์กับ Supabase Cloud</p>
+              <button class="secondary-btn" id="admin-logout-btn" style="padding:6px 12px;font-size:12px;border-radius:8px;">🚪 ออกจากระบบ</button>
+            </div>
           </div>
           <div id="kpi-row" class="kpi-row"></div>
           <div class="admin-tabs" role="tablist">
@@ -78,7 +81,7 @@
     </div>
     <div id="toast" role="status" aria-live="polite"></div>
     <dialog id="action-dialog"></dialog>
-    <script src="app.js?v=20260821_v12"></script>
-    <script type="module" src="main.js?v=20260821_v12"></script>
+    <script src="app.js?v=20260822_v14"></script>
+    <script type="module" src="main.js?v=20260822_v14"></script>
   </body>
 </html>

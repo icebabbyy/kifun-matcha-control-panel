@@ -6,6 +6,7 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 // Comprehensive Catalog of Powders & Stock mapping
 const POWDER_CATALOG = {
   noko: { label: "NOKO", stock: "NOKO Premium Grade Nishio", aliases: ["noko", "โนโกะ", "nishio", "kome", "house"] },
+  ureshino: { label: "Ureshino Blend #2", stock: "Rinya Ureshino Premium #2", aliases: ["ureshino", "อุเรชิโนะ", "rinya", "รินยะ", "blend 2", "rinya 2", "ureshino blend"] },
   sukito: { label: "Sukito Kagoshima 03", stock: "Sukito Kagoshima 03", aliases: ["sukito", "สุกิโตะ", "yame", "ยาเมะ", "03", "saemidori"] },
   mie: { label: "Mie Matcha", stock: "Mie Matcha", aliases: ["mie", "มิเอะ", "sora", "โซระ", "kamu"] },
   mori: { label: "Harusaki Oku no Mori", stock: "Harusaki Oku no Mori", aliases: ["mori", "โมริ", "harusaki", "oku no mori", "ฮารุซากิ"] },
@@ -687,7 +688,8 @@ function openQuickDeductModal() {
           <div id="quick-tea-options" style="display:flex;flex-direction:column;gap:10px;">
             <label>ผงชา:
               <select id="quick-powder" style="width:100%;padding:9px;border-radius:6px;margin-top:4px;background:#254d3d;color:#fff;border:1px solid rgba(255,255,255,0.2);outline:none;">
-                <option value="noko">NOKO (House Base · Nishio)</option>
+                <option value="ureshino">Ureshino Blend #2 (Rinya House Base)</option>
+                <option value="noko">NOKO (House Base · เหลือ ~45g)</option>
                 <option value="sukito">Sukito Kagoshima 03 (YAME)</option>
                 <option value="mie">Mie Matcha (SORA)</option>
                 <option value="mori">Harusaki Oku no Mori</option>

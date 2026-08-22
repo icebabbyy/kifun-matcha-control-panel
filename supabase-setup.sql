@@ -69,8 +69,28 @@ drop policy if exists "menu_images_public_delete" on storage.objects;
 create policy "menu_images_public_delete" on storage.objects
   for delete using (bucket_id = 'menu-images');
 
+-- 3) Admin Authentication RPC Function
+-- Verifies admin passcode securely in PostgreSQL without exposing secrets to frontend.
+create or replace function public.verify_admin_passcode(passcode text)
+returns jsonb
+language plpgsql
+security definer
+as $$
+declare
+  is_valid boolean;
+begin
+  -- SHA-256 comparison in Postgres (happi888)
+  is_valid := (encode(digest(passcode, 'sha256'), 'hex') = '6e2133e769ec106f6e964854c8235a15f7b417bcd72148c86d590d0428ae24f3');
+  if is_valid then
+    return jsonb_build_object('success', true, 'session_token', md5(passcode || now()::text));
+  else
+    return jsonb_build_object('success', false, 'error', 'Invalid passcode');
+  end if;
+end;
+$$;
+
+grant execute on function public.verify_admin_passcode(text) to anon, authenticated;
+
 -- ── Notes ──────────────────────────────────────────────────────
--- The app (main.js) only uses `app_state` + `menu-images`.  The other
--- tables/views in supabase.js (customer_menu, powders, sales, etc.) are
--- unused legacy helpers and are NOT required for the app to work.
--- If you later want to use them, create them separately.
+-- The app (main.js) uses `app_state` + `menu-images` + `verify_admin_passcode`.
+-- Run this entire script in Supabase SQL Editor to enable all features.

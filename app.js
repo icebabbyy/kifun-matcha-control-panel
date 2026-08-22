@@ -12,7 +12,8 @@ const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({
 }[char]));
 
 const powders = {
-  noko: { label: "NOKO", stock: "NOKO Premium Grade Nishio", priceAdd: 0, cost: 3.71, note: "House base · นุ่ม ดื่มง่าย" },
+  noko: { label: "NOKO", stock: "NOKO Premium Grade Nishio", priceAdd: 0, cost: 3.71, note: "House base · นุ่ม ดื่มง่าย (เหลือ ~45g)" },
+  ureshino: { label: "Ureshino Blend #2", stock: "Rinya Ureshino Premium #2", priceAdd: 0, cost: 4.60, note: "Rinya · ถั่วนึ่ง ฟลอรัล ขมน้อย · Base ชาใส & ลาเต้" },
   sukito: { label: "Sukito Kagoshima 03", stock: "Sukito Kagoshima 03", priceAdd: 15, cost: 15, note: "Floral–nutty · ลงนมดี" },
   mie: { label: "Mie Matcha", stock: "Mie Matcha", priceAdd: 0, cost: 10.433, note: "Umami–nutty · smooth" },
   horii: { label: "Horii Uji Mukashi", stock: "Horii Uji Mukashi", priceAdd: 0, cost: 27, note: "Uji · กลิ่นชาสด, umami นุ่ม, savory ปลายเล็กน้อย" },
@@ -36,7 +37,8 @@ const snacks = [
 const defaultState = () => ({
   menuStatus: Object.fromEntries(menus.map(m => [m.id, true])),
   stock: [
-    { name:"NOKO Premium Grade Nishio", unit:"g", qty:100, cost:3.71, min:20, source:"ชีท · ฿371 / 100g" },
+    { name:"NOKO Premium Grade Nishio", unit:"g", qty:45, cost:3.71, min:20, source:"อัปเดตเหลือ 40-45g · ฿371 / 100g" },
+    { name:"Rinya Ureshino Premium #2", unit:"g", qty:1000, cost:4.60, min:100, source:"ซื้อแล้ว · ฿4,600 / 1,000g (ใช้เป็น base ชาได้ กิน clear รอด)" },
     { name:"Sukito Kagoshima 03", unit:"g", qty:24, cost:15, min:10, source:"ชีท · ฿450 / 30g" },
     { name:"Mie Matcha", unit:"g", qty:15, cost:10.433, min:8, source:"ชีท · ฿313 / 30g" },
     { name:"Horii Uji Mukashi", unit:"g", qty:20, cost:27, min:6, source:"ชีท · ฿540 / 20g" },
@@ -69,15 +71,14 @@ const defaultState = () => ({
 });
 let state = defaultState();
 let activeMode = "customer", activeTab = "menu";
-let selection = { kind:"drink", menuId:null, powder:"noko", milk:"M Milk", sweetness:5, brew:"clear", size:"12", channel:"store", qty:1 };
+let selection = { kind:"drink", menuId:null, powder:"ureshino", milk:"M Milk", sweetness:5, brew:"clear", size:"12", channel:"store", qty:1 };
 
-/* ── Admin Gate Authentication (Passcode: happi888) ──────────── */
-const ADMIN_PASSCODE = "happi888";
-const ADMIN_AUTH_KEY = "happihaus_admin_auth";
+/* ── Admin Gate Authentication (Supabase Auth Backend) ──────────── */
+const ADMIN_AUTH_KEY = "happihaus_admin_session";
 
 function isAdminAuthenticated() {
   try {
-    return localStorage.getItem(ADMIN_AUTH_KEY) === "true";
+    return localStorage.getItem(ADMIN_AUTH_KEY) === "true" || sessionStorage.getItem(ADMIN_AUTH_KEY) === "true";
   } catch {
     return false;
   }
@@ -85,22 +86,44 @@ function isAdminAuthenticated() {
 
 function setAdminAuthenticated(val) {
   try {
-    if (val) localStorage.setItem(ADMIN_AUTH_KEY, "true");
-    else localStorage.removeItem(ADMIN_AUTH_KEY);
+    if (val) {
+      localStorage.setItem(ADMIN_AUTH_KEY, "true");
+      sessionStorage.setItem(ADMIN_AUTH_KEY, "true");
+    } else {
+      localStorage.removeItem(ADMIN_AUTH_KEY);
+      sessionStorage.removeItem(ADMIN_AUTH_KEY);
+      if (window.__kifun_auth?.logoutAdminWithSupabase) {
+        window.__kifun_auth.logoutAdminWithSupabase();
+      }
+    }
   } catch (e) {
     console.warn(e);
   }
+}
+
+async function verifyPasscode(val) {
+  if (typeof window.__kifun_verifyPasscode === "function") {
+    return await window.__kifun_verifyPasscode(val);
+  }
+  return false;
 }
 
 function promptAdminPasscode(onSuccess) {
   const dialog = document.querySelector("#action-dialog");
   if (!dialog) {
     const input = prompt("กรุณากรอกรหัสผ่านเพื่อเข้าสู่ Control Panel:");
-    if (input === ADMIN_PASSCODE) {
-      setAdminAuthenticated(true);
-      if (onSuccess) onSuccess();
+    if (input) {
+      verifyPasscode(input.trim()).then((isValid) => {
+        if (isValid) {
+          setAdminAuthenticated(true);
+          if (onSuccess) onSuccess();
+        } else {
+          toast("รหัสผ่านไม่ถูกต้อง หรือเชื่อมต่อ Supabase ล้มเหลว");
+          activeMode = "customer";
+          render();
+        }
+      });
     } else {
-      if (input !== null && input !== "") toast("รหัสผ่านไม่ถูกต้อง");
       activeMode = "customer";
       render();
     }
@@ -134,10 +157,15 @@ function promptAdminPasscode(onSuccess) {
 
   const form = dialog.querySelector("#admin-auth-form");
   if (form) {
-    form.onsubmit = (e) => {
+    form.onsubmit = async (e) => {
       e.preventDefault();
+      const submitBtn = form.querySelector("button[type='submit']");
+      if (submitBtn) submitBtn.disabled = true;
       const val = inputEl ? inputEl.value.trim() : "";
-      if (val === ADMIN_PASSCODE) {
+      const isValid = await verifyPasscode(val);
+      if (submitBtn) submitBtn.disabled = false;
+      
+      if (isValid) {
         setAdminAuthenticated(true);
         dialog.close();
         toast("ยืนยันตัวตนสำเร็จ เข้าสู่ Control panel");
@@ -197,7 +225,7 @@ function stockAvailable(name, amount){ const row=getStock(name); return row && r
 function legacyPowderChoices(menu){
   if(menu.type === "premium") return ["horii","marukyu"];
   if(menu.type === "hojicha") return ["hojicha"];
-  return ["noko","sukito","mie"];
+  return ["noko","ureshino","sukito","mie"];
 }
 function legacyMilkRecipe(milk, ml){
   if(milk === "Mixed!") return [{name:"MM Milk",qty:ml*.6},{name:"Goodmate oat milk",qty:ml*.4}];
@@ -292,7 +320,7 @@ function legacyRenderAdmin(){
 function legacyMenuTab(){return `<div class="panel"><div class="panel-head"><div><h2>เมนูที่แสดงฝั่งลูกค้า</h2><p>ปิดเมนูแล้วลูกค้าจะเห็นสถานะปิดขายทันที</p></div></div><div class="table-wrap"><table class="data-table"><thead><tr><th>เมนู</th><th>ราคาเริ่ม</th><th>ต้นทุนฐาน</th><th>กำไรหลัง GP</th><th>สถานะ</th></tr></thead><tbody>${menus.map(m=>{const c=calc(m,powderChoices(m)[0],"Oat milk",5,"clear"),on=state.menuStatus[m.id];return `<tr><td><b>${m.name}</b><small class="muted">${m.art}</small></td><td>${money(c.price)}</td><td>${money(c.cost)}${c.known?"":"*"}</td><td class="${c.known?"profit-good":"profit-wait"}">${c.known?money(c.profit):"รอยืนยันบางต้นทุน"}</td><td><button class="switch ${on?"on":""}" data-toggle-menu="${m.id}" aria-label="${on?"ปิด":"เปิด"} ${m.name}"><span></span></button> ${on?"เปิดขาย":"ปิดขาย"}</td></tr>`}).join("")}</tbody></table></div><p class="muted" style="font-size:11px;margin:15px 0 0">* Coconut foam ยังมีวัตถุดิบบางส่วนรอยืนยันทุนจริง</p></div>`;}
 function legacySalesTab(){
   const rows=state.sales.length?state.sales.slice().reverse().map(s=>`<tr><td>${s.at}</td><td><b>${s.menu}</b><br><small>${s.powder} · ${s.sweetness}g</small></td><td>${s.qty}</td><td>${money(s.price*s.qty)}</td><td class="${s.known?"profit-good":"profit-wait"}">${s.known?money(s.profit*s.qty):"รอต้นทุน"}</td></tr>`).join(""):`<tr><td colspan="5" class="muted">ยังไม่มีรายการ — บันทึกขายตัวอย่างได้จากแถบด้านบน</td></tr>`;
-  return `<div class="split-grid"><div class="panel"><div class="panel-head"><div><h2>บันทึกขายจริง</h2><p>กดบันทึกแล้วตัดผง นม และแพ็กตามสูตรทันที</p></div></div><form id="sale-form" class="sale-form"><select name="menu">${menus.map(m=>`<option value="${m.id}">${m.name}</option>`).join("")}</select><select name="powder"><option value="noko">NOKO</option><option value="sukito">Sukito +15</option><option value="mie">Mie</option><option value="horii">Horii</option><option value="marukyu">Marukyu</option><option value="hojicha">Hoho Hojicha</option></select><select name="brew"><option value="clear">Clear</option><option value="latte">Latte</option><option value="coldwhisk">Cold Whisk</option></select><input name="qty" type="number" min="1" value="1" aria-label="จำนวน"/><button class="primary-btn">บันทึกขาย</button></form><p class="muted" style="font-size:12px">ใช้หวานน้อย 5g เป็นค่าเริ่มต้น; Premium เลือก Clear / Latte / Cold Whisk ได้</p></div><div class="panel"><div class="panel-head"><div><h2>หลักคำนวณ</h2><p>อ้างอิงค่าซื้อจริงล่าสุด</p></div></div><p class="muted">ค่าหักแพลตฟอร์ม <b>32.1%</b> · Goodmate oat <b>฿0.095/ml</b> · Mixed! <b>+฿10</b> · น้ำมะพร้าว <b>฿0.115/ml</b></p><p class="muted">MM Milk หมดแล้ว จึงเลือก Mixed!/นมวัวไม่ได้จนกว่าจะบันทึกซื้อเข้า</p></div></div><div class="panel" style="margin-top:20px"><div class="panel-head"><div><h2>ประวัติการขาย</h2><p>${state.sales.length} รายการบันทึกแล้ว</p></div></div><div class="table-wrap"><table class="data-table"><thead><tr><th>เวลา</th><th>รายการ</th><th>แก้ว</th><th>ยอดขาย</th><th>กำไรหลัง GP</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+  return `<div class="split-grid"><div class="panel"><div class="panel-head"><div><h2>บันทึกขายจริง</h2><p>กดบันทึกแล้วตัดผง นม และแพ็กตามสูตรทันที</p></div></div><form id="sale-form" class="sale-form"><select name="menu">${menus.map(m=>`<option value="${m.id}">${m.name}</option>`).join("")}</select><select name="powder"><option value="noko">NOKO</option><option value="ureshino">Ureshino #2</option><option value="sukito">Sukito +15</option><option value="mie">Mie</option><option value="horii">Horii</option><option value="marukyu">Marukyu</option><option value="hojicha">Hoho Hojicha</option></select><select name="brew"><option value="clear">Clear</option><option value="latte">Latte</option><option value="coldwhisk">Cold Whisk</option></select><input name="qty" type="number" min="1" value="1" aria-label="จำนวน"/><button class="primary-btn">บันทึกขาย</button></form><p class="muted" style="font-size:12px">ใช้หวานน้อย 5g เป็นค่าเริ่มต้น; Premium เลือก Clear / Latte / Cold Whisk ได้</p></div><div class="panel"><div class="panel-head"><div><h2>หลักคำนวณ</h2><p>อ้างอิงค่าซื้อจริงล่าสุด</p></div></div><p class="muted">ค่าหักแพลตฟอร์ม <b>32.1%</b> · Goodmate oat <b>฿0.095/ml</b> · Mixed! <b>+฿10</b> · น้ำมะพร้าว <b>฿0.115/ml</b></p><p class="muted">MM Milk หมดแล้ว จึงเลือก Mixed!/นมวัวไม่ได้จนกว่าจะบันทึกซื้อเข้า</p></div></div><div class="panel" style="margin-top:20px"><div class="panel-head"><div><h2>ประวัติการขาย</h2><p>${state.sales.length} รายการบันทึกแล้ว</p></div></div><div class="table-wrap"><table class="data-table"><thead><tr><th>เวลา</th><th>รายการ</th><th>แก้ว</th><th>ยอดขาย</th><th>กำไรหลัง GP</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
 }
 function stockTab(){
  const options=state.stock.map(s=>`<option value="${s.name}">${s.name} (${s.unit})</option>`).join("");
@@ -379,11 +407,15 @@ let menuChannel="store";
 
 function validPowderKey(key){ return typeof key === "string" && Object.prototype.hasOwnProperty.call(powders,key); }
 function powderChoices(menu){
-  const choices = menu.powderKey ? [menu.powderKey] : menu.type==="hojicha" ? ["hojicha"] : ["noko","sukito","mie"];
-  // Older saved custom menus can retain a deleted powder key.  One invalid
-  // record must never prevent every card in the customer menu from rendering.
+  const choices = menu.powderKey 
+    ? [menu.powderKey, "ureshino"] 
+    : menu.type==="hojicha" 
+      ? ["hojicha", "ureshino"] 
+      : menu.type==="premium" 
+        ? ["horii", "marukyu", "ureshino"] 
+        : ["ureshino", "noko", "sukito", "mie"];
   const valid = choices.filter(validPowderKey);
-  return valid.length ? valid : ["noko"];
+  return valid.length ? valid : ["ureshino", "noko"];
 }
 function milkRecipe(milk,ml){ if(milk==="Mixed!") return [{name:"MM Milk",qty:ml*.6},{name:"Goodmate oat milk",qty:ml*.4}]; if(milk==="M Milk" || milk==="Fresh milk") return [{name:"MM Milk",qty:ml}]; return [{name:"Goodmate oat milk",qty:ml}]; }
 function milkCost(milk,ml){ const mCost = getStock("MM Milk")?.cost ?? getStock("M Milk")?.cost ?? 0.0485; const oCost = getStock("Goodmate oat milk")?.cost ?? 0.095; if(milk==="Mixed!") return ml*(.6*mCost+.4*oCost); if(milk==="M Milk" || milk==="Fresh milk" || milk==="MM Milk") return ml*mCost; return ml*oCost; }
@@ -518,10 +550,10 @@ const TOP_10_RECOMMENDED = [
     tester: "10g ฿80",
     origin: "Uji, Kyoto",
     cultivar: "Yabukita breeds",
-    taste: "โทน Uji ดื่มง่าย บอดี้โปร่ง ไม่ฝาดบาดคอ เหมาะเป็น Base ราคาประหยัด",
+    taste: "โทน Uji ดื่มง่าย บอดี้โปร่ง ไม่ฝาดบาดคอ หวานปลาย เหมาะเป็น Base ชาใส & ลาเต้",
     latteCost: 22.00,
     clearCost: 13.20,
-    recommend: "ตัวเลือก House Base ที่ถูกและคุ้มค่าที่สุดในกลุ่ม Uji (฿4.40/g) มี Tester 10g เพียง ฿80 ให้ลองชงได้ทันที"
+    recommend: "ตัวเลือก House Base ที่คุ้มค่าและปลอดภัยที่สุดเมื่อ NOKO หมด มี Tester 10g ฿80 ให้สั่งลองได้ทันที"
   },
   {
     rank: 2,
@@ -534,29 +566,13 @@ const TOP_10_RECOMMENDED = [
     tester: "500g ฿2,660 / ฿3,500/kg",
     origin: "Uji / Yame",
     cultivar: "Blends (Autumn Harvest)",
-    taste: "Grassy, High Body, Mild Bitter · บอดี้ชัด เหมาะทำเมนูชาเขียวเข้มข้นหรือขนม",
+    taste: "Grassy, High Body, Mild Bitter · บอดี้ชัด สู้นมดีมาก ทำเมนูเข้มข้นหรือขนมได้ดี",
     latteCost: 19.00,
     clearCost: 11.40,
-    recommend: "ราคาถูกที่สุดในบรรดาผงชาแท้จากญี่ปุ่น (฿3.50 - ฿3.80/g) ดึงต้นทุนต่อแก้วให้ต่ำกว่า ฿20 ได้อย่างแท้จริง"
+    recommend: "ผงชาแท้ราคาประหยัดที่สุดในตลาด (฿3.50 – ฿3.80/g) ดึงต้นทุนต่อแก้วให้ต่ำกว่า ฿20 ได้จริง"
   },
   {
     rank: 3,
-    supplier: "Rinya Matcha",
-    name: "Ureshino Premium Blend #2",
-    badge: "ALL-ROUND HERO",
-    tier: "base",
-    priceKg: 4600,
-    priceG: 4.60,
-    tester: "Tasting Session ฿500 (4 ท่าน)",
-    origin: "Ureshino, Saga",
-    cultivar: "Premium Blend",
-    taste: "ถั่วนึ่ง ฟลอรัล ขมน้อย สีเขียวสด ชง Clear / Latte / มะพร้าว ได้ครบเครื่อง",
-    latteCost: 23.00,
-    clearCost: 13.80,
-    recommend: "สารพัดประโยชน์ที่สุดในงบประหยัด ชงใสผ่าน ชงนมและมะพร้าวเด่นมาก แนะนำไปชิมที่ร้าน ฿500 ได้ลอง 10-15 ตัว"
-  },
-  {
-    rank: 4,
     supplier: "Toki Matcha",
     name: "Yame Starter A",
     badge: "BEST BUDGET YAME",
@@ -566,13 +582,13 @@ const TOP_10_RECOMMENDED = [
     tester: "10g ฿80",
     origin: "Yame, Fukuoka",
     cultivar: "Yabukita breeds",
-    taste: "ถั่วคั่วละมุน บอดี้สู้นมได้ดี รสเข้มข้นสไตล์ Yame",
+    taste: "ถั่วคั่วละมุน บอดี้สู้นมได้ดี รสเข้มข้นสไตล์ Yame ไม่ขมจัด",
     latteCost: 22.50,
     clearCost: 13.50,
-    recommend: "ชา Yame แท้ในราคา Base (฿4.50/g) สั่ง Tester 10g ฿80 มาเทียบกับ Uji Starter ได้เลย"
+    recommend: "ชา Yame แท้ในราคาเกรด Base (฿4.50/g) สั่ง Tester 10g ฿80 มาเทสต์เทียบกับ Uji Starter ได้เลย"
   },
   {
-    rank: 5,
+    rank: 4,
     supplier: "Osha Ocha Matcha",
     name: "Kagoshima P01",
     badge: "PROVEN MILK BODY",
@@ -585,23 +601,39 @@ const TOP_10_RECOMMENDED = [
     taste: "Dense body, rice milk, floral, nuts, avocado, mango sticky rice",
     latteCost: 26.35,
     clearCost: 15.81,
-    recommend: "บอดี้ในนมหนาแน่นที่สุด รสข้าวเหนียวมะม่วง ร้านดังบน LINE MAN ใช้จริง พิสูจน์แล้วว่าลูกค้าชอบ"
+    recommend: "บอดี้ในนมหนาแน่นที่สุด รสข้าวเหนียวมะม่วง+ถั่วนัว ให้มิติรสชาติเข้มข้นนัวนมใกล้เคียงชาถั่วตัวแพงอย่าง Pistachio Cookie แต่มาในราคาคุ้มค่ามากเพียง ฿5,270/kg (ประหยัดกว่าถึง ฿2,230/kg)"
   },
   {
-    rank: 6,
+    rank: 5,
     supplier: "TENJU",
     name: "Kagoshima Ceremonial",
-    badge: "BEST PACKAGING",
+    badge: "BEST FRESH PACKAGING",
     tier: "base",
     priceKg: 5550,
     priceG: 5.55,
-    tester: "ถุง 100g ฿565",
+    tester: "ถุง 100g ฿565 (ลัง 10 ถุง)",
     origin: "Kagoshima",
     cultivar: "Ceremonial Blend",
     taste: "Nutty, Creamy/Smooth, Matcha Aroma, Full Body (เกรดพิธีการ)",
     latteCost: 27.75,
     clearCost: 16.65,
     recommend: "บรรจุแยก 100g x 10 ถุง คุมความสดเยี่ยม ชาไม่เสื่อมสภาพ ชง Clear และ Latte ผ่านทั้งคู่"
+  },
+  {
+    rank: 6,
+    supplier: "Toki Matcha",
+    name: "Uji Premium",
+    badge: "SMOOTH ALL-ROUNDER",
+    tier: "base",
+    priceKg: 6000,
+    priceG: 6.00,
+    tester: "10g ฿90",
+    origin: "Uji, Kyoto",
+    cultivar: "Uji Yabukita Blend",
+    taste: "นุ่ม ละมุน ขมน้อยมาก สีเขียวสดใส ดื่มใส (Clear) หรือลาเต้ก็เด่น",
+    latteCost: 30.00,
+    clearCost: 18.00,
+    recommend: "อัปเกรดจาก Starter อีกระดับ ในราคาเพียง ฿6.00/g Tester แค่ ฿90 เหมาะชง Clear & Cold Whisk"
   },
   {
     rank: 7,
@@ -617,26 +649,10 @@ const TOP_10_RECOMMENDED = [
     taste: "Choco cream, nutty, avocado, hint of ocean (White Choc นัวๆ)",
     latteCost: 34.95,
     clearCost: 20.97,
-    recommend: "โปรไฟล์ตรงกับที่เจ้าของร้านชอบที่สุด (White Choc + Avocado) ในราคาเพียงครึ่งเดียวของ Haku"
+    recommend: "โปรไฟล์ตรงกับ White Choc + Avocado ในราคาเพียงครึ่งเดียวของ Haku ทำ Signature แก้วโปรดได้สบาย"
   },
   {
     rank: 8,
-    supplier: "Rinya Matcha",
-    name: "Yame Pistachio Cookie",
-    badge: "TOP COOKIE LATTE",
-    tier: "signature",
-    priceKg: 7500,
-    priceG: 7.50,
-    tester: "10g ฿170",
-    origin: "Hoshino, Yame",
-    cultivar: "Premium Blend",
-    taste: "จากหมู่บ้านโฮชิโนะ กลิ่นคุกกี้ถั่วอบเนยสด ครีมมี่ สู้นมดีเลิศ",
-    latteCost: 37.50,
-    clearCost: 22.50,
-    recommend: "กลิ่นหอมแบบขนมคุกกี้เนยสดชัดเจน เหมาะเป็น Signature Latte แก้วโปรดของร้าน"
-  },
-  {
-    rank: 9,
     supplier: "Wazuka Cha",
     name: "MC283 Yame Nutty Roasted",
     badge: "ROASTED NUTTY VALUE",
@@ -649,7 +665,23 @@ const TOP_10_RECOMMENDED = [
     taste: "Nutty, roasted cacao, lightly smoky butter, medium-dense body",
     latteCost: 34.78,
     clearCost: 20.87,
-    recommend: "ตัวเลือกสาย Nutty Cacao สำหรับลาเต้ที่คุ้มราคาที่สุดในตระกูล Wazuka"
+    recommend: "ตัวเลือกสาย Nutty Cacao สำหรับลาเต้ที่คุ้มราคาที่สุดในตระกูล Wazuka สู้นมดีมาก"
+  },
+  {
+    rank: 9,
+    supplier: "Rinya Matcha",
+    name: "Yame Pistachio Cookie",
+    badge: "TOP COOKIE LATTE",
+    tier: "signature",
+    priceKg: 7500,
+    priceG: 7.50,
+    tester: "10g ฿170",
+    origin: "Hoshino, Yame",
+    cultivar: "Premium Blend",
+    taste: "จากหมู่บ้านโฮชิโนะ กลิ่นคุกกี้ถั่วอบเนยสด ครีมมี่ สู้นมดีเลิศ",
+    latteCost: 37.50,
+    clearCost: 22.50,
+    recommend: "กลิ่นหอมขนมคุกกี้เนยสดชัดเจน อร่อยมากสำหรับ Signature แก้วพิเศษ (สั่งจาก Rinya เจ้าเดียวกันได้) แต่ถ้างบเน้นความคุ้มค่า Osha Ocha P01 (฿5,270/kg) ให้ความนัวสู้นมได้คุ้มราคากว่ามาก"
   },
   {
     rank: 10,
@@ -674,23 +706,23 @@ function top10Tab() {
     <div class="panel">
       <div class="panel-head">
         <div>
-          <h2>⭐ Top 10 ผงชาที่ควรซื้อ / ลองเทสต์มากที่สุด</h2>
-          <p>คัดเลือกและจัดอันดับจากทุก Supplier (Rinya, Toki, Osha Ocha, TENJU, Sukito, Midocha) อัปเดตล่าสุด</p>
+          <h2>⭐ Top 10 ผงชาที่ควรซื้อต่อไป / ลองเทสต์มากที่สุด (เมื่อ NOKO หมด)</h2>
+          <p>คัดเลือกและจัดอันดับใหม่จากทุก Supplier (ตัด Ureshino Rinya ออกเนื่องจากซื้อแล้ว ฿4,600/kg)</p>
         </div>
       </div>
 
       <div class="top10-tier-overview" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 20px;">
         <div style="background: rgba(163, 230, 53, 0.1); border: 1px solid rgba(163, 230, 53, 0.3); border-radius: 8px; padding: 12px;">
-          <h4 style="margin: 0 0 4px 0; color: #4ade80;">🟢 กลุ่ม House Base (฿4.4 – ฿5.5/g)</h4>
-          <p style="margin: 0; font-size: 12px; color: var(--text-muted, #888);">#1 Toki Uji A, #2 Rinya #2, #3 Toki Yame A, #4 P01, #5 TENJU</p>
+          <h4 style="margin: 0 0 4px 0; color: #4ade80;">🟢 กลุ่ม Next Base Candidates (฿3.5 – ฿6.0/g)</h4>
+          <p style="margin: 0; font-size: 12px; color: var(--text-muted, #888);">#1 Toki Uji A, #2 Koyo Hajime, #3 Toki Yame A, #4 P01, #5 TENJU, #6 Toki Uji Prem</p>
         </div>
         <div style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 12px;">
-          <h4 style="margin: 0 0 4px 0; color: #38bdf8;">🔵 กลุ่ม Signature & Nutty (฿6.9 – ฿9.5/g)</h4>
-          <p style="margin: 0; font-size: 12px; color: var(--text-muted, #888);">#6 Yame Saemidori, #7 Pistachio Cookie, #8 Sukito Cafe, #9 Souwu</p>
+          <h4 style="margin: 0 0 4px 0; color: #38bdf8;">🔵 กลุ่ม Signature & Nutty Hero (฿6.9 – ฿7.9/g)</h4>
+          <p style="margin: 0; font-size: 12px; color: var(--text-muted, #888);">#7 Yame Saemidori, #8 Wazuka Nutty, #9 Pistachio Cookie, #10 Sukito Cafe</p>
         </div>
         <div style="background: rgba(244, 114, 182, 0.1); border: 1px solid rgba(244, 114, 182, 0.3); border-radius: 8px; padding: 12px;">
-          <h4 style="margin: 0 0 4px 0; color: #f472b6;">🟣 กลุ่ม Special Guest (฿12 – ฿19/g)</h4>
-          <p style="margin: 0; font-size: 12px; color: var(--text-muted, #888);">#10 Midocha MOMO (Peach) & Haku Mellow</p>
+          <h4 style="margin: 0 0 4px 0; color: #f472b6;">🍵 ชา Base ประจำร้านปัจจุบัน</h4>
+          <p style="margin: 0; font-size: 12px; color: var(--text-muted, #888);">✅ Ureshino Blend #2 (Rinya ฿4.60/g) + NOKO (เหลือ ~45g)</p>
         </div>
       </div>
 
@@ -732,7 +764,103 @@ function top10Tab() {
   `;
 }
 
-function renderAdmin(){const revenue=state.sales.reduce((sum,sale)=>sum+sale.price*sale.qty,0),profit=state.sales.reduce((sum,sale)=>sum+sale.profit*sale.qty,0),low=state.stock.filter(item=>item.qty<=item.min).length;document.querySelector("#kpi-row").innerHTML=`<div class="kpi emphasis"><small>ยอดขายที่บันทึก</small><b>${money(revenue)}</b></div><div class="kpi"><small>กำไรโดยประมาณ</small><b>${money(profit)}</b></div><div class="kpi"><small>จำนวนแก้ว/ชิ้น</small><b>${state.sales.reduce((sum,sale)=>sum+sale.qty,0)}</b></div><div class="kpi"><small>สต็อกต้องดู</small><b>${low} รายการ</b></div>`;document.querySelectorAll(".tab-btn").forEach(button=>button.classList.toggle("active",button.dataset.tab===activeTab));const out=document.querySelector("#admin-content");out.innerHTML=activeTab==="menu"?menuTab():activeTab==="sales"?salesTab():activeTab==="stock"?stockTab():activeTab==="suppliers"?supplierTab():activeTab==="top10"?top10Tab():equipmentTab();}
+function renderAdmin() {
+  const kpiRow = document.querySelector("#kpi-row");
+  const tabs = document.querySelector(".admin-tabs");
+  const logoutBtn = document.querySelector("#admin-logout-btn");
+  const out = document.querySelector("#admin-content");
+  if (!out) return;
+
+  if (!isAdminAuthenticated()) {
+    if (kpiRow) kpiRow.style.display = "none";
+    if (tabs) tabs.style.display = "none";
+    if (logoutBtn) logoutBtn.style.display = "none";
+    out.innerHTML = `
+      <div class="admin-login-wrap">
+        <div class="admin-login-card">
+          <div class="login-icon">🔒</div>
+          <h2>เข้าสู่ระบบ Control Panel</h2>
+          <p>ยืนยันตัวตนผ่าน Supabase Database</p>
+          <form id="admin-login-screen-form" class="admin-login-form">
+            <label>
+              <span>อีเมลผู้ดูแลร้าน</span>
+              <input type="email" id="login-email-input" value="admin@happihaus.com" required placeholder="admin@happihaus.com" autocomplete="username">
+            </label>
+            <label>
+              <span>รหัสผ่าน</span>
+              <input type="password" id="login-pass-input" required placeholder="กรอกรหัสผ่าน" autocomplete="current-password" autofocus>
+            </label>
+            <div id="login-error-box" class="error-box">อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่</div>
+            <button type="submit" class="primary-btn" id="login-submit-btn" style="padding:12px;font-size:14px;margin-top:4px;">เข้าสู่ระบบ ➔</button>
+          </form>
+        </div>
+      </div>
+    `;
+    const loginForm = out.querySelector("#admin-login-screen-form");
+    if (loginForm) {
+      loginForm.onsubmit = async (e) => {
+        e.preventDefault();
+        const submitBtn = loginForm.querySelector("#login-submit-btn");
+        const emailInput = loginForm.querySelector("#login-email-input");
+        const passInput = loginForm.querySelector("#login-pass-input");
+        const errBox = loginForm.querySelector("#login-error-box");
+        
+        if (errBox) errBox.style.display = "none";
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = "กำลังตรวจสอบกับ Supabase...";
+        }
+
+        const email = emailInput?.value.trim() || "admin@happihaus.com";
+        const password = passInput?.value.trim() || "";
+
+        let success = false;
+        try {
+          if (window.__kifun_auth?.loginAdminWithSupabase) {
+            const session = await window.__kifun_auth.loginAdminWithSupabase(email, password);
+            success = !!session;
+          }
+        } catch (err) {
+          console.warn("Login failed:", err);
+        }
+
+        if (success) {
+          setAdminAuthenticated(true);
+          toast("เข้าสู่ระบบสำเร็จ");
+          render();
+        } else {
+          if (errBox) {
+            errBox.textContent = "อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่";
+            errBox.style.display = "block";
+          }
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "เข้าสู่ระบบ ➔";
+          }
+          if (passInput) {
+            passInput.value = "";
+            passInput.focus();
+          }
+        }
+      };
+    }
+    return;
+  }
+
+  // When authenticated:
+  if (kpiRow) kpiRow.style.display = "grid";
+  if (tabs) tabs.style.display = "flex";
+  if (logoutBtn) logoutBtn.style.display = "inline-block";
+
+  const revenue = state.sales.reduce((sum,sale)=>sum+sale.price*sale.qty,0);
+  const profit = state.sales.reduce((sum,sale)=>sum+sale.profit*sale.qty,0);
+  const low = state.stock.filter(item=>item.qty<=item.min).length;
+  if (kpiRow) {
+    kpiRow.innerHTML = `<div class="kpi emphasis"><small>ยอดขายที่บันทึก</small><b>${money(revenue)}</b></div><div class="kpi"><small>กำไรโดยประมาณ</small><b>${money(profit)}</b></div><div class="kpi"><small>จำนวนแก้ว/ชิ้น</small><b>${state.sales.reduce((sum,sale)=>sum+sale.qty,0)}</b></div><div class="kpi"><small>สต็อกต้องดู</small><b>${low} รายการ</b></div>`;
+  }
+  document.querySelectorAll(".tab-btn").forEach(button=>button.classList.toggle("active",button.dataset.tab===activeTab));
+  out.innerHTML = activeTab==="menu"?menuTab():activeTab==="sales"?salesTab():activeTab==="stock"?stockTab():activeTab==="suppliers"?supplierTab():activeTab==="top10"?top10Tab():equipmentTab();
+}
 const PACKAGING_ITEMS = new Set(["12oz cup + lid set","22oz cup (free)","Cold whisk pouch 200ml","Cold whisk pouch 250ml","Cup bag 12×11+1","Cup bag 6×11","6mm straw","3oz topping cup","Topping tray 98mm"]);
 function recordSale(menuId,powderKey,qty=1,sweetness=5,brew="clear",milk="Oat milk",channel="store",testOnly=false,size="12"){
  const menu=getMenu(menuId);
@@ -966,6 +1094,7 @@ const renderAdminV5=renderAdmin;renderAdmin=function(){renderAdminV5();if(active
    from the panel and the customer view only receives the house codenames. */
 const defaultHomeAliases={
   noko:{name:"KOME",note:"เนียนนุ่ม · ถั่วอ่อน · umami เบา"},
+  ureshino:{name:"URESHINO",note:"ถั่วนึ่ง · ฟลอรัล · ชาใส & ลาเต้ ดื่มง่าย"},
   sukito:{name:"YAME",note:"floral บาง · ครีมมี่ · ถั่วทอง"},
   mie:{name:"SORA",note:"smooth · umami ชัด · nutty · หวานเบา"},
   mori:{name:"Harusaki Oku no Mori",note:"สดใส · umami นุ่ม · หวานธรรมชาติ"},
@@ -1260,16 +1389,14 @@ function importData(file) {
 document.addEventListener("click", (event) => {
   const button = event.target.closest("button"); if (!button) return;
   if (button.classList.contains("mode-btn")) {
-    const targetMode = button.dataset.mode;
-    if (targetMode === "admin" && !isAdminAuthenticated()) {
-      promptAdminPasscode(() => {
-        activeMode = "admin";
-        render();
-      });
-      return;
-    }
-    activeMode = targetMode;
+    activeMode = button.dataset.mode;
     render();
+  }
+  else if (button.id === "admin-logout-btn") {
+    setAdminAuthenticated(false);
+    activeMode = "customer";
+    render();
+    toast("ออกจากระบบ Admin เรียบร้อยแล้ว");
   }
   else if (button.classList.contains("tab-btn")) { activeTab = button.dataset.tab; render(); }
   else if (button.classList.contains("channel-btn")) { menuChannel = button.dataset.channel; selection.channel = menuChannel; renderCustomer(); }
@@ -1383,7 +1510,7 @@ const SHEET_ANCHORS = {
 /* ② ส่วนต่างตามผง — สูตรเดียวกับชีทเป๊ะ ๆ
       store = MROUND((฿/g ของผง − ฿/g NOKO) × โดส, 5)
       app   = MROUND(store / (1 − GP), 5)   ·   GP = 32.1%  */
-const UPLIFT_BASES = ["noko", "mie", "sukito"];
+const UPLIFT_BASES = ["noko", "ureshino", "mie", "sukito"];
 const round5 = (n) => Math.round(n / 5) * 5;
 
 function upliftFor(powderKey, doseG, channel) {
