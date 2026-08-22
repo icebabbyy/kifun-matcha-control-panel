@@ -372,21 +372,21 @@ Object.assign(powders.marukyu,{priceAdd:0});
 Object.assign(powders.lumi,{priceAdd:0});
 Object.assign(powders.silk,{priceAdd:0});
 menus.splice(0, menus.length,
-  {id:"latte",name:"Matcha Latte",thai:"มัทฉะลาเต้",icon:"🥛",base:99,lineman:149,powderG:5,type:"base",milk:true,sweetness:true,sizes:["12","22"],art:"12oz: 5g · น้ำ 50ml · นม 100ml",description:"นมวัวเป็น base; เปลี่ยนเป็นนมโอ๊ตได้",tag:"Daily"},
-  {id:"biscoff",name:"Biscoff Matcha Latte",thai:"มัทฉะลาเต้บิสคอฟ",icon:"🍪",base:89,lineman:129,powderG:5,type:"base",milk:false,fixedMilk:true,sweetness:false,art:"12oz · Matcha 5g · oat milk 135ml · ทาสเปรดข้างแก้ว 15g · บิสกิตบนถาด 98mm",description:"Biscoff เข้ม นมโอ๊ตนุ่ม พร้อมขาย",tag:"Ready",biscoff:true},
-  {id:"nutella",name:"Nutella Matcha Latte",thai:"มัทฉะลาเต้นูเทลล่า",icon:"🍫",base:149,lineman:199,powderG:5,type:"base",milk:false,fixedMilk:true,sweetness:false,art:"12oz · Matcha 5g · น้ำร้อน 50ml · นม 100ml · Nutella 20g",description:"นูเทลล่าเข้มข้นกับมัทฉะนุ่ม ๆ",tag:"Ready",nutella:true},
-  {id:"coconut",name:"Cloudy Coconut Matcha",thai:"มัทฉะมะพร้าวคลาวดี้",icon:"🥥",base:95,lineman:125,powderG:4,type:"base",milk:false,sweetness:true,art:"Matcha 4g · น้ำมะพร้าว 135ml · oat milk 65ml · Sweetness 4 levels",description:"มะพร้าวสดและ oat milk เย็นจัด — พร้อมขาย",tag:"Ready",coconut:true},
-  {id:"coconutfoam",name:"Coconut Foam Matcha",thai:"มัทฉะโฟมมะพร้าว",icon:"☁️",base:95,lineman:125,powderG:4,type:"base",milk:false,sweetness:true,art:"Matcha 4g · น้ำมะพร้าว 135ml · oat milk 65ml · Sweetness 4 levels",description:"สูตร coconut ของร้าน เนื้อนุ่มและเย็นจัด",tag:"Ready",coconut:true,foam:true},
+  {id:"latte",name:"Matcha Latte",thai:"มัทฉะลาเต้",icon:"🥛",base:89,lineman:149,powderG:5,type:"base",milk:true,sweetness:true,sizes:["12","22"],art:"12oz: 5g · น้ำ 50ml · นม 100ml",description:"นมวัวเป็น base; เปลี่ยนเป็นนมโอ๊ตได้",tag:"Daily"},
+  {id:"biscoff",name:"Biscoff Matcha Latte",thai:"มัทฉะลาเต้บิสคอฟ",icon:"🍪",base:89,lineman:135,powderG:5,type:"base",milk:false,fixedMilk:true,sweetness:false,art:"12oz · Matcha 5g · oat milk 135ml · ทาสเปรดข้างแก้ว 15g · บิสกิตบนถาด 98mm",description:"Biscoff เข้ม นมโอ๊ตนุ่ม พร้อมขาย",tag:"Ready",biscoff:true},
+  {id:"nutella",name:"Nutella Matcha Latte",thai:"มัทฉะลาเต้นูเทลล่า",icon:"🍫",base:99,lineman:149,powderG:5,type:"base",milk:false,fixedMilk:true,sweetness:false,art:"12oz · Matcha 5g · น้ำร้อน 50ml · นม 100ml · Nutella 20g",description:"นูเทลล่าเข้มข้นกับมัทฉะนุ่ม ๆ",tag:"Ready",nutella:true},
+  {id:"coconut",name:"Cloudy Coconut Matcha",thai:"มัทฉะมะพร้าวคลาวดี้",icon:"🥥",base:95,lineman:129,powderG:4,type:"base",milk:false,sweetness:true,art:"Matcha 4g · น้ำมะพร้าว 135ml · oat milk 65ml · Sweetness 4 levels",description:"มะพร้าวสดและ oat milk เย็นจัด — พร้อมขาย",tag:"Ready",coconut:true},
+  {id:"coconutfoam",name:"Coconut Foam Matcha",thai:"มัทฉะโฟมมะพร้าว",icon:"☁️",base:95,lineman:129,powderG:4,type:"base",milk:false,sweetness:true,art:"Matcha 4g · น้ำมะพร้าว 135ml · oat milk 65ml · Sweetness 4 levels",description:"สูตร coconut ของร้าน เนื้อนุ่มและเย็นจัด",tag:"Ready",coconut:true,foam:true},
   {id:"clear",name:"Clear Matcha",thai:"เคลียร์มัทฉะ",icon:"🫧",base:65,lineman:99,powderG:3,type:"base",milk:false,sweetness:true,art:"3g · น้ำ 150ml",description:"ชาใสเย็นสำหรับอ่านรสของผง",tag:"Clear"},
-  {id:"coldwhisk",name:"Cold Whisk Matcha",thai:"โคลด์วิสก์มัทฉะ",icon:"🌿",base:119,lineman:179,powderG:5,type:"base",milk:true,sweetness:true,art:"5g · oat 150ml · whisk 30+60+60",description:"ตีสดให้เนื้อนุ่มฟู",tag:"Hand whisk"},
-  {id:"hojicha",name:"Hojicha Latte",thai:"โฮจิฉะลาเต้",icon:"🔥",base:179,lineman:269,powderG:4,type:"hojicha",milk:true,sweetness:true,art:"4g · milk 100ml",description:"กลิ่นคั่วนุ่ม คล้ายโกโก้และถั่ว",tag:"Roasted"},
-  {id:"haku",name:"Haku Daily Uji Mellow",thai:"ฮาคุ เดลี่ อุจิ เมลโลว์",icon:"🍵",base:{clear:139,latte:189,coldwhisk:209},lineman:{clear:199,latte:279,coldwhisk:299},powderG:3,type:"premium",powderKey:"haku",milk:true,sweetness:true,art:"Clear 3g · Latte / Cold Whisk 5g",description:"อุจิมัทฉะโทนเมลโลว์ นุ่มนวล กลมกล่อม ดื่มง่าย",tag:"Special"},
-  {id:"mori",name:"Harusaki Oku no Mori",thai:"ฮารุซากิ โอคุ โนะ โมริ",icon:"🌲",base:{clear:139,latte:219,coldwhisk:239},lineman:{clear:199,latte:319,coldwhisk:349},powderG:3,type:"premium",powderKey:"mori",milk:true,sweetness:true,art:"Clear 3g · Latte / Cold Whisk 5g",description:"สดใส สะอาด · umami นุ่ม · หวานธรรมชาติ",tag:"Limited"},
-  {id:"yame-reserve",name:"Yame no Shiro",thai:"ยาเมะ โนะ ชิโระ",icon:"🌾",base:{clear:129,latte:149,coldwhisk:169},lineman:{clear:189,latte:219,coldwhisk:239},powderG:3,type:"premium",powderKey:"yameReserve",milk:true,sweetness:true,art:"Clear 3g · Latte / Cold Whisk 5g",description:"ถั่วอบ · buttery · เนื้อครีมมี่ · umami สมดุล",tag:"Limited"},
-  {id:"uromi",name:"Horii Uji Mukashi",thai:"โฮริอิ อุจิ มุคาชิ",icon:"🍃",base:{clear:179,latte:219,coldwhisk:239},lineman:{clear:259,latte:319,coldwhisk:339},powderG:3,type:"premium",powderKey:"horii",milk:true,sweetness:true,art:"Clear 3g · Latte / Cold Whisk 5g",description:"ชาเขียวสด · umami · savory นุ่ม · ขมปลายเบา",tag:"Limited"},
-  {id:"maromi",name:"Marukyu Yugen",thai:"มารุคิว ยูเก็น",icon:"✨",base:{clear:199,latte:259,coldwhisk:279},lineman:{clear:279,latte:379,coldwhisk:399},powderG:3,type:"premium",powderKey:"marukyu",milk:true,sweetness:true,art:"Clear 3g · Latte / Cold Whisk 5g",description:"เนียนนุ่ม · umami กลม · เขียวสดและขมบาง",tag:"Limited"},
-  {id:"lumi",name:"Tokocha Shizuoka Okumidori",thai:"โทโคฉะ ชิซูโอกะ โอคุมิโดริ",icon:"💫",base:{clear:179,latte:229,coldwhisk:269},lineman:{clear:259,latte:329,coldwhisk:389},powderG:3,type:"premium",powderKey:"lumi",milk:true,sweetness:true,art:"Clear 3g · Latte / Cold Whisk 5g",description:"pistachio · white chocolate · creamy · สดชื่น",tag:"Limited"},
-  {id:"silk",name:"Tokocha Yame Dania",thai:"โทโคฉะ ยาเมะ ดาเนีย",icon:"☁️",base:{clear:169,latte:219,coldwhisk:259},lineman:{clear:249,latte:319,coldwhisk:379},powderG:3,type:"premium",powderKey:"silk",milk:true,sweetness:true,art:"Clear 3g · Latte / Cold Whisk 5g",description:"นุ่มเข้ม · creamy · ricotta-like · เหมาะกับมะพร้าว",tag:"Limited"}
+  {id:"coldwhisk",name:"Cold Whisk Matcha",thai:"โคลด์วิสก์มัทฉะ",icon:"🌿",base:95,lineman:139,powderG:5,type:"base",milk:true,sweetness:true,art:"5g · oat 150ml · whisk 30+60+60",description:"ตีสดให้เนื้อนุ่มฟู",tag:"Hand whisk"},
+  {id:"hojicha",name:"Hojicha Latte",thai:"โฮจิฉะลาเต้",icon:"🔥",base:85,lineman:129,powderG:4,type:"hojicha",milk:true,sweetness:true,art:"4g · milk 100ml",description:"กลิ่นคั่วนุ่ม คล้ายโกโก้และถั่ว",tag:"Roasted"},
+  {id:"haku",name:"Haku Daily Uji Mellow",thai:"ฮาคุ เดลี่ อุจิ เมลโลว์",icon:"🍵",base:{clear:119,latte:149,coldwhisk:169},lineman:{clear:159,latte:199,coldwhisk:229},powderG:3,type:"premium",powderKey:"haku",milk:true,sweetness:true,art:"Clear 3g · Latte / Cold Whisk 5g",description:"อุจิมัทฉะโทนเมลโลว์ นุ่มนวล กลมกล่อม ดื่มง่าย",tag:"Special"},
+  {id:"mori",name:"Harusaki Oku no Mori",thai:"ฮารุซากิ โอคุ โนะ โมริ",icon:"🌲",base:{clear:129,latte:169,coldwhisk:189},lineman:{clear:169,latte:229,coldwhisk:259},powderG:3,type:"premium",powderKey:"mori",milk:true,sweetness:true,art:"Clear 3g · Latte / Cold Whisk 5g",description:"สดใส สะอาด · umami นุ่ม · หวานธรรมชาติ",tag:"Limited"},
+  {id:"yame-reserve",name:"Yame no Shiro",thai:"ยาเมะ โนะ ชิโระ",icon:"🌾",base:{clear:119,latte:149,coldwhisk:169},lineman:{clear:159,latte:199,coldwhisk:229},powderG:3,type:"premium",powderKey:"yameReserve",milk:true,sweetness:true,art:"Clear 3g · Latte / Cold Whisk 5g",description:"ถั่วอบ · buttery · เนื้อครีมมี่ · umami สมดุล",tag:"Limited"},
+  {id:"uromi",name:"Horii Uji Mukashi",thai:"โฮริอิ อุจิ มุคาชิ",icon:"🍃",base:{clear:149,latte:189,coldwhisk:209},lineman:{clear:199,latte:249,coldwhisk:279},powderG:3,type:"premium",powderKey:"horii",milk:true,sweetness:true,art:"Clear 3g · Latte / Cold Whisk 5g",description:"ชาเขียวสด · umami · savory นุ่ม · ขมปลายเบา",tag:"Limited"},
+  {id:"maromi",name:"Marukyu Yugen",thai:"มารุคิว ยูเก็น",icon:"✨",base:{clear:159,latte:199,coldwhisk:219},lineman:{clear:209,latte:269,coldwhisk:299},powderG:3,type:"premium",powderKey:"marukyu",milk:true,sweetness:true,art:"Clear 3g · Latte / Cold Whisk 5g",description:"เนียนนุ่ม · umami กลม · เขียวสดและขมบาง",tag:"Limited"},
+  {id:"lumi",name:"Tokocha Shizuoka Okumidori",thai:"โทโคฉะ ชิซูโอกะ โอคุมิโดริ",icon:"💫",base:{clear:149,latte:189,coldwhisk:209},lineman:{clear:199,latte:249,coldwhisk:279},powderG:3,type:"premium",powderKey:"lumi",milk:true,sweetness:true,art:"Clear 3g · Latte / Cold Whisk 5g",description:"pistachio · white chocolate · creamy · สดชื่น",tag:"Limited"},
+  {id:"silk",name:"Tokocha Yame Dania",thai:"โทโคฉะ ยาเมะ ดาเนีย",icon:"☁️",base:{clear:149,latte:189,coldwhisk:209},lineman:{clear:199,latte:249,coldwhisk:279},powderG:3,type:"premium",powderKey:"silk",milk:true,sweetness:true,art:"Clear 3g · Latte / Cold Whisk 5g",description:"นุ่มเข้ม · creamy · ricotta-like · เหมาะกับมะพร้าว",tag:"Limited"}
 );
 snacks.splice(0, snacks.length,
   {id:"cream-matcha",name:"Matcha Cream Roll",thai:"ครีมโรลมัทฉะ",icon:"🍰",base:39,lineman:59,stock:"Cream roll — Matcha",cost:10.4545,art:"คงเหลือ 21 ชิ้น",description:"ครีมโรลรสมัทฉะ"},
@@ -1158,14 +1158,12 @@ function applyHomeEditor() {
   });
 }
 function homeAlias(key){return state.home.aliases[key]||defaultHomeAliases[key]||{name:"MATCHA TEST",note:"house matcha"};}
-if (state.schemaVersion !== 2) {
-  // The earlier v6 draft stored placeholder premium names in Home overrides.
-  // Remove only those generated overrides once, then seed the real product copy.
+if (state.schemaVersion !== 3) {
   if (state.home) {
     state.home.menus = {};
     state.home.aliases = structuredClone(defaultHomeAliases);
   }
-  state.schemaVersion = 2;
+  state.schemaVersion = 3;
 }
 applyHomeEditor();
 function homeEditorTab(){
