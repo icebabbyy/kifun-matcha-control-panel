@@ -19,13 +19,15 @@ const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({
 }[char]));
 
 const powders = {
-  noko: { label: "NOKO", stock: "NOKO Premium Grade Nishio", priceAdd: 0, cost: 3.71, note: "House base · นุ่ม ดื่มง่าย (เหลือ ~45g)" },
-  ureshino: { label: "Ureshino Blend #2", stock: "Rinya Ureshino Premium #2", priceAdd: 0, cost: 4.60, note: "Rinya · ถั่วนึ่ง ฟลอรัล ขมน้อย · Base ชาใส & ลาเต้" },
-  sukito: { label: "Sukito Kagoshima 03", stock: "Sukito Kagoshima 03", priceAdd: 15, cost: 15, note: "Floral–nutty · ลงนมดี" },
-  mie: { label: "Mie Matcha", stock: "Mie Matcha", priceAdd: 0, cost: 10.433, note: "Umami–nutty · smooth" },
-  horii: { label: "Horii Uji Mukashi", stock: "Horii Uji Mukashi", priceAdd: 0, cost: 27, note: "Uji · กลิ่นชาสด, umami นุ่ม, savory ปลายเล็กน้อย" },
-  marukyu: { label: "Marukyu Yugen", stock: "Marukyu Yugen", priceAdd: 0, cost: 34, note: "Uji · balanced umami, grassy เบา, mild bitterness" },
-  hojicha: { label: "Hoho Hojicha", stock: "Hoho Hojicha", priceAdd: 0, cost: 15.3, note: "Roasted · cocoa-like" }
+  noko: { label: "NOKO", stock: "NOKO Premium Grade Nishio", priceAdd: 0, cost: 3.71, note: "House base · นุ่ม ดื่มง่าย (เหลือ 45g)" },
+  ureshino: { label: "Ureshino Blend #2", stock: "Rinya Ureshino Premium #2", priceAdd: 0, cost: 4.60, note: "Rinya · ถั่วนึ่ง ฟลอรัล ขมน้อย · Base ชาใส & ลาเต้ (เหลือ 970g)" },
+  sukito_squirrel: { label: "Sukito กระรอก (Kurumi)", stock: "Sukito กระรอก", priceAdd: 20, cost: 15.6667, note: "Sukito · ถุงกระรอก 30g · ฿470 (เหลือ 15g)" },
+  osha_p01: { label: "Osha Ocha Kagoshima P01", stock: "Osha Ocha Kagoshima P01 (Tester)", priceAdd: 15, cost: 17.50, note: "Tester 20g ฿350 · บอดี้ข้าวเหนียวมะม่วงนัวนม" },
+  fuyu_kaze: { label: "Fuyu no Kaze", stock: "Fuyu no Kaze", priceAdd: 20, cost: 19.6667, note: "Specialty 30g ฿590 · ลมหนาว หวานสดชื่น" },
+  made_sis: { label: "Matcha Made Sis", stock: "Matcha Made Sis", priceAdd: 25, cost: 21.96, note: "Special Ceremonial 20g ฿439.20 · หอมอุมามิกลมกล่อม" },
+  haru_yame: { label: "Haru Yame Milk Whisk", stock: "Haru Yame Milk Whisk", priceAdd: 15, cost: 13.8333, note: "Haru Matcha · Yame 30g · ฿415" },
+  haru_uji: { label: "Haru Uji Milk Whisk", stock: "Haru Uji Milk Whisk", priceAdd: 15, cost: 12.8333, note: "Haru Matcha · Uji 30g · ฿385" },
+  hojicha: { label: "Hoho Hojicha", stock: "Hoho Hojicha", priceAdd: 0, cost: 15.3, note: "Roasted · cocoa-like (เหลือ 20g)" }
 };
 const menus = [
   { id: "nutella", name: "Nutella Matcha", thai: "มัทฉะนูเทลล่า", icon: "🍫", base: 149, baseCost: 0, powderG: 5, type: "base", milk: true, sweetness: false, art: "Nutella 30g · นม 100ml", description: "นูเทลล่าเข้มกับมัทฉะนุ่ม ๆ", tag: "Signature", ingredient: "Nutella spread", ingredientQty: 30, ingredientKnown: true },
@@ -47,6 +49,9 @@ const defaultState = () => ({
     { name: "NOKO Premium Grade Nishio", unit: "g", qty: 45, cost: 3.71, min: 20, source: "อัปเดตเหลือ 40-45g · ฿371 / 100g" },
     { name: "Rinya Ureshino Premium #2", unit: "g", qty: 1000, cost: 4.60, min: 100, source: "ซื้อแล้ว · ฿4,600 / 1,000g (ใช้เป็น base ชาได้ กิน clear รอด)" },
     { name: "Sukito Kagoshima 03", unit: "g", qty: 24, cost: 15, min: 10, source: "ชีท · ฿450 / 30g" },
+    { name: "Sukito กระรอก", unit: "g", qty: 30, cost: 18.3333, min: 6, source: "ซื้อแล้ว · ฿550 / 30g (เซ็ตถ้วย Kitty ฿2,000)" },
+    { name: "Haru Yame Milk Whisk", unit: "g", qty: 30, cost: 13.8333, min: 6, source: "ซื้อแล้ว · ฿415 / 30g (฿400 + ส่ง ฿15)" },
+    { name: "Haru Uji Milk Whisk", unit: "g", qty: 30, cost: 12.8333, min: 6, source: "ซื้อแล้ว · ฿385 / 30g (฿370 + ส่ง ฿15)" },
     { name: "Mie Matcha", unit: "g", qty: 15, cost: 10.433, min: 8, source: "ชีท · ฿313 / 30g" },
     { name: "Horii Uji Mukashi", unit: "g", qty: 20, cost: 27, min: 6, source: "ชีท · ฿540 / 20g" },
     { name: "Marukyu Yugen", unit: "g", qty: 13, cost: 34, min: 6, source: "ชีท · ฿680 / 20g" },
@@ -59,6 +64,7 @@ const defaultState = () => ({
     { name: "Nutella spread", unit: "g", qty: 200, cost: .47, min: 80, source: "ซื้อแล้ว · ฿94 / 200g" },
     { name: "Biscoff spread", unit: "g", qty: 400, cost: .465, min: 60, source: "ชีท · ฿186 / 400g · 15ml ใช้ 15g" },
     { name: "Lotus Biscoff biscuit", unit: "g", qty: 250, cost: .2762, min: 40, source: "บิลสุทธิ ฿69.05 / 250g" },
+    { name: "Howie Chawan Kitty", unit: "pc", qty: 1, cost: 1450, min: 1, source: "ซื้อแล้ว · ฿1,450 / 1 ชิ้น (เซ็ต Sukito กระรอก ฿2,000)" },
     { name: "14oz PET cup (Basic Pac FP-14)", unit: "pc", qty: 1000, cost: 2.80, min: 100, source: "Basic Pac 1,000 ใบ ฟรีบล็อก (2.65฿ + ส่ง 0.15฿)" },
     { name: "98mm sipper lid with plug (ฝายกดื่มมีจุก)", unit: "pc", qty: 1000, cost: 0.47, min: 100, source: "ลัง 1,000 ชิ้น (ช่วงราคา ฿380–฿557)" },
     { name: "Spill-proof lid sheet (แผ่นรองฝาแก้ว)", unit: "pc", qty: 500, cost: 0.096, min: 50, source: "บิล 500 ใบ ฿48 (฿0.096/ใบ)" },
@@ -78,7 +84,7 @@ const defaultState = () => ({
 });
 let state = defaultState();
 let activeMode = "customer", activeTab = "menu";
-let selection = { kind: "drink", menuId: null, powder: "ureshino", milk: "M Milk", sweetness: 5, brew: "clear", size: "12", channel: "store", qty: 1 };
+let selection = { kind: "drink", menuId: null, powder: "ureshino", milk: "Oat milk", sweetness: 5, brew: "latte", size: "12", channel: "store", qty: 1 };
 
 /* ── Admin Gate Authentication (Supabase Auth Backend) ──────────── */
 const ADMIN_AUTH_KEY = "happihaus_admin_session";
@@ -386,13 +392,28 @@ function stockTab() {
       <div class="panel-head">
         <div>
           <h2>เพิ่มรายการใหม่ / ผง / อุปกรณ์</h2>
-          <p>เพิ่มชื่อวัตถุดิบ อุปกรณ์ หรือแพ็กเกจจิ้งใหม่เข้าสต็อก</p>
+          <p>เพิ่มชื่อวัตถุดิบ อุปกรณ์ หรือแพ็กเกจจิ้งใหม่เข้าสต็อก (คำนวณต้นทุนต่อหน่วยอัตโนมัติจากราคารวม ÷ ปริมาณ)</p>
         </div>
       </div>
+
+      <!-- Quick Auto-Calculator Bar -->
+      <div style="background:#f8faf7;border:1px solid #e1ebde;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+        <span style="font-size:12px;font-weight:700;color:#2b6c3b;">🧮 ตัวช่วยคำนวณต้นทุน:</span>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <label style="font-size:11px;color:#556b5c;">ราคาซื้อมา (฿):</label>
+          <input type="number" id="new-calc-price" step="any" min="0" placeholder="เช่น 48.15" style="width:110px;padding:4px 8px;font-size:12px;border:1px solid #ccc;border-radius:6px;" />
+        </div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <label style="font-size:11px;color:#556b5c;">หารด้วยขนาดบรรจุ:</label>
+          <input type="number" id="new-calc-volume" step="any" min="0" placeholder="เช่น 800" style="width:100px;padding:4px 8px;font-size:12px;border:1px solid #ccc;border-radius:6px;" />
+        </div>
+        <small style="color:#6b7d70;font-size:11px;">(ระบบจะคำนวณต้นทุน ฿/หน่วย และกรอกจำนวนเริ่มต้นให้อัตโนมัติ)</small>
+      </div>
+
       <form id="new-item-form" class="stock-form new-item-form" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(130px, 1fr));gap:10px;align-items:end;">
         <div>
           <label style="font-size:11px;font-weight:700;display:block;margin-bottom:3px;">ชื่อรายการ</label>
-          <input name="name" required placeholder="เช่น Hojicha 30g" style="width:100%;box-sizing:border-box;">
+          <input name="name" required placeholder="เช่น Syrup / Hojicha" style="width:100%;box-sizing:border-box;">
         </div>
         <div>
           <label style="font-size:11px;font-weight:700;display:block;margin-bottom:3px;">หน่วย</label>
@@ -400,19 +421,19 @@ function stockTab() {
         </div>
         <div>
           <label style="font-size:11px;font-weight:700;display:block;margin-bottom:3px;">จำนวนเริ่มต้น</label>
-          <input name="qty" type="number" min="0" step="0.01" value="0" style="width:100%;box-sizing:border-box;">
+          <input name="qty" type="number" min="0" step="any" value="0" style="width:100%;box-sizing:border-box;">
         </div>
         <div>
           <label style="font-size:11px;font-weight:700;display:block;margin-bottom:3px;">ต้นทุน ฿/หน่วย</label>
-          <input name="cost" type="number" min="0" step="0.0001" placeholder="เช่น 4.60" style="width:100%;box-sizing:border-box;">
+          <input name="cost" type="number" min="0" step="any" placeholder="เช่น 0.06018" style="width:100%;box-sizing:border-box;">
         </div>
         <div>
           <label style="font-size:11px;font-weight:700;display:block;margin-bottom:3px;">จุดเตือนขั้นต่ำ</label>
-          <input name="min" type="number" min="0" step="0.1" value="0" style="width:100%;box-sizing:border-box;">
+          <input name="min" type="number" min="0" step="any" value="0" style="width:100%;box-sizing:border-box;">
         </div>
         <div>
           <label style="font-size:11px;font-weight:700;display:block;margin-bottom:3px;">ที่มา / หมายเหตุ</label>
-          <input name="source" placeholder="เช่น สั่งจาก Toki / ชีท" style="width:100%;box-sizing:border-box;">
+          <input name="source" placeholder="เช่น ซื้อแล้ว · ฿48.15 / 800ml" style="width:100%;box-sizing:border-box;">
         </div>
         <div>
           <button class="primary-btn" style="width:100%;">+ เพิ่มรายการ</button>
@@ -547,8 +568,24 @@ function openStockEditor(name) {
   dialog.innerHTML = `
     <div class="dialog-inner" style="max-width:440px;margin:auto;">
       <h2 style="font-size:18px;margin-bottom:4px;">✏️ แก้ไขข้อมูลสต็อก</h2>
-      <p style="color:#617368;font-size:13px;margin:0 0 16px;">${esc(stock.name)}</p>
+      <p style="color:#617368;font-size:13px;margin:0 0 14px;">${esc(stock.name)}</p>
       
+      <!-- Quick Auto-Calculator Box -->
+      <div style="background:#f8faf7;border:1px solid #e1ebde;border-radius:10px;padding:10px 12px;margin-bottom:12px;">
+        <div style="font-size:11px;font-weight:700;color:#2b6c3b;margin-bottom:6px;">🧮 ตัวช่วยคำนวณต้นทุนอัตโนมัติ (ราคารวม ÷ ขนาดบรรจุ)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div>
+            <label style="font-size:10px;color:#556b5c;display:block;margin-bottom:2px;">ราคารวมที่ซื้อมา (฿)</label>
+            <input type="number" id="edit-calc-price" step="any" min="0" placeholder="เช่น 48.15 หรือ 4600" style="width:100%;box-sizing:border-box;padding:6px 10px;font-size:12px;border:1px solid #ccc;border-radius:6px;" />
+          </div>
+          <div>
+            <label style="font-size:10px;color:#556b5c;display:block;margin-bottom:2px;">ขนาดบรรจุ / ปริมาณที่ได้</label>
+            <input type="number" id="edit-calc-volume" step="any" min="0" placeholder="เช่น 800 หรือ 1000" style="width:100%;box-sizing:border-box;padding:6px 10px;font-size:12px;border:1px solid #ccc;border-radius:6px;" />
+          </div>
+        </div>
+        <small style="display:block;color:#6b7d70;font-size:10px;margin-top:4px;">* กรอกแล้วระบบจะคำนวณต้นทุนต่อหน่วย (฿/unit) ให้อัตโนมัติ</small>
+      </div>
+
       <form id="edit-stock-form" style="display:flex;flex-direction:column;gap:12px;">
         <input type="hidden" name="originalName" value="${esc(stock.name)}" />
         
@@ -564,18 +601,18 @@ function openStockEditor(name) {
           </div>
           <div>
             <label style="font-size:11px;font-weight:700;display:block;margin-bottom:3px;">จำนวนคงเหลือ</label>
-            <input name="qty" type="number" step="0.01" min="0" required value="${stock.qty}" style="width:100%;box-sizing:border-box;padding:8px 12px;border:1px solid var(--border,#ccc);border-radius:8px;" />
+            <input name="qty" type="number" step="any" min="0" required value="${stock.qty}" style="width:100%;box-sizing:border-box;padding:8px 12px;border:1px solid var(--border,#ccc);border-radius:8px;" />
           </div>
         </div>
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
           <div>
             <label style="font-size:11px;font-weight:700;display:block;margin-bottom:3px;">ต้นทุนต่อหน่วย (฿/unit)</label>
-            <input name="cost" type="number" step="0.0001" min="0" value="${stock.cost ?? ''}" placeholder="เช่น 4.60" style="width:100%;box-sizing:border-box;padding:8px 12px;border:1px solid var(--border,#ccc);border-radius:8px;" />
+            <input name="cost" type="number" step="any" min="0" value="${stock.cost ?? ''}" placeholder="เช่น 0.06018" style="width:100%;box-sizing:border-box;padding:8px 12px;border:1px solid var(--border,#ccc);border-radius:8px;" />
           </div>
           <div>
             <label style="font-size:11px;font-weight:700;display:block;margin-bottom:3px;">จุดเตือนสต็อกต่ำ (min)</label>
-            <input name="min" type="number" step="0.1" min="0" value="${stock.min ?? 0}" style="width:100%;box-sizing:border-box;padding:8px 12px;border:1px solid var(--border,#ccc);border-radius:8px;" />
+            <input name="min" type="number" step="any" min="0" value="${stock.min ?? 0}" style="width:100%;box-sizing:border-box;padding:8px 12px;border:1px solid var(--border,#ccc);border-radius:8px;" />
           </div>
         </div>
 
@@ -651,7 +688,7 @@ menus.splice(0, menus.length,
   { id: "coconutfoam", name: "Coconut Foam Matcha", thai: "มัทฉะโฟมมะพร้าว", icon: "☁️", base: 95, lineman: 125, powderG: 4, type: "base", milk: false, sweetness: true, art: "Matcha 4g · น้ำมะพร้าว 135ml · oat milk 65ml · Sweetness 4 levels", description: "สูตร coconut ของร้าน เนื้อนุ่มและเย็นจัด", tag: "Ready", coconut: true, foam: true },
   { id: "clear", name: "Clear Matcha", thai: "เคลียร์มัทฉะ", icon: "🫧", base: 65, lineman: 99, powderG: 3, type: "base", milk: false, sweetness: true, art: "3g · น้ำ 150ml", description: "ชาใสเย็นสำหรับอ่านรสของผง", tag: "Clear" },
   { id: "coldwhisk", name: "Cold Whisk Matcha", thai: "โคลด์วิสก์มัทฉะ", icon: "🌿", base: 119, lineman: 179, powderG: 5, type: "base", milk: true, sweetness: true, art: "5g · oat 150ml · whisk 30+60+60", description: "ตีสดให้เนื้อนุ่มฟู", tag: "Hand whisk" },
-  { id: "hojicha", name: "Hojicha Latte", thai: "โฮจิฉะลาเต้", icon: "🔥", base: 179, lineman: 269, powderG: 4, type: "hojicha", milk: true, sweetness: true, art: "4g · milk 100ml", description: "กลิ่นคั่วนุ่ม คล้ายโกโก้และถั่ว", tag: "Roasted" },
+  { id: "hojicha", name: "Hojicha Latte", thai: "โฮจิฉะลาเต้", icon: "🔥", base: 85, lineman: 129, powderG: 4, type: "hojicha", milk: true, sweetness: true, art: "4g · milk 100ml", description: "กลิ่นคั่วนุ่ม คล้ายโกโก้และถั่ว", tag: "Roasted" },
   { id: "haku", name: "Haku Daily Uji Mellow", thai: "ฮาคุ เดลี่ อุจิ เมลโลว์", icon: "🍵", base: { clear: 139, latte: 189, coldwhisk: 209 }, lineman: { clear: 199, latte: 279, coldwhisk: 299 }, powderG: 3, type: "premium", powderKey: "haku", milk: true, sweetness: true, art: "Clear 3g · Latte / Cold Whisk 5g", description: "อุจิมัทฉะโทนเมลโลว์ นุ่มนวล กลมกล่อม ดื่มง่าย", tag: "Special" },
   { id: "mori", name: "Harusaki Oku no Mori", thai: "ฮารุซากิ โอคุ โนะ โมริ", icon: "🌲", base: { clear: 139, latte: 219, coldwhisk: 239 }, lineman: { clear: 199, latte: 319, coldwhisk: 349 }, powderG: 3, type: "premium", powderKey: "mori", milk: true, sweetness: true, art: "Clear 3g · Latte / Cold Whisk 5g", description: "สดใส สะอาด · umami นุ่ม · หวานธรรมชาติ", tag: "Limited" },
   { id: "yame-reserve", name: "Yame no Shiro", thai: "ยาเมะ โนะ ชิโระ", icon: "🌾", base: { clear: 129, latte: 149, coldwhisk: 169 }, lineman: { clear: 189, latte: 219, coldwhisk: 239 }, powderG: 3, type: "premium", powderKey: "yameReserve", milk: true, sweetness: true, art: "Clear 3g · Latte / Cold Whisk 5g", description: "ถั่วอบ · buttery · เนื้อครีมมี่ · umami สมดุล", tag: "Limited" },
@@ -793,7 +830,32 @@ function menuTab() {
   `;
 }
 function salesTab() { const rows = state.sales.length ? state.sales.slice().reverse().map(sale => `<tr><td>${sale.at}</td><td><b>${sale.menu}</b><br><small>${sale.powder} · ${sale.channel === "lineman" ? "LINE MAN" : "หน้าร้าน"}</small></td><td>${sale.qty}</td><td>${money(sale.price * sale.qty)}</td><td class="profit-good">${money(sale.profit * sale.qty)}</td><td class="sale-actions"><button class="edit-btn" data-edit-sale="${sale.id}">แก้ไข</button><button class="danger-btn" data-delete-sale="${sale.id}">ลบ</button></td></tr>`).join("") : `<tr><td colspan="6" class="muted">ยังไม่มีรายการ</td></tr>`; return `<div class="split-grid"><div class="panel"><div class="panel-head"><div><h2>บันทึกขายจริง</h2><p>แก้ไข/ลบจะคืนสต็อกสูตรเดิมก่อน</p></div></div>${saleForm()}</div><div class="panel"><h2>หลักคำนวณ</h2><p class="muted">MM Milk 2L ฿101.50 ยังไม่ซื้อ (ซื้อ 14/08). นมสด ฿48.75 / 830ml เป็นของกินเล่น จึงแยกจากสต็อกร้าน.</p></div></div><div class="panel" style="margin-top:20px"><div class="panel-head"><div><h2>ประวัติการขาย</h2><p>${state.sales.length} รายการ · แก้ไขหรือลบได้</p></div></div><div class="table-wrap"><table class="data-table"><thead><tr><th>เวลา</th><th>รายการ</th><th>จำนวน</th><th>ยอดขาย</th><th>กำไร</th><th></th></tr></thead><tbody>${rows}</tbody></table></div></div>`; }
-function saleForm(sale) { return `<form id="${sale ? "edit-sale-v4" : "sale-form-v4"}" class="sale-form"><select name="menuId">${menus.map(menu => `<option value="${menu.id}" ${sale?.menuId === menu.id ? "selected" : ""}>${menu.name}</option>`).join("")}</select><select name="powderKey">${Object.entries(powders).map(([key, powder]) => `<option value="${key}" ${sale?.powderKey === key ? "selected" : ""}>${powder.label}</option>`).join("")}</select><select name="channel"><option value="store" ${sale?.channel === "store" ? "selected" : ""}>หน้าร้าน</option><option value="lineman" ${sale?.channel === "lineman" ? "selected" : ""}>LINE MAN</option></select><select name="brew"><option value="clear" ${sale?.brew === "clear" ? "selected" : ""}>Clear</option><option value="latte" ${sale?.brew === "latte" ? "selected" : ""}>Latte</option><option value="coldwhisk" ${sale?.brew === "coldwhisk" ? "selected" : ""}>Cold Whisk</option></select><input name="qty" type="number" min="1" value="${sale?.qty || 1}"><label class="sale-test-toggle"><input type="checkbox" name="testOnly" ${sale?.testOnly ? "checked" : ""}> ชงเทสต์/กินเอง (ไม่ตัดแพ็กเกจจิ้ง)</label><button class="primary-btn">${sale ? "บันทึกการแก้ไข" : "บันทึกขาย"}</button></form>`; }
+function saleForm(sale) {
+  const stockPowders = (state?.stock || []).filter(s => s.unit === "g" && !["spread", "biscuit", "topping", "roll", "บิสคอฟ", "นูเทลล่า", "ครีมโรล"].some(kw => (s.name||"").toLowerCase().includes(kw)));
+  return `<form id="${sale ? "edit-sale-v4" : "sale-form-v4"}" class="sale-form">
+    <select name="menuId">${menus.map(menu => `<option value="${menu.id}" ${sale?.menuId === menu.id ? "selected" : ""}>${menu.name}</option>`).join("")}</select>
+    <select name="powderKey">
+      ${stockPowders.map(s => {
+        const pKey = Object.keys(powders).find(k => powders[k].stock === s.name) || s.name;
+        const isSel = sale ? (sale.powderKey === pKey || sale.powder === s.name) : (s.name.includes("Sukito กระรอก") || s.name.includes("NOKO"));
+        const costNum = Number(s.cost) || 0;
+        return `<option value="${esc(pKey)}" ${isSel ? "selected" : ""}>${esc(s.name)} (฿${costNum.toFixed(2)}/g · เหลือ ${s.qty}g)</option>`;
+      }).join("")}
+    </select>
+    <select name="channel">
+      <option value="store" ${sale?.channel === "store" ? "selected" : ""}>หน้าร้าน</option>
+      <option value="lineman" ${sale?.channel === "lineman" ? "selected" : ""}>LINE MAN</option>
+    </select>
+    <select name="brew">
+      <option value="clear" ${sale?.brew === "clear" ? "selected" : ""}>Clear</option>
+      <option value="latte" ${sale?.brew === "latte" ? "selected" : ""}>Latte</option>
+      <option value="coldwhisk" ${sale?.brew === "coldwhisk" ? "selected" : ""}>Cold Whisk</option>
+    </select>
+    <input name="qty" type="number" min="1" value="${sale?.qty || 1}">
+    <label class="sale-test-toggle"><input type="checkbox" name="testOnly" ${sale?.testOnly ? "checked" : ""}> ชงเทสต์/กินเอง (ไม่ตัดแพ็กเกจจิ้ง)</label>
+    <button class="primary-btn">${sale ? "บันทึกการแก้ไข" : "บันทึกขาย"}</button>
+  </form>`;
+}
 function legacySupplierTab() {
   const cards = [
     ["Midori Shinsei MI02", "Tester 30g · ฿260", "nutty–sweet · ฝาดต่ำ", "House Latte / Clear / Cold Whisk", "แนะนำซื้อเป็น BASE TESTER อันดับ 1 — blind test กับนมและเดลิเวอรี 20–30 นาที"],
@@ -1136,6 +1198,7 @@ function renderAdmin() {
   else if (activeTab === "sales") out.innerHTML = salesTab();
   else if (activeTab === "stock") out.innerHTML = stockTab();
   else if (activeTab === "suppliers" || activeTab === "top10") { out.innerHTML = supplierTab(); renderSupplierCatalog(); }
+  else if (activeTab === "profit") { if (window.__kifunProfit?.render) window.__kifunProfit.render(); }
   else out.innerHTML = equipmentTab();
 }
 const PACKAGING_ITEMS = new Set(["12oz cup + lid set", "22oz cup (free)", "Cold whisk pouch 200ml", "Cold whisk pouch 250ml", "Cup bag 12×11+1", "Cup bag 6×11", "6mm straw", "3oz topping cup", "Topping tray 98mm"]);
@@ -1837,6 +1900,46 @@ document.addEventListener("submit", (event) => {
 });
 
 document.addEventListener("input", (event) => {
+  if (event.target.id === "edit-calc-price" || event.target.id === "edit-calc-volume") {
+    const form = document.querySelector("#edit-stock-form");
+    if (form) {
+      const p = Number(document.querySelector("#edit-calc-price")?.value) || 0;
+      const v = Number(document.querySelector("#edit-calc-volume")?.value) || 0;
+      const costInput = form.querySelector('input[name="cost"]');
+      const sourceInput = form.querySelector('input[name="source"]');
+      const unitInput = form.querySelector('input[name="unit"]');
+      if (p > 0 && v > 0 && costInput) {
+        const uCost = p / v;
+        costInput.value = uCost < 1 ? Number(uCost.toFixed(5)) : Number(uCost.toFixed(4));
+        if (sourceInput && (!sourceInput.value || sourceInput.value.startsWith("ซื้อแล้ว · ฿"))) {
+          sourceInput.value = `ซื้อแล้ว · ฿${p.toLocaleString()} / ${v.toLocaleString()}${unitInput?.value || ""}`;
+        }
+      }
+    }
+  }
+
+  if (event.target.id === "new-calc-price" || event.target.id === "new-calc-volume") {
+    const form = document.querySelector("#new-item-form");
+    if (form) {
+      const p = Number(document.querySelector("#new-calc-price")?.value) || 0;
+      const v = Number(document.querySelector("#new-calc-volume")?.value) || 0;
+      const costInput = form.querySelector('input[name="cost"]');
+      const sourceInput = form.querySelector('input[name="source"]');
+      const unitInput = form.querySelector('input[name="unit"]');
+      const qtyInput = form.querySelector('input[name="qty"]');
+      if (p > 0 && v > 0 && costInput) {
+        const uCost = p / v;
+        costInput.value = uCost < 1 ? Number(uCost.toFixed(5)) : Number(uCost.toFixed(4));
+        if (qtyInput && (!qtyInput.value || Number(qtyInput.value) === 0)) {
+          qtyInput.value = v;
+        }
+        if (sourceInput && (!sourceInput.value || sourceInput.value.startsWith("ซื้อแล้ว · ฿"))) {
+          sourceInput.value = `ซื้อแล้ว · ฿${p.toLocaleString()} / ${v.toLocaleString()}${unitInput?.value || ""}`;
+        }
+      }
+    }
+  }
+
   if (event.target.id === "supplier-search-input") {
     currentSupplierSearch = event.target.value;
     renderSupplierCatalog();

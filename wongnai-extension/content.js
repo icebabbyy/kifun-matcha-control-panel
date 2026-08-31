@@ -6,8 +6,13 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 // Comprehensive Catalog of Powders & Stock mapping
 const POWDER_CATALOG = {
   noko: { label: "NOKO", stock: "NOKO Premium Grade Nishio", aliases: ["noko", "โนโกะ", "nishio", "kome", "house"] },
-  ureshino: { label: "Ureshino Blend #2", stock: "Rinya Ureshino Premium #2", aliases: ["ureshino", "อุเรชิโนะ", "rinya", "รินยะ", "blend 2", "rinya 2", "ureshino blend"] },
-  sukito: { label: "Sukito Kagoshima 03", stock: "Sukito Kagoshima 03", aliases: ["sukito", "สุกิโตะ", "yame", "ยาเมะ", "03", "saemidori"] },
+  ureshino: { label: "Ureshino Blend #2", stock: "Rinya Ureshino Premium #2", aliases: ["ureshino", "อุเรชิโนะ", "rinya", "รินยะ", "blend 2", "rinya 2", "ureshino blend", "hikari", "ฮิคาริ", "yuki", "ยูกิ", "kumo", "คุโมะ", "นุ่มละมุน"] },
+  sukitoKurumi: { label: "Sukito กระรอก (Kurumi)", stock: "Sukito กระรอก", aliases: ["sukito kurumi", "kurumi", "กระรอก", "sukito squirrel", "sukito", "สุกิโตะ", "คุรุมิ"] },
+  p01: { label: "Osha Ocha Kagoshima P01", stock: "Osha Ocha Kagoshima P01 (Tester)", aliases: ["p01", "osha ocha", "kagoshima p01", "โอชา", "โอชา โอฉะ", "tester 20g"] },
+  fuyu: { label: "Fuyu no Kaze", stock: "Fuyu no Kaze", aliases: ["fuyu no kaze", "fuyu", "ฟุยุ", "ฟูยุ", "ลมหนาว"] },
+  madeSis: { label: "Matcha Made Sis", stock: "Matcha Made Sis", aliases: ["matcha made sis", "made sis", "เมดซิส", "sis"] },
+  haruYame: { label: "Haru Yame Milk Whisk", stock: "Haru Yame Milk Whisk", aliases: ["haru yame", "haru yame milk whisk", "ฮารุ ยาเมะ", "yame milk whisk"] },
+  haruUji: { label: "Haru Uji Milk Whisk", stock: "Haru Uji Milk Whisk", aliases: ["haru uji", "haru uji milk whisk", "ฮารุ อุจิ", "uji milk whisk"] },
   mie: { label: "Mie Matcha", stock: "Mie Matcha", aliases: ["mie", "มิเอะ", "sora", "โซระ", "kamu"] },
   mori: { label: "Harusaki Oku no Mori", stock: "Harusaki Oku no Mori", aliases: ["mori", "โมริ", "harusaki", "oku no mori", "ฮารุซากิ"] },
   yameReserve: { label: "Yame no Shiro", stock: "Yame no Shiro", aliases: ["yame no shiro", "shiro", "ชิโระ", "yame reserve"] },
@@ -16,7 +21,6 @@ const POWDER_CATALOG = {
   lumi: { label: "Tokocha Shizuoka Okumidori", stock: "Tokocha Shizuoka Okumidori", aliases: ["lumi", "tokocha shizuoka", "okumidori", "โทโคฉะ ชิซูโอกะ"] },
   silk: { label: "Tokocha Yame Dania", stock: "Tokocha Yame Dania", aliases: ["silk", "tokocha yame", "dania", "โทโคฉะ ยาเมะ", "ดาเนีย"] },
   hojicha: { label: "Hoho Hojicha", stock: "Hoho Hojicha", aliases: ["hoji", "โฮจิ", "hoho", "kogashi", "roasted"] },
-  p01: { label: "Osha Ocha Kagoshima P01", stock: "Osha Ocha Kagoshima P01", aliases: ["p01", "osha ocha", "โอชา"] },
   haku: { label: "Haku Daily Uji Mellow", stock: "Haku Daily Uji Mellow", aliases: ["haku", "ฮาคุ", "mellow"] }
 };
 
@@ -31,6 +35,48 @@ const COMMON_PACK_ITEMS = [
 
 // Menu catalog with accurate BOM formulas matching app.js
 const MENU_CATALOG = {
+  specialLatte: {
+    name: "Special Latte / Cold Whisk matcha",
+    thai: "สเปเชียลมัทฉะ ลาเต้ / โคลด์วิสก์",
+    aliases: ["special latte / cold whisk", "special latte", "special cold whisk", "special matcha", "special latte / cold whisk matcha"],
+    defaultPowder: "sukitoKurumi",
+    basePrice: 209,
+    bom: (powderStock, milk, size, brew = "coldwhisk") => getPremiumBOM(powderStock || "Sukito กระรอก", brew, milk)
+  },
+  specialClear: {
+    name: "Special Clear Matcha",
+    thai: "สเปเชียลเคลียร์มัทฉะ",
+    aliases: ["special clear", "special clear matcha"],
+    defaultPowder: "sukitoKurumi",
+    basePrice: 179,
+    bom: (powderStock, milk, size, brew = "clear") => getPremiumBOM(powderStock || "Sukito กระรอก", "clear", milk)
+  },
+  specialCoconut: {
+    name: "Special Cloudy Coconut Matcha",
+    thai: "สเปเชียลมัทฉะมะพร้าว",
+    aliases: ["special coconut", "special cloudy coconut", "special cloudy coconut matcha"],
+    defaultPowder: "sukitoKurumi",
+    basePrice: 229,
+    bom: (powderStock) => ({
+      powderStock: powderStock || "Sukito กระรอก",
+      powderG: 4,
+      items: [
+        { name: "Coconut water", qty: 135 },
+        { name: "Goodmate oat milk", qty: 65 },
+        { name: "Syrup", qty: 5 },
+        { name: "Topping tray 98mm", qty: 1 },
+        ...COMMON_PACK_ITEMS
+      ]
+    })
+  },
+  whippingCream: {
+    name: "Whipping Creams",
+    thai: "วิปปิ้งครีม",
+    aliases: ["whipping cream", "whipping creams", "วิปครีม", "วิปปิ้งครีม"],
+    isTopping: true,
+    basePrice: 20,
+    bom: () => ({ powderStock: null, powderG: 0, items: [] })
+  },
   latte: {
     name: "Matcha Latte",
     thai: "มัทฉะลาเต้",
@@ -354,11 +400,28 @@ function scrapeOrdersFromPage() {
   const orders = [];
   const scannedTexts = new Set();
 
+  // Option context from page (e.g. from "อันดับตัวเลือกสินค้าขายดี" table)
+  let pageOptionText = "";
+  const allTables = document.querySelectorAll("table, [role='table'], .ant-table");
+  allTables.forEach(tbl => {
+    const headerText = (tbl.innerText || "").toLowerCase();
+    if (headerText.includes("ตัวเลือก") || headerText.includes("option") || headerText.includes("taste") || headerText.includes("topping")) {
+      pageOptionText += " " + headerText;
+    }
+  });
+
   // Strategy 1: Table Rows (e.g. /report/menus, /report/sales, or order lists)
   const rows = document.querySelectorAll("table tr, [role='row'], .ant-table-row, .w-table-row, [class*='TableRow'], [class*='table-row']");
   rows.forEach((row, idx) => {
     // Skip table header
     if (row.querySelector("th") || row.closest("thead")) return;
+
+    // Skip summary / category / option breakdown tables
+    const parentTable = row.closest("table") || row.closest(".ant-table") || row.parentElement;
+    const tableHeaderText = (parentTable ? parentTable.innerText : "").toLowerCase();
+    if (tableHeaderText.includes("ประเภทสินค้า") || tableHeaderText.includes("อันดับตัวเลือก") || tableHeaderText.includes("ตัวเลือกสินค้าขายดี")) {
+      return; // Skip category/option breakdown rows
+    }
 
     const cells = row.querySelectorAll("td, [role='cell'], [class*='TableCell'], [class*='table-cell']");
     const fullText = (row.innerText || "").trim();
@@ -369,33 +432,39 @@ function scrapeOrdersFromPage() {
     if (matchedMenu) {
       scannedTexts.add(fullText);
 
-      // Try to parse quantity from dedicated cell, regex, or table column
+      // Try to parse quantity and revenue from dedicated cell, regex, or table column
       let qty = 1;
+      let revenue = matchedMenu.basePrice;
+
       if (cells.length >= 3) {
         // Typical Wongnai report table: [Index, Product Name, Qty Sold, Revenue, ...]
         for (let i = 1; i < cells.length; i++) {
-          const cText = (cells[i].innerText || "").trim();
-          const cleanNum = parseInt(cText.replace(/,/g, ""), 10);
-          if (/^\d+$/.test(cText) && cleanNum > 0 && cleanNum < 10000) {
-            qty = cleanNum;
-            break;
+          const cText = (cells[i].innerText || "").trim().replace(/,/g, "");
+          const cleanNum = parseFloat(cText);
+          if (!isNaN(cleanNum) && cleanNum > 0) {
+            if (cleanNum <= 500 && Number.isInteger(cleanNum) && qty === 1) {
+              qty = cleanNum;
+            } else if (cleanNum > 50) {
+              revenue = cleanNum;
+            }
           }
         }
       }
 
       if (qty === 1) {
-        const matchNum = fullText.match(/x\s*(\d+)/i) || fullText.match(/(\d+)\s*(?:แก้ว|ชิ้น|รายการ|ea|เสิร์ฟ)/i) || fullText.match(/\b([1-9]\d?)\b/);
+        const matchNum = fullText.match(/x\s*(\d+)/i) || fullText.match(/(\d+)\s*(?:แก้ว|ชิ้น|รายการ|ea|เสิร์ฟ)/i);
         if (matchNum) qty = parseInt(matchNum[1], 10);
       }
 
-      const powder = detectPowder(fullText, matchedMenu.defaultPowder);
-      const milk = detectMilk(fullText);
-      const brew = detectBrew(fullText);
-      const size = detectSize(fullText);
+      const combinedContext = fullText + " " + pageOptionText;
+      const powder = detectPowder(combinedContext, matchedMenu.defaultPowder);
+      const milk = detectMilk(combinedContext);
+      const brew = detectBrew(combinedContext);
+      const size = detectSize(combinedContext);
 
       orders.push({
         orderId: `wn-row-${Date.now()}-${idx}`,
-        rawName: (cells[1]?.innerText || fullText.split("\n")[0]).slice(0, 50),
+        rawName: (cells[1]?.innerText || fullText.split("\n")[0]).slice(0, 60),
         menuKey: matchedMenu.key,
         menuTitle: matchedMenu.name,
         powder,
@@ -403,7 +472,7 @@ function scrapeOrdersFromPage() {
         brew,
         size,
         qty: Math.min(qty, 500),
-        price: matchedMenu.basePrice,
+        price: revenue || matchedMenu.basePrice,
         timestamp: new Date().toISOString()
       });
     }
@@ -479,7 +548,7 @@ function openConfirmSyncModal(orders) {
   modal.id = "kifun-confirm-modal";
   modal.innerHTML = `
     <div style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(3px);z-index:1000002;display:flex;align-items:center;justify-content:center;">
-      <div style="background:#143024;color:#fff;border-radius:14px;padding:22px;width:380px;max-width:92vw;box-shadow:0 16px 40px rgba(0,0,0,0.6);border:1px solid rgba(163,230,53,0.3);font-family:-apple-system,BlinkMacSystemFont,sans-serif;">
+      <div style="background:#143024;color:#fff;border-radius:14px;padding:22px;width:400px;max-width:92vw;box-shadow:0 16px 40px rgba(0,0,0,0.6);border:1px solid rgba(163,230,53,0.3);font-family:-apple-system,BlinkMacSystemFont,sans-serif;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
           <h3 style="margin:0;color:#a3e635;font-size:16px;display:flex;align-items:center;gap:6px;">
             <span>🍵</span> ตรวจพบ ${orders.length} รายการ (${totalCups} แก้ว/ชิ้น)
@@ -492,7 +561,7 @@ function openConfirmSyncModal(orders) {
             <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:6px;">
               <div>
                 <b style="color:#f3f4f6;">${o.menuTitle}</b>
-                <div style="color:#a3e635;font-size:11px;">ผง: ${o.powder.label} · ${o.milk}</div>
+                <div style="color:#a3e635;font-size:11px;">ผง: ${o.powder.label} · ${o.milk} (฿${o.price})</div>
               </div>
               <span style="font-weight:bold;background:#254d3d;padding:2px 8px;border-radius:4px;color:#a3e635;">× ${o.qty}</span>
             </div>
@@ -557,26 +626,36 @@ async function executeSupabaseDeduction(orders) {
       const totalPowderG = (bom.powderG || 0) * ord.qty;
 
       // Deduct tea powder
+      let powderCostG = 3.71;
       if (bom.powderStock && totalPowderG > 0) {
         const powderStockItem = payload.stock.find(s =>
           s.name.toLowerCase() === bom.powderStock.toLowerCase() ||
-          s.name.toLowerCase().includes(bom.powderStock.split(" ")[0].toLowerCase())
+          s.name.toLowerCase().includes(bom.powderStock.toLowerCase()) ||
+          bom.powderStock.toLowerCase().includes(s.name.toLowerCase())
         );
         if (powderStockItem) {
           powderStockItem.qty = Math.max(0, +(powderStockItem.qty - totalPowderG).toFixed(2));
+          powderCostG = Number(powderStockItem.cost) || 3.71;
           totalDeductedGrams += totalPowderG;
         }
       }
 
       // Deduct ingredients and packaging
+      let itemsCost = 0;
       if (bom.items && Array.isArray(bom.items)) {
         bom.items.forEach(it => {
           const st = payload.stock.find(s => s.name.toLowerCase() === it.name.toLowerCase());
           if (st) {
             st.qty = Math.max(0, +(st.qty - it.qty * ord.qty).toFixed(2));
+            itemsCost += (Number(st.cost) || 0) * it.qty;
           }
         });
       }
+
+      const orderPrice = ord.price || menuDef.basePrice;
+      const cogsPerCup = (powderCostG * (bom.powderG || 0)) + itemsCost;
+      const payoutPerCup = orderPrice * 0.679; // After 32.1% GP
+      const profitPerCup = Math.max(0, payoutPerCup - cogsPerCup);
 
       // Log sale
       payload.sales.push({
@@ -585,10 +664,14 @@ async function executeSupabaseDeduction(orders) {
         at: new Date().toLocaleString("th-TH", { dateStyle: "short", timeStyle: "short" }),
         menu: ord.rawName || ord.menuTitle,
         powder: ord.powder.label,
+        milk: ord.milk,
+        brew: ord.brew,
         qty: ord.qty,
         channel: "lineman",
-        price: ord.price * ord.qty,
-        profit: +(ord.price * 0.4 * ord.qty).toFixed(2)
+        price: orderPrice * ord.qty,
+        cogs: +(cogsPerCup * ord.qty).toFixed(2),
+        payout: +(payoutPerCup * ord.qty).toFixed(2),
+        profit: +(profitPerCup * ord.qty).toFixed(2)
       });
 
       // Log history

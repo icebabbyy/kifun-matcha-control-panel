@@ -184,33 +184,93 @@ const PACK_ITEMS_DETAIL = {
 };
 
 const profitState = {
-  powderName: "NOKO Premium Grade Nishio",
-  powderCostPerGram: 3.71,
+  powderName: "Sukito กระรอก",
+  powderCostPerGram: 15.6667,
   powderGrams: 5.0,
-  brewMethod: "latte",
+  brewMethod: "coldwhisk",
   milkType: "oat",
-  storePrice: 99,
-  linemanPrice: 149,
+  storePrice: 159,
+  linemanPrice: 259,
   gpRate: 0.321, // 32.1% default
   discountPercent: 10, // 10% Hermes 6.0 default
   whip: false,
+  showAllCatalog: false,
   matrixBrew: "latte",
   matrixMilk: "oat",
-  matrixGrams: 5,
-  matrixSupplierFilter: "all"
+  matrixGrams: 5
 };
 
-function getAllPowders() {
-  if (supabasePowdersList && supabasePowdersList.length > 0) {
-    return supabasePowdersList;
+function getPurchasedPowders() {
+  if (profitState.showAllCatalog && supabasePowdersList && supabasePowdersList.length > 0) {
+    return supabasePowdersList.map(sp => ({
+      name: sp.name,
+      supplier: sp.supplier || "Supplier Catalog",
+      cost_per_gram: Number(sp.cost_per_gram) || (Number(sp.package_price) / Number(sp.package_grams)) || 5.0,
+      stock_grams: sp.stock_grams || 0,
+      package_grams: sp.package_grams,
+      package_price: sp.package_price,
+      notes: sp.notes || sp.customer_description || ""
+    }));
   }
-  // Fallback if supabase not yet loaded
-  return Object.entries(powders()).map(([key, p]) => ({
-    name: p.label || key,
-    supplier: p.supplier || "House",
-    cost_per_gram: p.cost || 3.71,
-    notes: p.note || ""
-  }));
+
+  const stockList = K()?.state?.stock || [];
+  const nonPowderKeywords = [
+    "spread", "biscuit", "topping", "roll", "cup", "lid", "bag", "straw", "sheet", "pouch", "set",
+    "บิสคอฟ", "นูเทลล่า", "ครีมโรล", "milk", "syrup", "น้ำ", "โอ๊ต", "นม"
+  ];
+
+  // Filter stock items with unit === "g", exclude non-tea ingredients, and exclude 0-qty mock items
+  const stockGramsItems = stockList.filter(item => {
+    if (item.unit !== "g") return false;
+    const nameLower = (item.name || "").toLowerCase();
+    if (nonPowderKeywords.some(kw => nameLower.includes(kw))) return false;
+    if (item.qty <= 0 && (item.source || "").includes("ยังไม่ได้สต็อกจริง")) return false;
+    return true;
+  });
+
+  const list = stockGramsItems.map(item => {
+    const matchSupabase = supabasePowdersList.find(
+      (sp) => sp.name.toLowerCase() === item.name.toLowerCase() || 
+              item.name.toLowerCase().includes(sp.name.toLowerCase()) ||
+              (sp.display_name && item.name.toLowerCase().includes(sp.display_name.toLowerCase()))
+    );
+    const pDict = Object.values(powders()).find(p => p.stock === item.name || p.label === item.name);
+    const costG = Number(item.cost) || matchSupabase?.cost_per_gram || pDict?.cost || 0;
+    
+    let supplier = matchSupabase?.supplier;
+    if (!supplier) {
+      if (item.name.includes("NOKO")) supplier = "NOKO";
+      else if (item.name.includes("Rinya") || item.name.includes("Ureshino")) supplier = "Rinya";
+      else if (item.name.includes("Sukito")) supplier = "Sukito";
+      else if (item.name.includes("Osha")) supplier = "Osha Ocha";
+      else if (item.name.includes("Haru")) supplier = "Haru Matcha";
+      else if (item.name.includes("Made Sis")) supplier = "Made Sis";
+      else if (item.name.includes("Fuyu")) supplier = "Specialty";
+      else supplier = "สต็อกร้าน";
+    }
+
+    return {
+      name: item.name,
+      supplier,
+      cost_per_gram: costG,
+      stock_grams: item.qty,
+      package_grams: matchSupabase?.package_grams,
+      package_price: matchSupabase?.package_price,
+      notes: item.source || pDict?.note || ""
+    };
+  });
+
+  if (list.length === 0) {
+    return Object.entries(powders()).map(([key, p]) => ({
+      name: p.stock || p.label || key,
+      supplier: p.label === "NOKO" ? "NOKO" : p.label.includes("Ureshino") ? "Rinya" : "สต็อกร้าน",
+      cost_per_gram: p.cost || 3.71,
+      stock_grams: p.stock ? (getStock(p.stock)?.qty || 0) : 0,
+      notes: p.note || ""
+    }));
+  }
+
+  return list;
 }
 
 function calculateDynamicCOGS(powderCostG, grams, brewMethodKey, milkTypeKey, hasWhip = false) {
@@ -280,10 +340,10 @@ function getProfitHealthLabel(margin) {
 
 /* ── Render Main Profit Tab ── */
 function profitTab() {
-  const allPowders = getAllPowders();
+  const purchasedPowders = getPurchasedPowders();
 
   // Find currently selected powder
-  let curPowder = allPowders.find((p) => p.name === profitState.powderName) || allPowders[0];
+  let curPowder = purchasedPowders.find((p) => p.name === profitState.powderName) || purchasedPowders[0];
   if (curPowder) {
     profitState.powderName = curPowder.name;
     profitState.powderCostPerGram = Number(curPowder.cost_per_gram) || 3.71;
@@ -297,10 +357,15 @@ function profitTab() {
         <div class="profit-top-header">
           <div>
             <h2>📊 คำนวณกำไร & จำลองแคมเปญ LINE MAN (Dynamic Engine)</h2>
-            <p>คำนวณจาก <b>ผงชา + จำนวนกรัม + วิธีชง + ชนิดนม + แพ็กเกจจิ้ง</b> ซิงก์ข้อมูลสดกับ Supabase Database</p>
+            <p>คำนวณจาก <b>ผงชาที่ซื้อแล้วในสต็อก + จำนวนกรัม + วิธีชง + ชนิดนม + แพ็กเกจจิ้ง</b> ซิงก์ข้อมูลสดกับ Supabase</p>
           </div>
-          <div class="campaign-badge-pill">
-            <i></i> Database-Backed (Supabase)
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
+            <div class="campaign-badge-pill">
+              <i></i> ${profitState.showAllCatalog ? "แคตตาล็อก Supabase" : "สต็อกจริงร้าน"} (${purchasedPowders.length} รายการ)
+            </div>
+            <button id="toggle-catalog-powders-btn" class="secondary-btn" style="font-size:11px;padding:5px 10px;border-radius:8px;font-weight:700;border:1px solid var(--line);cursor:pointer;background:${profitState.showAllCatalog ? '#254d3d' : '#fff'};color:${profitState.showAllCatalog ? '#fff' : '#254d3d'};">
+              ${profitState.showAllCatalog ? "← สลับดูเฉพาะผงในสต็อกร้าน" : "🔍 สลับดูผงทั้งหมดจาก Supabase"}
+            </button>
           </div>
         </div>
 
@@ -308,13 +373,17 @@ function profitTab() {
           
           <!-- Powder Selector -->
           <div class="profit-field" style="grid-column: span 2;">
-            <label>🍵 เลือกผงชา (Matcha Powder จาก Supabase — ${allPowders.length} รายการ)</label>
+            <label style="margin:0 0 6px;font-weight:700;display:block;">🍵 เลือกผงชา (${profitState.showAllCatalog ? "ผงทั้งหมดในระบบ" : "เฉพาะผงที่สต็อกจริงในร้าน"} — ${purchasedPowders.length} รายการ)</label>
             <select id="sim-powder-select" style="font-weight:600;">
-              ${allPowders.map((p) => {
+              ${purchasedPowders.map((p) => {
                 const costG = Number(p.cost_per_gram) || 0;
                 const isSel = p.name === profitState.powderName;
+                const stockQty = p.stock_grams !== undefined ? ` [คงเหลือ ${p.stock_grams}g]` : "";
+                const pkgG = Number(p.package_grams);
+                const pkgP = Number(p.package_price);
+                const pkgInfo = (pkgG && pkgP) ? ` (${pkgG}g ฿${pkgP.toLocaleString()} · 1kg ฿${(costG * 1000).toLocaleString()})` : ` (1kg ฿${(costG * 1000).toLocaleString()})`;
                 return `<option value="${esc(p.name)}" data-cost="${costG}" ${isSel ? "selected" : ""}>
-                  ${esc(p.supplier ? `[${p.supplier}] ` : "")}${esc(p.name)} — ฿${costG.toFixed(2)}/g (1kg ฿${p.package_price ? Number(p.package_price).toLocaleString() : (costG * 1000).toLocaleString()})
+                  ${esc(p.supplier ? `[${p.supplier}] ` : "")}${esc(p.name)}${stockQty} — ฿${costG.toFixed(2)}/g${pkgInfo}
                 </option>`;
               }).join("")}
             </select>
@@ -486,21 +555,9 @@ function renderSimulatorDynamicContent() {
     `;
   }).join("");
 
-  // Master Powder & Menu Comparison Matrix Table
-  const allPowders = getAllPowders();
-  let matrixPowders = allPowders;
-
-  if (profitState.matrixSupplierFilter !== "all") {
-    if (profitState.matrixSupplierFilter === "thep") {
-      matrixPowders = allPowders.filter((p) => p.supplier?.includes("เทพมัทฉะ") || p.name?.includes("Thep"));
-    } else if (profitState.matrixSupplierFilter === "yume") {
-      matrixPowders = allPowders.filter((p) => p.supplier?.includes("YUMEMATCHA") || p.name?.includes("YUME"));
-    } else if (profitState.matrixSupplierFilter === "base") {
-      matrixPowders = allPowders.filter((p) => (Number(p.cost_per_gram) || 0) <= 6.0);
-    } else {
-      matrixPowders = allPowders.filter((p) => p.supplier === profitState.matrixSupplierFilter);
-    }
-  }
+  // Master Powder & Menu Comparison Matrix Table (Only Purchased Powders)
+  const purchasedPowders = getPurchasedPowders();
+  const matrixPowders = purchasedPowders;
 
   const matrixRows = matrixPowders.map((p) => {
     const costG = Number(p.cost_per_gram) || 3.71;
@@ -527,12 +584,14 @@ function renderSimulatorDynamicContent() {
     const mPromo20 = calculateProfitMetrics({ price: mLinemanPrice, discountPercent: 20, gpRate: profitState.gpRate, cogs: cogs.totalCOGS });
 
     const isCurrent = p.name === profitState.powderName;
+    const stockQtyText = p.stock_grams !== undefined ? `<br><small style="color:#2b6c3b;font-weight:600;">คงเหลือ ${p.stock_grams}g</small>` : "";
 
     return `
       <tr class="${isCurrent ? "active-tier" : ""}">
         <td>
           <b>${esc(p.name)}</b>
           ${p.supplier ? `<br><small class="muted">${esc(p.supplier)}</small>` : ""}
+          ${stockQtyText}
         </td>
         <td style="text-align:right;"><b>฿${costG.toFixed(2)}</b>/g</td>
         <td style="text-align:right;">${money(cogs.powderCost)}</td>
@@ -781,31 +840,22 @@ function renderSimulatorDynamicContent() {
 
     <!-- Master Powder & Menu Comparison Matrix Table -->
     <div class="all-menus-matrix-card" style="margin-top:20px;">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:14px;">
         <div>
-          <h3>📋 ตารางเปรียบเทียบกำไรทุกผงชา (Master Powder & Recipe Matrix)</h3>
-          <p>คำนวณกำไรสดตามสูตรชงที่เลือกแบบ Real-time สำหรับผงชาทั้งหมดใน Supabase</p>
+          <h3>📋 ตารางเปรียบเทียบกำไรเฉพาะผงที่ซื้อแล้ว (Purchased Powders & Recipe Matrix)</h3>
+          <p>เปรียบเทียบต้นทุน COGS, กำไรหน้าร้าน, และกำไร LINE MAN ทุกระดับส่วนลด สำหรับผงชาที่ซื้อแล้วในสต็อกร้าน (${purchasedPowders.length} รายการ)</p>
         </div>
         
         <!-- Interactive Mode Switchers for the Matrix -->
         <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
           <span style="font-size:12px;font-weight:bold;color:#4b6352;">สูตรที่แสดงในตาราง:</span>
-          <button class="gp-preset-btn ${profitState.matrixBrew === "latte" && profitState.matrixMilk === "fresh" ? "active" : ""}" data-matrix-brew="latte" data-matrix-milk="fresh" data-matrix-grams="5">🥛 Latte 5g (นมสด)</button>
           <button class="gp-preset-btn ${profitState.matrixBrew === "latte" && profitState.matrixMilk === "oat" ? "active" : ""}" data-matrix-brew="latte" data-matrix-milk="oat" data-matrix-grams="5">🌾 Latte 5g (นม Oat)</button>
+          <button class="gp-preset-btn ${profitState.matrixBrew === "latte" && profitState.matrixMilk === "fresh" ? "active" : ""}" data-matrix-brew="latte" data-matrix-milk="fresh" data-matrix-grams="5">🥛 Latte 5g (นมสด)</button>
           <button class="gp-preset-btn ${profitState.matrixBrew === "latte" && profitState.matrixMilk === "mixed" ? "active" : ""}" data-matrix-brew="latte" data-matrix-milk="mixed" data-matrix-grams="5">🧋 Latte 5g (นมผสม)</button>
           <button class="gp-preset-btn ${profitState.matrixBrew === "coldwhisk" ? "active" : ""}" data-matrix-brew="coldwhisk" data-matrix-milk="oat" data-matrix-grams="5">🌿 Cold Whisk 5g</button>
           <button class="gp-preset-btn ${profitState.matrixBrew === "clear" ? "active" : ""}" data-matrix-brew="clear" data-matrix-milk="none" data-matrix-grams="3">🫧 Clear 3g</button>
           <button class="gp-preset-btn ${profitState.matrixBrew === "coconut" ? "active" : ""}" data-matrix-brew="coconut" data-matrix-milk="none" data-matrix-grams="4">🥥 Coconut 4g</button>
         </div>
-      </div>
-
-      <!-- Supplier Filter Pills for the Matrix -->
-      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:14px;padding:8px 12px;background:#f8faf7;border-radius:10px;">
-        <span style="font-size:11px;font-weight:bold;color:#556b5c;">กรองซัพพลายเออร์:</span>
-        <button class="gp-preset-btn ${profitState.matrixSupplierFilter === "all" ? "active" : ""}" data-matrix-filter="all">ทั้งหมด (${allPowders.length})</button>
-        <button class="gp-preset-btn ${profitState.matrixSupplierFilter === "thep" ? "active" : ""}" data-matrix-filter="thep">🍃 เทพมัทฉะ (8)</button>
-        <button class="gp-preset-btn ${profitState.matrixSupplierFilter === "yume" ? "active" : ""}" data-matrix-filter="yume">🍵 YUMEMATCHA (8)</button>
-        <button class="gp-preset-btn ${profitState.matrixSupplierFilter === "base" ? "active" : ""}" data-matrix-filter="base">🟢 Base ประหยัด (≤฿6.0/g)</button>
       </div>
       
       <div class="table-wrap">
@@ -886,15 +936,11 @@ document.addEventListener("click", (event) => {
     profitState.matrixBrew = mBtn.dataset.matrixBrew;
     profitState.matrixMilk = mBtn.dataset.matrixMilk;
     profitState.matrixGrams = Number(mBtn.dataset.matrixGrams) || 5;
-    renderSimulatorDynamicContent();
-    return;
-  }
-
-  // Matrix supplier filter
-  const mFilterBtn = event.target.closest("[data-matrix-filter]");
-  if (mFilterBtn) {
-    profitState.matrixSupplierFilter = mFilterBtn.dataset.matrixFilter;
-    renderSimulatorDynamicContent();
+  // Toggle catalog powders vs in-stock powders
+  const toggleCatalogBtn = event.target.closest("#toggle-catalog-powders-btn");
+  if (toggleCatalogBtn) {
+    profitState.showAllCatalog = !profitState.showAllCatalog;
+    renderProfitTabIfActive();
     return;
   }
 });
