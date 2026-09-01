@@ -686,21 +686,22 @@ if (powders.marukyu) Object.assign(powders.marukyu, { priceAdd: 0 });
 if (powders.lumi) Object.assign(powders.lumi, { priceAdd: 0 });
 if (powders.silk) Object.assign(powders.silk, { priceAdd: 0 });
 menus.splice(0, menus.length,
-  { id: "latte", name: "Matcha Latte", thai: "มัทฉะลาเต้", icon: "🥛", base: 99, lineman: 149, powderG: 5, type: "base", milk: true, sweetness: true, sizes: ["12", "22"], art: "12oz: 5g · น้ำ 50ml · นม 100ml", description: "นมวัวเป็น base; เปลี่ยนเป็นนมโอ๊ตได้", tag: "Daily" },
-  { id: "biscoff", name: "Biscoff Matcha Latte", thai: "มัทฉะลาเต้บิสคอฟ", icon: "🍪", base: 89, lineman: 129, powderG: 5, type: "base", milk: false, fixedMilk: true, sweetness: false, art: "12oz · Matcha 5g · oat milk 135ml · ทาสเปรดข้างแก้ว 15g · บิสกิตบนถาด 98mm", description: "Biscoff เข้ม นมโอ๊ตนุ่ม พร้อมขาย", tag: "Ready", biscoff: true },
-  { id: "nutella", name: "Nutella Matcha Latte", thai: "มัทฉะลาเต้นูเทลล่า", icon: "🍫", base: 149, lineman: 199, powderG: 5, type: "base", milk: false, fixedMilk: true, sweetness: false, art: "12oz · Matcha 5g · น้ำร้อน 50ml · นม 100ml · Nutella 20g", description: "นูเทลล่าเข้มข้นกับมัทฉะนุ่ม ๆ", tag: "Ready", nutella: true },
-  { id: "coconut", name: "Cloudy Coconut Matcha", thai: "มัทฉะมะพร้าวคลาวดี้", icon: "🥥", base: 95, lineman: 125, powderG: 4, type: "base", milk: false, sweetness: true, art: "Matcha 4g · น้ำมะพร้าว 135ml · oat milk 65ml · Sweetness 4 levels", description: "มะพร้าวสดและ oat milk เย็นจัด — พร้อมขาย", tag: "Ready", coconut: true },
-  { id: "coconutfoam", name: "Coconut Foam Matcha", thai: "มัทฉะโฟมมะพร้าว", icon: "☁️", base: 95, lineman: 125, powderG: 4, type: "base", milk: false, sweetness: true, art: "Matcha 4g · น้ำมะพร้าว 135ml · oat milk 65ml · Sweetness 4 levels", description: "สูตร coconut ของร้าน เนื้อนุ่มและเย็นจัด", tag: "Ready", coconut: true, foam: true },
-  { id: "clear", name: "Clear Matcha", thai: "เคลียร์มัทฉะ", icon: "🫧", base: 65, lineman: 99, powderG: 3, type: "base", milk: false, sweetness: true, art: "3g · น้ำ 150ml", description: "ชาใสเย็นสำหรับอ่านรสของผง", tag: "Clear" },
-  { id: "coldwhisk", name: "Cold Whisk Matcha", thai: "โคลด์วิสก์มัทฉะ", icon: "🌿", base: 119, lineman: 179, powderG: 5, type: "base", milk: true, sweetness: true, art: "5g · oat 150ml · whisk 30+60+60", description: "ตีสดให้เนื้อนุ่มฟู", tag: "Hand whisk" },
-  { id: "hojicha", name: "Hojicha Latte", thai: "โฮจิฉะลาเต้", icon: "🔥", base: 85, lineman: 129, powderG: 4, type: "hojicha", milk: true, sweetness: true, art: "4g · milk 100ml", description: "กลิ่นคั่วนุ่ม คล้ายโกโก้และถั่ว", tag: "Roasted" },
-  { id: "haku", name: "Haku Daily Uji Mellow", thai: "ฮาคุ เดลี่ อุจิ เมลโลว์", icon: "🍵", base: { clear: 139, latte: 189, coldwhisk: 209 }, lineman: { clear: 199, latte: 279, coldwhisk: 299 }, powderG: 3, type: "premium", powderKey: "haku", milk: true, sweetness: true, art: "Clear 3g · Latte / Cold Whisk 5g", description: "อุจิมัทฉะโทนเมลโลว์ นุ่มนวล กลมกล่อม ดื่มง่าย", tag: "Special" },
-  { id: "mori", name: "Harusaki Oku no Mori", thai: "ฮารุซากิ โอคุ โนะ โมริ", icon: "🌲", base: { clear: 139, latte: 219, coldwhisk: 239 }, lineman: { clear: 199, latte: 319, coldwhisk: 349 }, powderG: 3, type: "premium", powderKey: "mori", milk: true, sweetness: true, art: "Clear 3g · Latte / Cold Whisk 5g", description: "สดใส สะอาด · umami นุ่ม · หวานธรรมชาติ", tag: "Limited" },
-  { id: "yame-reserve", name: "Yame no Shiro", thai: "ยาเมะ โนะ ชิโระ", icon: "🌾", base: { clear: 129, latte: 149, coldwhisk: 169 }, lineman: { clear: 189, latte: 219, coldwhisk: 239 }, powderG: 3, type: "premium", powderKey: "yameReserve", milk: true, sweetness: true, art: "Clear 3g · Latte / Cold Whisk 5g", description: "ถั่วอบ · buttery · เนื้อครีมมี่ · umami สมดุล", tag: "Limited" },
-  { id: "uromi", name: "Horii Uji Mukashi", thai: "โฮริอิ อุจิ มุคาชิ", icon: "🍃", base: { clear: 179, latte: 219, coldwhisk: 239 }, lineman: { clear: 259, latte: 319, coldwhisk: 339 }, powderG: 3, type: "premium", powderKey: "horii", milk: true, sweetness: true, art: "Clear 3g · Latte / Cold Whisk 5g", description: "ชาเขียวสด · umami · savory นุ่ม · ขมปลายเบา", tag: "Limited" },
-  { id: "maromi", name: "Marukyu Yugen", thai: "มารุคิว ยูเก็น", icon: "✨", base: { clear: 199, latte: 259, coldwhisk: 279 }, lineman: { clear: 279, latte: 379, coldwhisk: 399 }, powderG: 3, type: "premium", powderKey: "marukyu", milk: true, sweetness: true, art: "Clear 3g · Latte / Cold Whisk 5g", description: "เนียนนุ่ม · umami กลม · เขียวสดและขมบาง", tag: "Limited" },
-  { id: "lumi", name: "Tokocha Shizuoka Okumidori", thai: "โทโคฉะ ชิซูโอกะ โอคุมิโดริ", icon: "💫", base: { clear: 179, latte: 229, coldwhisk: 269 }, lineman: { clear: 259, latte: 329, coldwhisk: 389 }, powderG: 3, type: "premium", powderKey: "lumi", milk: true, sweetness: true, art: "Clear 3g · Latte / Cold Whisk 5g", description: "pistachio · white chocolate · creamy · สดชื่น", tag: "Limited" },
-  { id: "silk", name: "Tokocha Yame Dania", thai: "โทโคฉะ ยาเมะ ดาเนีย", icon: "☁️", base: { clear: 169, latte: 219, coldwhisk: 259 }, lineman: { clear: 249, latte: 319, coldwhisk: 379 }, powderG: 3, type: "premium", powderKey: "silk", milk: true, sweetness: true, art: "Clear 3g · Latte / Cold Whisk 5g", description: "นุ่มเข้ม · creamy · ricotta-like · เหมาะกับมะพร้าว", tag: "Limited" }
+  { id: "latte", name: "Matcha Latte", thai: "มัทฉะลาเต้", icon: "🥛", base: 99, lineman: 139, powderG: 5, type: "base", milk: true, sweetness: true, sizes: ["12", "22"], art: "12oz: 5g · น้ำ 50ml · นม 100ml", description: "นมโอ๊ต/นมสดเนียนนุ่ม กับมัทฉะ House Base", tag: "Daily" },
+  { id: "biscoff", name: "Biscoff Matcha Latte", thai: "มัทฉะลาเต้บิสคอฟ", icon: "🍪", base: 129, lineman: 169, powderG: 5, type: "base", milk: false, fixedMilk: true, sweetness: false, art: "12oz · Matcha 5g · oat milk 135ml · สเปรดบิสคอฟ 15g · บิสกิต 16g บนถาด 98mm", description: "Biscoff เข้มข้น สเปรดเนียนนุ่ม พร้อมคุกกี้กรุบกรอบ", tag: "Signature", biscoff: true },
+  { id: "nutella", name: "Nutella Matcha Latte", thai: "มัทฉะลาเต้นูเทลล่า", icon: "🍫", base: 129, lineman: 159, powderG: 5, type: "base", milk: false, fixedMilk: true, sweetness: false, art: "12oz · Matcha 5g · น้ำร้อน 50ml · นม 100ml · Nutella 20g", description: "นูเทลล่าเข้มข้น ผสานมัทฉะเข้มหอม", tag: "Signature", nutella: true },
+  { id: "coconut", name: "Cloudy Coconut Matcha", thai: "มัทฉะมะพร้าวคลาวดี้", icon: "🥥", base: 99, lineman: 149, powderG: 4, type: "base", milk: false, sweetness: true, art: "Matcha 4g · น้ำมะพร้าว 135ml · oat milk 65ml · Sweetness 4 levels", description: "น้ำมะพร้าวสดหวานธรรมชาติ แยกชั้นกับ Oat milk เย็นจัด", tag: "Signature", coconut: true },
+  { id: "coconutfoam", name: "Coconut Foam Matcha", thai: "มัทฉะโฟมมะพร้าว", icon: "☁️", base: 109, lineman: 159, powderG: 4, type: "base", milk: false, sweetness: true, art: "Matcha 4g · น้ำมะพร้าว 135ml · oat milk 65ml · Sweetness 4 levels", description: "สูตร coconut ของร้าน พร้อมฟองโฟมนุ่มละมุน", tag: "Signature", coconut: true, foam: true },
+  { id: "clear", name: "Clear Matcha", thai: "เคลียร์มัทฉะ", icon: "🫧", base: 65, lineman: 99, powderG: 3, type: "base", milk: false, sweetness: true, art: "3g · น้ำ 150ml", description: "ชาใสเย็น สดชื่น อ่านโน้ตชาชัดเจน", tag: "Clear" },
+  { id: "coldwhisk", name: "Cold Whisk Matcha", thai: "โคลด์วิสก์มัทฉะ", icon: "🌿", base: 119, lineman: 159, powderG: 5, type: "base", milk: true, sweetness: true, art: "5g · oat 150ml · whisk 30+60+60", description: "ตีมัทฉะสดกับนมโอ๊ตให้เนื้อนุ่มฟู หนาแน่น", tag: "Hand whisk" },
+  { id: "hojicha", name: "Hojicha Latte", thai: "โฮจิฉะลาเต้", icon: "🔥", base: 119, lineman: 149, powderG: 4, type: "hojicha", milk: true, sweetness: true, art: "4g · milk 100ml", description: "โฮจิฉะคั่วหอม โกโก้และถั่ว ละมุนใจ", tag: "Roasted" },
+  { id: "haku", name: "Special Matcha (Haku)", thai: "สเปเชียลมัทฉะ (ฮาคุ)", icon: "🍵", base: { clear: 99, latte: 139, coldwhisk: 139 }, lineman: { clear: 159, latte: 189, coldwhisk: 189 }, powderG: 3, type: "premium", powderKey: "haku_uji", milk: true, sweetness: true, art: "Clear 3g · Latte 5g · Cold Whisk 5g", description: "Specialty Series เริ่มต้นด้วย Haku Uji / Yame", tag: "Special" },
+  { id: "mori", name: "Harusaki Oku no Mori", thai: "ฮารุซากิ โอคุ โนะ โมริ", icon: "🌲", base: { clear: 109, latte: 149, coldwhisk: 149 }, lineman: { clear: 174, latte: 204, coldwhisk: 204 }, powderG: 3, type: "premium", powderKey: "mori", milk: true, sweetness: true, art: "Clear 3g · Latte 5g · Cold Whisk 5g", description: "สดใส สะอาด · umami นุ่ม · หวานธรรมชาติ", tag: "Limited" },
+  { id: "yame-reserve", name: "Yame no Shiro", thai: "ยาเมะ โนะ ชิโระ", icon: "🌾", base: { clear: 119, latte: 159, coldwhisk: 159 }, lineman: { clear: 189, latte: 219, coldwhisk: 219 }, powderG: 3, type: "premium", powderKey: "yameReserve", milk: true, sweetness: true, art: "Clear 3g · Latte 5g · Cold Whisk 5g", description: "ถั่วอบ · buttery · เนื้อครีมมี่ · umami สมดุล", tag: "Limited" },
+  { id: "uromi", name: "Horii Uji Mukashi", thai: "โฮริอิ อุจิ มุคาชิ", icon: "🍃", base: { clear: 129, latte: 169, coldwhisk: 169 }, lineman: { clear: 199, latte: 229, coldwhisk: 229 }, powderG: 3, type: "premium", powderKey: "horii", milk: true, sweetness: true, art: "Clear 3g · Latte 4g · Cold Whisk 4g", description: "ชาเขียวสด · umami · savory นุ่ม · ขมปลายเบา", tag: "Limited" },
+  { id: "maromi", name: "Marukyu Yugen", thai: "มารุคิว ยูเก็น", icon: "✨", base: { clear: 139, latte: 179, coldwhisk: 179 }, lineman: { clear: 209, latte: 239, coldwhisk: 239 }, powderG: 3, type: "premium", powderKey: "marukyu", milk: true, sweetness: true, art: "Clear 3g · Latte 4g · Cold Whisk 4g", description: "เนียนนุ่ม · umami กลม · เขียวสดและขมบาง", tag: "Limited" },
+  { id: "lumi", name: "Tokocha Shizuoka Okumidori", thai: "โทโคฉะ ชิซูโอกะ โอคุมิโดริ", icon: "💫", base: { clear: 119, latte: 159, coldwhisk: 159 }, lineman: { clear: 189, latte: 219, coldwhisk: 219 }, powderG: 3, type: "premium", powderKey: "lumi", milk: true, sweetness: true, art: "Clear 3g · Latte 3.5g · Cold Whisk 3.5g", description: "pistachio · white chocolate · creamy · สดชื่น", tag: "Limited" },
+  { id: "silk", name: "Tokocha Yame Dania", thai: "โทโคฉะ ยาเมะ ดาเนีย", icon: "☁️", base: { clear: 149, latte: 189, coldwhisk: 189 }, lineman: { clear: 219, latte: 249, coldwhisk: 249 }, powderG: 3, type: "premium", powderKey: "silk", milk: true, sweetness: true, art: "Clear 3g · Latte 4g · Cold Whisk 4g", description: "นุ่มเข้ม · creamy · ricotta-like · เหมาะกับมะพร้าว", tag: "Limited" },
+  { id: "leia", name: "Tokocha Leia", thai: "โทโคฉะ เลอา", icon: "👑", base: { clear: 179, latte: 279, coldwhisk: 279 }, lineman: { clear: 259, latte: 389, coldwhisk: 389 }, powderG: 3, type: "premium", powderKey: "leia", milk: true, sweetness: true, art: "Clear 2.5g · Latte 4-5g · Cold Whisk 4-5g", description: "Super Ceremonial Single Cultivar · ฿39.50/g", tag: "Limited" }
 );
 snacks.splice(0, snacks.length,
   { id: "cream-matcha", name: "Matcha Cream Roll", thai: "ครีมโรลมัทฉะ", icon: "🍰", base: 39, lineman: 59, stock: "Cream roll — Matcha", cost: 10.4545, art: "คงเหลือ 21 ชิ้น", description: "ครีมโรลรสมัทฉะ" },
@@ -719,14 +720,14 @@ let menuChannel = "store";
 function validPowderKey(key) { return typeof key === "string" && Object.prototype.hasOwnProperty.call(powders, key); }
 function powderChoices(menu) {
   const choices = menu.powderKey
-    ? [menu.powderKey, "ureshino"]
+    ? [menu.powderKey, "noko", "ureshino"]
     : menu.type === "hojicha"
-      ? ["hojicha", "ureshino"]
+      ? ["hojicha"]
       : menu.type === "premium"
-        ? ["horii", "marukyu", "ureshino"]
-        : ["ureshino", "noko", "sukito", "mie"];
+        ? ["haku_uji", "haku_yame", "mori", "horii", "marukyu", "lumi", "silk", "leia"]
+        : ["noko", "ureshino", "sukito_squirrel", "osha_p01", "fuyu_kaze", "made_sis"];
   const valid = choices.filter(validPowderKey);
-  return valid.length ? valid : ["ureshino", "noko"];
+  return valid.length ? valid : ["noko", "ureshino"];
 }
 function milkRecipe(milk, ml) { if (milk === "Mixed!") return [{ name: "MM Milk", qty: ml * .6 }, { name: "Goodmate oat milk", qty: ml * .4 }]; if (milk === "M Milk" || milk === "Fresh milk") return [{ name: "MM Milk", qty: ml }]; return [{ name: "Goodmate oat milk", qty: ml }]; }
 function milkCost(milk, ml) { const mCost = getStock("MM Milk")?.cost ?? getStock("M Milk")?.cost ?? 0.0485; const oCost = getStock("Goodmate oat milk")?.cost ?? 0.095; if (milk === "Mixed!") return ml * (.6 * mCost + .4 * oCost); if (milk === "M Milk" || milk === "Fresh milk" || milk === "MM Milk") return ml * mCost; return ml * oCost; }
@@ -1509,14 +1510,13 @@ function applyHomeEditor() {
   });
 }
 function homeAlias(key) { return state.home.aliases[key] || defaultHomeAliases[key] || { name: "MATCHA TEST", note: "house matcha" }; }
-if (state.schemaVersion !== 2) {
-  // The earlier v6 draft stored placeholder premium names in Home overrides.
-  // Remove only those generated overrides once, then seed the real product copy.
+if (state.schemaVersion !== 3) {
+  // Reset generated overrides to reload the calibrated menu pricing
   if (state.home) {
     state.home.menus = {};
     state.home.aliases = structuredClone(defaultHomeAliases);
   }
-  state.schemaVersion = 2;
+  state.schemaVersion = 3;
 }
 applyHomeEditor();
 function legacyHomeEditorTab() {
@@ -1640,8 +1640,10 @@ renderCustomer = function () {
 menuTab = function () {
   const rows = menus.map((menu) => {
     const powder = powderChoices(menu)[0];
-    const price = calc(menu, powder, "M Milk", menu.coconut ? 5 : 5, "clear", "store");
-    const app = calc(menu, powder, "M Milk", menu.coconut ? 5 : 5, "clear", "lineman");
+    const brew = menu.id === "clear" ? "clear" : menu.id === "coldwhisk" ? "coldwhisk" : "latte";
+    const milkChoice = menu.coconut ? "Goodmate oat milk" : "Goodmate oat milk";
+    const price = calc(menu, powder, milkChoice, menu.coconut ? 5 : 5, brew, "store");
+    const app = calc(menu, powder, milkChoice, menu.coconut ? 5 : 5, brew, "lineman");
     const hidden = isHiddenMenu(menu);
     return `<tr class="${hidden ? "menu-hidden-row" : ""}">
       <td><div class="menu-art table-menu-art">${menuArt(menu)}</div></td>
