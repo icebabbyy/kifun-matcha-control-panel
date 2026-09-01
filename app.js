@@ -31,7 +31,8 @@ const powders = {
   mie: { label: "Mie Matcha", stock: "Mie Matcha", priceAdd: 0, cost: 10.433, note: "Umami–nutty · smooth" },
   horii: { label: "Horii Uji Mukashi", stock: "Horii Uji Mukashi", priceAdd: 0, cost: 27, note: "Uji · กลิ่นชาสด, umami นุ่ม, savory ปลายเล็กน้อย" },
   marukyu: { label: "Marukyu Yugen", stock: "Marukyu Yugen", priceAdd: 0, cost: 34, note: "Uji · balanced umami, grassy เบา, mild bitterness" },
-  hojicha: { label: "Hoho Hojicha", stock: "Hoho Hojicha", priceAdd: 0, cost: 15.3, note: "Roasted · cocoa-like (เหลือ 20g)" }
+  hojicha: { label: "Hoho Hojicha", stock: "Hoho Hojicha", priceAdd: 0, cost: 15.3, note: "Roasted · cocoa-like (เหลือ 20g)" },
+  leia: { label: "Tokocha Leia", stock: "Tokocha Leia", priceAdd: 0, cost: 39.5, note: "Tokocha Single Cultivar · ฿1,580 / 40g (เหลือ 40g)" }
 };
 const menus = [
   { id: "nutella", name: "Nutella Matcha", thai: "มัทฉะนูเทลล่า", icon: "🍫", base: 149, baseCost: 0, powderG: 5, type: "base", milk: true, sweetness: false, art: "Nutella 30g · นม 100ml", description: "นูเทลล่าเข้มกับมัทฉะนุ่ม ๆ", tag: "Signature", ingredient: "Nutella spread", ingredientQty: 30, ingredientKnown: true },
@@ -1456,6 +1457,7 @@ const defaultHomeAliases = {
   marukyu: { name: "Marukyu Yugen", note: "เนียนนุ่ม · umami กลม · ขมบาง" },
   lumi: { name: "Tokocha Shizuoka Okumidori", note: "pistachio · white chocolate · creamy" },
   silk: { name: "Tokocha Yame Dania", note: "ricotta-like · rich · creamy" },
+  leia: { name: "Tokocha Leia", note: "single cultivar · floral · elegant umami" },
   hojicha: { name: "KOGASHI", note: "roasted · nutty · cocoa-like" }
 };
 function seedHomeEditor() {
