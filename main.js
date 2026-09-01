@@ -215,8 +215,8 @@ function getPurchasedPowders() {
 
   const stockList = K()?.state?.stock || [];
   const nonPowderKeywords = [
-    "spread", "biscuit", "topping", "roll", "cup", "lid", "bag", "straw", "sheet", "pouch", "set",
-    "บิสคอฟ", "นูเทลล่า", "ครีมโรล", "milk", "syrup", "น้ำ", "โอ๊ต", "นม"
+    "spread", "biscuit", "topping", "roll", "cup", "lid", "bag", "straw", "sheet", "pouch", "set", "chawan",
+    "บิสคอฟ", "นูเทลล่า", "ครีมโรล", "ถ้วย", "ฝา", "ถุง", "หลอด", "ซอง", "แก้ว"
   ];
 
   // Filter stock items with unit === "g", exclude non-tea ingredients, and exclude 0-qty mock items
