@@ -936,6 +936,10 @@ document.addEventListener("click", (event) => {
     profitState.matrixBrew = mBtn.dataset.matrixBrew;
     profitState.matrixMilk = mBtn.dataset.matrixMilk;
     profitState.matrixGrams = Number(mBtn.dataset.matrixGrams) || 5;
+    renderProfitTabIfActive();
+    return;
+  }
+
   // Toggle catalog powders vs in-stock powders
   const toggleCatalogBtn = event.target.closest("#toggle-catalog-powders-btn");
   if (toggleCatalogBtn) {

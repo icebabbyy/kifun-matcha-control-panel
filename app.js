@@ -21,12 +21,16 @@ const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({
 const powders = {
   noko: { label: "NOKO", stock: "NOKO Premium Grade Nishio", priceAdd: 0, cost: 3.71, note: "House base · นุ่ม ดื่มง่าย (เหลือ 45g)" },
   ureshino: { label: "Ureshino Blend #2", stock: "Rinya Ureshino Premium #2", priceAdd: 0, cost: 4.60, note: "Rinya · ถั่วนึ่ง ฟลอรัล ขมน้อย · Base ชาใส & ลาเต้ (เหลือ 970g)" },
+  sukito: { label: "Sukito Kagoshima 03", stock: "Sukito Kagoshima 03", priceAdd: 15, cost: 15, note: "Floral–nutty · ลงนมดี" },
   sukito_squirrel: { label: "Sukito กระรอก (Kurumi)", stock: "Sukito กระรอก", priceAdd: 20, cost: 15.6667, note: "Sukito · ถุงกระรอก 30g · ฿470 (เหลือ 15g)" },
   osha_p01: { label: "Osha Ocha Kagoshima P01", stock: "Osha Ocha Kagoshima P01 (Tester)", priceAdd: 15, cost: 17.50, note: "Tester 20g ฿350 · บอดี้ข้าวเหนียวมะม่วงนัวนม" },
   fuyu_kaze: { label: "Fuyu no Kaze", stock: "Fuyu no Kaze", priceAdd: 20, cost: 19.6667, note: "Specialty 30g ฿590 · ลมหนาว หวานสดชื่น" },
   made_sis: { label: "Matcha Made Sis", stock: "Matcha Made Sis", priceAdd: 25, cost: 21.96, note: "Special Ceremonial 20g ฿439.20 · หอมอุมามิกลมกล่อม" },
   haru_yame: { label: "Haru Yame Milk Whisk", stock: "Haru Yame Milk Whisk", priceAdd: 15, cost: 13.8333, note: "Haru Matcha · Yame 30g · ฿415" },
   haru_uji: { label: "Haru Uji Milk Whisk", stock: "Haru Uji Milk Whisk", priceAdd: 15, cost: 12.8333, note: "Haru Matcha · Uji 30g · ฿385" },
+  mie: { label: "Mie Matcha", stock: "Mie Matcha", priceAdd: 0, cost: 10.433, note: "Umami–nutty · smooth" },
+  horii: { label: "Horii Uji Mukashi", stock: "Horii Uji Mukashi", priceAdd: 0, cost: 27, note: "Uji · กลิ่นชาสด, umami นุ่ม, savory ปลายเล็กน้อย" },
+  marukyu: { label: "Marukyu Yugen", stock: "Marukyu Yugen", priceAdd: 0, cost: 34, note: "Uji · balanced umami, grassy เบา, mild bitterness" },
   hojicha: { label: "Hoho Hojicha", stock: "Hoho Hojicha", priceAdd: 0, cost: 15.3, note: "Roasted · cocoa-like (เหลือ 20g)" }
 };
 const menus = [
@@ -661,12 +665,12 @@ function preview() { const m = getMenu(selection.menuId), c = calc(m), alias = h
    Opening update — 10 Aug 2026.  The workbook is the price/stock source;
    the user-confirmed coconut recipe below overrides its older coconut row.
 ---------------------------------------------------------------------------*/
-Object.assign(powders.noko, { note: "Nishio · ถั่วนุ่ม · ครีมมี่ · umami เบา ๆ", taste: "ดื่มแล้วออกถั่วนุ่ม ครีมมี่ และ umami เบา ๆ — กลมเมื่อใส่นม" });
-Object.assign(powders.sukito, { note: "Floral · ครีมมี่ · ถั่วทองในนม", taste: "กลิ่น floral; มีฝาดคล้ายเปลือกฝรั่ง แต่ในนมจะครีมมี่และมีโน้ตถั่วทอง" });
-Object.assign(powders.mie, { note: "Umami · nutty · smooth", taste: "umami, nutty, balanced, หวานเบา ๆ และ smooth — คล้าย Clear Matcha ของ Kamu" });
-Object.assign(powders.horii, { note: "Uji · สด · savory นุ่ม", taste: "หอมชาโม่สด, umami, savory นุ่ม และขมปลายเล็กน้อย" });
-Object.assign(powders.marukyu, { note: "Uji · grassy · umami", taste: "grassy, balanced umami และ mild bitterness" });
-Object.assign(powders.hojicha, { note: "Roasted · nutty · cocoa", taste: "กลิ่นคั่วนุ่ม, nutty และ cocoa-like" });
+if (powders.noko) Object.assign(powders.noko, { note: "Nishio · ถั่วนุ่ม · ครีมมี่ · umami เบา ๆ", taste: "ดื่มแล้วออกถั่วนุ่ม ครีมมี่ และ umami เบา ๆ — กลมเมื่อใส่นม" });
+if (powders.sukito) Object.assign(powders.sukito, { note: "Floral · ครีมมี่ · ถั่วทองในนม", taste: "กลิ่น floral; มีฝาดคล้ายเปลือกฝรั่ง แต่ในนมจะครีมมี่และมีโน้ตถั่วทอง" });
+if (powders.mie) Object.assign(powders.mie, { note: "Umami · nutty · smooth", taste: "umami, nutty, balanced, หวานเบา ๆ และ smooth — คล้าย Clear Matcha ของ Kamu" });
+if (powders.horii) Object.assign(powders.horii, { note: "Uji · สด · savory นุ่ม", taste: "หอมชาโม่สด, umami, savory นุ่ม และขมปลายเล็กน้อย" });
+if (powders.marukyu) Object.assign(powders.marukyu, { note: "Uji · grassy · umami", taste: "grassy, balanced umami และ mild bitterness" });
+if (powders.hojicha) Object.assign(powders.hojicha, { note: "Roasted · nutty · cocoa", taste: "กลิ่นคั่วนุ่ม, nutty และ cocoa-like" });
 Object.assign(powders, {
   lumi: { label: "Tokocha Shizuoka Okumidori", stock: "Tokocha Shizuoka Okumidori", priceAdd: 0, cost: 35.9, note: "Pistachio · white chocolate", taste: "pistachio, white chocolate, umami, creamy และ refreshing" },
   silk: { label: "Tokocha Yame Dania", stock: "Tokocha Yame Dania", priceAdd: 0, cost: 34.5, note: "Ricotta-like · creamy", taste: "ricotta-like, rich, smooth, creamy; เข้ากับมะพร้าว และไม่ใช่โทนคั่ว/ถั่ว" }
@@ -676,10 +680,10 @@ Object.assign(powders, {
   yameReserve: { label: "Yame no Shiro", stock: "Yame no Shiro", priceAdd: 0, cost: 19.75, note: "Roasted nut · buttery · creamy", taste: "กลิ่นถั่วอบ เนื้อครีมมี่คล้ายเนย และ umami สมดุล" },
   haku: { label: "Haku Daily Uji Mellow", stock: "Haku Daily Uji Mellow", priceAdd: 0, cost: 21.3333333333, note: "Uji · mellow · smooth", taste: "นุ่มละมุน ครีมมี่ ไม่ขมโดด umami พอดี ดื่มง่าย" }
 });
-Object.assign(powders.horii, { priceAdd: 0 });
-Object.assign(powders.marukyu, { priceAdd: 0 });
-Object.assign(powders.lumi, { priceAdd: 0 });
-Object.assign(powders.silk, { priceAdd: 0 });
+if (powders.horii) Object.assign(powders.horii, { priceAdd: 0 });
+if (powders.marukyu) Object.assign(powders.marukyu, { priceAdd: 0 });
+if (powders.lumi) Object.assign(powders.lumi, { priceAdd: 0 });
+if (powders.silk) Object.assign(powders.silk, { priceAdd: 0 });
 menus.splice(0, menus.length,
   { id: "latte", name: "Matcha Latte", thai: "มัทฉะลาเต้", icon: "🥛", base: 99, lineman: 149, powderG: 5, type: "base", milk: true, sweetness: true, sizes: ["12", "22"], art: "12oz: 5g · น้ำ 50ml · นม 100ml", description: "นมวัวเป็น base; เปลี่ยนเป็นนมโอ๊ตได้", tag: "Daily" },
   { id: "biscoff", name: "Biscoff Matcha Latte", thai: "มัทฉะลาเต้บิสคอฟ", icon: "🍪", base: 89, lineman: 129, powderG: 5, type: "base", milk: false, fixedMilk: true, sweetness: false, art: "12oz · Matcha 5g · oat milk 135ml · ทาสเปรดข้างแก้ว 15g · บิสกิตบนถาด 98mm", description: "Biscoff เข้ม นมโอ๊ตนุ่ม พร้อมขาย", tag: "Ready", biscoff: true },
@@ -1438,7 +1442,14 @@ const defaultHomeAliases = {
   noko: { name: "KOME", note: "เนียนนุ่ม · ถั่วอ่อน · umami เบา" },
   ureshino: { name: "URESHINO", note: "ถั่วนึ่ง · ฟลอรัล · ชาใส & ลาเต้ ดื่มง่าย" },
   sukito: { name: "YAME", note: "floral บาง · ครีมมี่ · ถั่วทอง" },
+  sukito_squirrel: { name: "KURUMI", note: "Sukito กระรอก · ถั่วคั่วหอม · บอดี้ละมุน" },
+  osha_p01: { name: "OSHA P01", note: "ข้าวเหนียวมะม่วงนัวนม · บอดี้ชัด" },
+  fuyu_kaze: { name: "FUYU", note: "Specialty · ลมหนาว หวานสดชื่น" },
+  made_sis: { name: "SIS", note: "Special Ceremonial · หอมอุมามิกลมกล่อม" },
+  haru_yame: { name: "HARU YAME", note: "Haru Matcha · Yame · นุ่มนวล" },
+  haru_uji: { name: "HARU UJI", note: "Haru Matcha · Uji · ชัดเจน" },
   mie: { name: "SORA", note: "smooth · umami ชัด · nutty · หวานเบา" },
+  haku: { name: "HAKU", note: "Daily Uji Mellow · นุ่มละมุน ดื่มง่าย" },
   mori: { name: "Harusaki Oku no Mori", note: "สดใส · umami นุ่ม · หวานธรรมชาติ" },
   yameReserve: { name: "Yame no Shiro", note: "ถั่วอบ · buttery · creamy" },
   horii: { name: "Horii Uji Mukashi", note: "ชาเขียวสด · umami · savory นุ่ม" },
