@@ -11,7 +11,7 @@
       "pack": "1kg 6,750 บาท",
       "evidence": "ชิมแล้ว: ชอบมาก",
       "status": "แพ็ก 1kg ขึ้น Sold out ในภาพที่ส่ง",
-      "rank": 15,
+      "rank": 16,
       "reason": "คุณชอบมาก แต่ High-firing เพียงอย่างเดียวไม่ยืนยันว่าไม่ซ้ำ Ureshino; เก็บเป็นตัวเทียบรสที่ชอบ",
       "fit": "ชอบจริง / รอยืนยันความต่าง"
     },
@@ -19,14 +19,14 @@
       "vendor": "OSHA OCHA",
       "name": "Fuyu no Kaze",
       "kg": 6900,
-      "notes": "Ceremonial ตามข้อมูลผู้ใช้",
-      "source": "user",
-      "pack": "ผู้ใช้แจ้ง 6,900 บาท • รอยืนยันว่าเป็น 1kg",
+      "notes": "Shizuoka · Blend · 1st Harvest · Ceremonial Grade · Bead mill · Grilled seaweed, fresh, salty, nutty, avocado, natural sweetness, creamy",
+      "source": "fuyu-confirmed",
+      "pack": "1kg 6,900 บาท • ผู้ใช้ยืนยันล่าสุด ตรงกับใบสินค้า",
       "evidence": "ชิมแล้ว: อร่อยมาก",
-      "status": "ต้องยืนยันขนาดแพ็กและสต็อก",
+      "status": "ราคาและขนาดยืนยันจากใบสินค้าและผู้ใช้; สต็อกไม่ได้ระบุ",
       "rank": 3,
-      "reason": "คุณชิมแล้วชอบมาก • รอยืนยันแพ็ก 6,900 บาทและบันทึกโน้ตเทียบ Ureshino ก่อนตัดสินใจ",
-      "fit": "ชอบจริง / รอยืนยันความต่าง"
+      "reason": "คุณชิมแล้วชอบมาก; grilled seaweed / avocado / creamy เพิ่มมิติจาก Ureshino ถั่วอบ-ถั่วต้ม แม้ยังมี nutty ร่วมอยู่",
+      "fit": "ชิมแล้วชอบ / มีโน้ตเพิ่มจากฐานเดิม"
     },
     {
       "vendor": "NOKO",
@@ -37,7 +37,7 @@
       "pack": "500g 3,000 บาท × 2 = 1kg 6,000 บาท",
       "evidence": "ร้านเคยใช้",
       "status": "ต้องยืนยันรุ่น/ล็อตและสต็อก",
-      "rank": 20,
+      "rank": null,
       "reason": "เก็บตัวซื้อซ้ำตามที่คุณเสนอ 500g × 2 = 6,000 บาท แต่ยังไม่ผ่านเงื่อนไขยืนยันความต่างของรส",
       "fit": "สำรอง / ข้อมูลรสไม่พอ"
     },
@@ -50,7 +50,7 @@
       "pack": "1kg 4,550 บาท",
       "evidence": "ชิมแล้ว: อร่อย",
       "status": "แพ็ก 1kg ขึ้น Sold out ในภาพที่ส่ง",
-      "rank": 16,
+      "rank": 17,
       "reason": "ชิมแล้วชอบและประหยัด แต่ยังไม่มีโน้ตเทียบ Ureshino; แพ็กกิโลในภาพหมด",
       "fit": "ชอบจริง / รอยืนยันความต่าง"
     },
@@ -58,8 +58,8 @@
       "vendor": "OSHA OCHA",
       "name": "Kagoshima P01",
       "kg": 5270,
-      "notes": "Dense body · rice milk · floral nuts · avocado · mango sticky rice",
-      "source": "canva",
+      "notes": "Premium Grade · Blend · 2nd Harvest · Ball mill · Dense body with rice milk, florals, nuts, avocado, mango sticky rice",
+      "source": "kagoshima-sheet",
       "pack": "1kg 5,270 บาท",
       "evidence": "ยังไม่ได้ชิม",
       "status": "สอบถามสต็อกก่อนซื้อ",
@@ -321,7 +321,7 @@
       "pack": "100g 580 / 500g 2,500 / 1kg 4,800",
       "evidence": "ยังไม่ได้ชิม",
       "status": "สอบถามสต็อกก่อนซื้อ",
-      "rank": 13,
+      "rank": 14,
       "reason": "Cookie / wheatgrass เปลี่ยนไปทางคุกกี้และเขียว; ยังไม่มีผลชิมว่าชอบหรือเหมาะสูตรร้าน",
       "fit": "น่าสนใจตามโน้ต"
     },
@@ -334,7 +334,7 @@
       "pack": "100g 600 / 500g 2,600 / 1kg 5,000",
       "evidence": "ยังไม่ได้ชิม",
       "status": "สอบถามสต็อกก่อนซื้อ",
-      "rank": 14,
+      "rank": 15,
       "reason": "Barley / grain เพิ่มแนวธัญพืช; อาจยังให้ความอบคล้ายฐานเดิม ควรเทียบแบบปิดชื่อ",
       "fit": "ต่างบางส่วน"
     },
@@ -553,7 +553,7 @@
       "pack": "500g 6,250 / 10500 บาท/kg",
       "evidence": "ยังไม่ได้ชิม",
       "status": "สอบถามสต็อกก่อนซื้อ",
-      "rank": 11,
+      "rank": 12,
       "reason": "มี savory fish snack และ hint of yuzu แต่ถั่วคั่วกับถั่วเขียวปอกเปลือกยังเสี่ยงทับ Ureshino",
       "fit": "ต่างบางส่วน"
     },
@@ -566,7 +566,7 @@
       "pack": "500g 7,900 / 12500 บาท/kg",
       "evidence": "ยังไม่ได้ชิม",
       "status": "สอบถามสต็อกก่อนซื้อ",
-      "rank": 12,
+      "rank": 13,
       "reason": "Pear / buttery bread เพิ่มมิติ แต่มี roasted nuts; ราคาใกล้เพดาน ต้องชิมก่อนกิโล",
       "fit": "ต่างบางส่วน"
     },
@@ -596,15 +596,17 @@
     },
     {
       "vendor": "OSHA OCHA",
-      "name": "C02",
-      "kg": null,
-      "notes": "Coming soon",
-      "source": "canva",
-      "pack": "ยังไม่มีราคาที่อ่านยืนยันได้",
-      "evidence": "ยังไม่ได้ชิม",
-      "status": "สอบถามสต็อกก่อนซื้อ",
-      "rank": null,
-      "reason": ""
+      "name": "Kagoshima C02",
+      "kg": 8950,
+      "notes": "Ceremonial Grade · Blend · 1st Harvest · Bead mill · Avocado, malt, florals, roasted nut-rice; supplier แจ้งว่าสีสวยกว่าและถั่วคั่วชัดกว่า P01",
+      "source": "kagoshima-sheet",
+      "pack": "1kg 8,950 บาท • tester 20g 300 + ส่ง 50 = 350 บาท",
+      "evidence": "ยังไม่ได้ชิม • คุณภาพสีและถั่วคั่วเป็นคำบรรยาย supplier",
+      "status": "ราคาใหม่จากข้อความ supplier ที่ผู้ใช้ส่ง แทน Coming soon ในใบสินค้า; สต็อกไม่ได้ระบุ",
+      "rank": 11,
+      "reason": "มี malt / floral / avocado แต่ supplier ระบุถั่วคั่วชัดขึ้น จึงยังไม่ใช่หลักฐานว่าต่างจาก Ureshino มากกว่า P01; เพิ่มทุน 3.68 บาท/g หรือ 18.40 บาทเมื่อใช้ 5g",
+      "fit": "ต่างบางส่วน / ถั่วคั่วอาจซ้ำ Ureshino",
+      "supplier_quote": "C02 first harvest; P01 second harvest; C02 prettier color and stronger roasted-nut taste; tester 20g 300 THB plus shipping 50; 1kg 8950 THB"
     },
     {
       "vendor": "Midori Shinsei",
@@ -773,7 +775,7 @@
       "pack": "250g 3,250 / 500g 5,700 / 1kg 10,700 บาท",
       "evidence": "ยังไม่ได้ชิม • ชื่อเสียงแบรนด์ไม่ใช่ผลชิมรายรุ่น",
       "status": "ใบราคามีผลถึง 30 ก.ย. 2026; สีแดงไม่มีคำอธิบาย จึงไม่ใช้สรุปว่าหมด",
-      "rank": 17,
+      "rank": 18,
       "reason": "ราคา 10.70 บาท/g อยู่ในงบ; รอ supplier ยืนยันโน้ตของรุ่น upper ห้ามใช้โน้ต Premium แทน",
       "taste_url": null,
       "fit": "สำรอง / ข้อมูลรสไม่พอ"
@@ -1009,7 +1011,7 @@
       "pack": "250g 1,420 / 500g 2,650 / 1kg 4,700 บาท",
       "evidence": "ยังไม่ได้ชิม • ชื่อเสียงแบรนด์ไม่ใช่ผลชิมรายรุ่น",
       "status": "ใบราคามีผลถึง 30 ก.ย. 2026; สีแดงไม่มีคำอธิบาย จึงไม่ใช้สรุปว่าหมด",
-      "rank": 19,
+      "rank": 20,
       "reason": "ราคา 4.70 บาท/g คุ้มพอให้ตรวจต่อ แต่ไม่มีหลักฐานว่ารสต่างจาก Ureshino",
       "taste_url": null,
       "fit": "สำรอง / ข้อมูลรสไม่พอ"
@@ -1102,7 +1104,7 @@
       "pack": "250g 3,000 / 500g 5,550 / 1kg 9,800 บาท",
       "evidence": "ยังไม่ได้ชิม • ชื่อเสียงแบรนด์ไม่ใช่ผลชิมรายรุ่น",
       "status": "ใบราคามีผลถึง 30 ก.ย. 2026; สีแดงไม่มีคำอธิบาย จึงไม่ใช้สรุปว่าหมด",
-      "rank": 18,
+      "rank": 19,
       "reason": "ราคา 9.80 บาท/g; ขอ tester และโน้ตก่อน ไม่สรุปรสจากชื่อแหล่งปลูก",
       "taste_url": null,
       "fit": "สำรอง / ข้อมูลรสไม่พอ"
@@ -1225,8 +1227,7 @@
       "taste_url": null
     }
   ],
-  "revision": "top20-p01-desktop-20260925",
-  "primary_workspace": "C:\\Users\\ASUS\\Desktop\\Happihause matcha",
+  "revision": "top20-fuyu6900-c028950-20260925",
   "ranking_note": "P01 อันดับ 1 ตามผู้ใช้; ลำดับอื่นเป็นข้อเสนอจากโน้ต ไม่ใช่ผลชิมยืนยัน; ตัวสำรองไม่ผ่านการยืนยันความต่าง",
   "excluded_from_ranking": [
     "Rinya Ureshino Premium Blend #2"
