@@ -1203,7 +1203,7 @@ function renderAdmin() {
   else if (activeTab === "homeedit" && typeof homeEditorTab === "function") out.innerHTML = homeEditorTab();
   else if (activeTab === "sales") out.innerHTML = salesTab();
   else if (activeTab === "stock") out.innerHTML = stockTab();
-  else if (activeTab === "suppliers" || activeTab === "top10") { out.innerHTML = supplierTab(); renderSupplierCatalog(); }
+  else if (activeTab === "suppliers" || activeTab === "top10") { out.innerHTML = window.KifunBuying.render(supplierCatalog); window.KifunBuying.update(); }
   else if (activeTab === "profit") { if (window.__kifunProfit?.render) window.__kifunProfit.render(); }
   else out.innerHTML = equipmentTab();
 }
