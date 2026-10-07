@@ -115,7 +115,11 @@ export async function getAdminSession() {
   try {
     const { data, error } = await supabase.auth.getSession();
     if (error) return null;
-    return data?.session || null;
+    if (!data?.session) return null;
+    const {data:allowed,error:roleError}=await supabase.rpc('is_store_admin');
+    if(roleError || !allowed) return null;
+    window.__verifiedAdminSession=true;
+    return data.session;
   } catch {
     return null;
   }
@@ -132,11 +136,16 @@ export async function loginAdminWithSupabase(email, password) {
   });
   
   if (error) throw error;
+  const {data:allowed,error:roleError}=await supabase.rpc('is_store_admin');
+  if(roleError || !allowed){await supabase.auth.signOut();throw new Error('บัญชีนี้ไม่มีสิทธิ์ผู้ดูแลร้าน');}
+  window.__verifiedAdminSession=true;
+  window.dispatchEvent(new Event('kifun:admin-authenticated'));
   return data.session;
 }
 
 /** ออกจากระบบ Supabase Auth */
 export async function logoutAdminWithSupabase() {
+  window.__verifiedAdminSession=false;
   try {
     await supabase.auth.signOut();
   } catch (err) {

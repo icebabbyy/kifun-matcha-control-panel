@@ -45,8 +45,8 @@ const menus = [
   { id: "premium", name: "Premium Matcha", thai: "พรีเมียมมัทฉะ", icon: "✨", base: 179, baseCost: 2.772, powderG: 3, type: "premium", milk: true, sweetness: true, art: "Horii / Marukyu · เลือกวิธีชง", description: "ชา Special แยกจาก base · จำนวนจำกัด", tag: "Limited" }
 ];
 const snacks = [
-  { id: "cream-matcha", name: "Matcha Cream Roll", thai: "ครีมโรลมัทฉะ", icon: "🍰", base: 39, lineman: 59, stock: "Cream roll — Matcha", cost: 10.4545, art: "คงเหลือ 21 ชิ้น", description: "ครีมโรลรสมัทฉะ" },
-  { id: "cream-hojicha", name: "Hojicha Cream Roll", thai: "ครีมโรลโฮจิฉะ", icon: "🥮", base: 39, lineman: 59, stock: "Cream roll — Hojicha", cost: 10.4545, art: "คงเหลือ 20 ชิ้น", description: "ครีมโรลรสโฮจิฉะ" }
+  { id: "cream-matcha", name: "Matcha Cream Roll", thai: "ครีมโรลมัทฉะ", icon: "🍰", base: 13.33, lineman: 29, stock: "Cream roll — Matcha", cost: 8.320512820512821, art: "ครีมโรลมัตจะ", description: "ครีมโรลรสมัทฉะ" },
+  { id: "cream-hojicha", name: "Hojicha Cream Roll", thai: "ครีมโรลโฮจิฉะ", icon: "🥮", base: 15.46, lineman: 29, stock: "Cream roll — Hojicha", cost: 10.4545, art: "ครีมโรลโฮจิฉะ", description: "ครีมโรลรสโฮจิฉะ" }
 ];
 const defaultState = () => ({
   menuStatus: Object.fromEntries(menus.map(m => [m.id, true])),
@@ -95,14 +95,12 @@ let selection = { kind: "drink", menuId: null, powder: "ureshino", milk: "Oat mi
 const ADMIN_AUTH_KEY = "happihaus_admin_session";
 
 function isAdminAuthenticated() {
-  try {
-    return localStorage.getItem(ADMIN_AUTH_KEY) === "true" || sessionStorage.getItem(ADMIN_AUTH_KEY) === "true";
-  } catch {
-    return false;
-  }
+  return window.__verifiedAdminSession === true;
 }
 
 function setAdminAuthenticated(val) {
+  if (val && window.__verifiedAdminSession !== true) return;
+  if (!val) window.__verifiedAdminSession=false;
   try {
     if (val) {
       localStorage.setItem(ADMIN_AUTH_KEY, "true");
@@ -327,7 +325,8 @@ function legacyRenderAdmin() {
   document.querySelector("#kpi-row").innerHTML = `<div class="kpi emphasis"><small>ยอดขายที่บันทึก</small><b>${money(revenue)}</b></div><div class="kpi"><small>กำไรหลัง GP (ประมาณ)</small><b>${money(profit)}</b></div><div class="kpi"><small>จำนวนแก้ว</small><b>${state.sales.reduce((a, s) => a + s.qty, 0)}</b></div><div class="kpi"><small>สต็อกต้องดู</small><b>${low} รายการ</b></div>`;
   document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === activeTab));
   const out = document.querySelector("#admin-content");
-  if (activeTab === "menu") out.innerHTML = menuTab();
+  if (activeTab === "storemenu" && window.__renderStoreCatalogAdmin) out.innerHTML = window.__renderStoreCatalogAdmin();
+  else if (activeTab === "menu") out.innerHTML = menuTab();
   if (activeTab === "sales") out.innerHTML = salesTab();
   if (activeTab === "stock") out.innerHTML = stockTab();
   if (activeTab === "equipment") out.innerHTML = equipmentTab();
@@ -704,8 +703,8 @@ menus.splice(0, menus.length,
   { id: "leia", name: "Tokocha Leia", thai: "โทโคฉะ เลอา", icon: "👑", base: { clear: 179, latte: 279, coldwhisk: 279 }, lineman: { clear: 259, latte: 389, coldwhisk: 389 }, powderG: 3, type: "premium", powderKey: "leia", milk: true, sweetness: true, art: "Clear 2.5g · Latte 4-5g · Cold Whisk 4-5g", description: "Super Ceremonial Single Cultivar · ฿39.50/g", tag: "Limited" }
 );
 snacks.splice(0, snacks.length,
-  { id: "cream-matcha", name: "Matcha Cream Roll", thai: "ครีมโรลมัทฉะ", icon: "🍰", base: 39, lineman: 59, stock: "Cream roll — Matcha", cost: 10.4545, art: "คงเหลือ 21 ชิ้น", description: "ครีมโรลรสมัทฉะ" },
-  { id: "cream-hojicha", name: "Hojicha Cream Roll", thai: "ครีมโรลโฮจิฉะ", icon: "🥮", base: 39, lineman: 59, stock: "Cream roll — Hojicha", cost: 10.4545, art: "คงเหลือ 20 ชิ้น", description: "ครีมโรลรสโฮจิฉะ" }
+  { id: "cream-matcha", name: "Matcha Cream Roll", thai: "ครีมโรลมัทฉะ", icon: "🍰", base: 13.33, lineman: 29, stock: "Cream roll — Matcha", cost: 8.320512820512821, art: "ครีมโรลมัตจะ", description: "ครีมโรลรสมัทฉะ" },
+  { id: "cream-hojicha", name: "Hojicha Cream Roll", thai: "ครีมโรลโฮจิฉะ", icon: "🥮", base: 15.46, lineman: 29, stock: "Cream roll — Hojicha", cost: 10.4545, art: "ครีมโรลโฮจิฉะ", description: "ครีมโรลรสโฮจิฉะ" }
 );
 function upsertStock(name, unit, qty, cost, min, source) { const found = getStock(name); if (found) Object.assign(found, { unit, qty, cost, min, source }); else state.stock.push({ name, unit, qty, cost, min, source }); }
 upsertStock("Cream roll — Matcha", "pc", 21, 10.4545, 4, "ยอดคงเหลือที่ปรับแล้ว");
@@ -1199,7 +1198,8 @@ function renderAdmin() {
   }
   document.querySelectorAll(".tab-btn").forEach(button => button.classList.toggle("active", button.dataset.tab === activeTab));
 
-  if (activeTab === "menu") out.innerHTML = menuTab();
+  if (activeTab === "storemenu" && window.__renderStoreCatalogAdmin) out.innerHTML = window.__renderStoreCatalogAdmin();
+  else if (activeTab === "menu") out.innerHTML = menuTab();
   else if (activeTab === "homeedit" && typeof homeEditorTab === "function") out.innerHTML = homeEditorTab();
   else if (activeTab === "sales") out.innerHTML = salesTab();
   else if (activeTab === "stock") out.innerHTML = stockTab();
@@ -1624,6 +1624,7 @@ const menuArt = (menu) => menu.image
 
 const renderCustomerV8 = renderCustomer;
 renderCustomer = function () {
+  if (window.__renderStorefront) { window.__renderStorefront(); return; }
   renderCustomerV8();
   document.querySelectorAll("[data-menu]").forEach((card) => {
     const menu = getMenu(card.dataset.menu);
