@@ -16,7 +16,7 @@ import {
   logoutAdminWithSupabase,
   verifyAdminPasscodeWithSupabase 
 } from "./supabase.js";
-import {initStorefront} from './storefront.js?v=20261007-6';
+import {initStorefront} from './storefront.js?v=20261007-7';
 initStorefront().catch(error => {
   console.error('Storefront:',error);
   document.querySelector('#customer-view').innerHTML='<div class="panel"><h1>โหลดเมนูไม่สำเร็จ</h1><p>กรุณารีเฟรชหน้า หรือติดต่อหน้าร้าน</p></div>';

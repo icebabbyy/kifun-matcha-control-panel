@@ -1,5 +1,6 @@
 import {createClient} from 'https://esm.sh/@supabase/supabase-js@2';
 import {priceOrder,baht} from './order-pricing.js';
+import {orderButtons} from './order-status.js';
 const origins=new Set(['https://icebabbyy.github.io','http://localhost:5173','http://127.0.0.1:5173','http://127.0.0.1:5174']);
 const db=createClient(Deno.env.get('SUPABASE_URL')!,Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
 const hash=async(s:string)=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))).map(v=>v.toString(16).padStart(2,'0')).join('');
@@ -24,14 +25,15 @@ Deno.serve(async(req:Request)=>{
   if(body.expectedTotal!==order.totalCents)throw new Error('ยอดเงินเปลี่ยน กรุณารีเฟรชหน้าแล้วสั่งใหม่');
   const {data:config,error:configError}=await db.rpc('store_telegram_config');
   if(configError||!config?.store_telegram_token||!config?.store_telegram_chat) return reply(503,{ok:false,error:'ร้านกำลังตั้งค่ารับออเดอร์ กรุณาสั่งที่หน้าร้านก่อน'});
-  const details={customer:{name:customer.name.trim(),phone:customer.phone.trim(),note:customer.note.trim()},lines:order.lines,version:catalog.version};
+  if(body.receiptKey!==undefined && (typeof body.receiptKey!=='string'||!/^[a-f0-9]{64}$/.test(body.receiptKey)))throw new Error('ข้อมูลติดตามออเดอร์ไม่ถูกต้อง');
+  const details={customer:{name:customer.name.trim(),phone:customer.phone.trim(),note:customer.note.trim()},lines:order.lines,version:catalog.version,...(body.receiptKey?{receipt_hash:await hash(body.receiptKey)}:{})};
   const ip=(req.headers.get('x-forwarded-for')||'unknown').split(',')[0].trim();
   const {data:saved,error:saveError}=await db.rpc('claim_store_order',{p_request:requestId,p_ip:await hash(ip),p_hash:await hash(JSON.stringify(details)),p_details:details,p_total:order.totalCents});
   if(saveError)throw new Error(saveError.message.includes('RATE_LIMIT')?'สั่งถี่เกินไป กรุณารอสักครู่':saveError.message.includes('ORDER_PROCESSING')?'ออเดอร์กำลังส่ง กรุณารอสักครู่แล้วลองใหม่':'บันทึกออเดอร์ไม่สำเร็จ');
   const orderNumber='HH-'+String(saved.order_number).padStart(5,'0');
   if(saved.status==='notified')return reply(200,{ok:true,orderNumber,totalCents:saved.total_cents});
   const text=`🍵 ออเดอร์หน้าร้าน ${orderNumber}\nผู้รับ: ${details.customer.name}\nโทร: ${details.customer.phone||'ไม่ได้ระบุ'}\n\n`+order.lines.map((l:any)=>`${l.name} × ${l.quantity}\n${Object.values(l.selections).map((o:any)=>o.label).join(' · ')}\n฿${baht(l.totalCents)}`).join('\n\n')+`\n\nรวม ฿${baht(order.totalCents)}\nหมายเหตุ: ${details.customer.note||'—'}\nรอร้านยืนยัน · ยังไม่ชำระเงิน`;
-  const sent=await fetch(`https://api.telegram.org/bot${config.store_telegram_token}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:config.store_telegram_chat,text}),signal:AbortSignal.timeout(12000)});
+  const sent=await fetch(`https://api.telegram.org/bot${config.store_telegram_token}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:config.store_telegram_chat,text,reply_markup:orderButtons(requestId!,'awaiting')}),signal:AbortSignal.timeout(12000)});
   const message=await sent.json();
   if(!sent.ok||!message.ok){await db.from('store_orders').update({status:'pending',claimed_at:null}).eq('request_id',requestId);return reply(502,{ok:false,error:'ร้านยังไม่ได้รับแจ้งเตือน กรุณาลองอีกครั้ง'});}
   const {error:markError}=await db.from('store_orders').update({status:'notified',notified_at:new Date().toISOString(),telegram_message_id:message.result.message_id}).eq('request_id',requestId);
