@@ -1,0 +1,21 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {showOrderNotice} from './order-notice.js';
+test('submission waits for confirmation, acceptance replaces notice and polling does not reopen it',()=>{
+ const values=new Map(),fields=new Map();let opens=0,created=0,configurationOpen=true;
+ const dialog={open:false,setAttribute(){},querySelector(selector){if(!fields.has(selector))fields.set(selector,{textContent:'',addEventListener(){}});return fields.get(selector);},showModal(){this.open=true;opens++;},close(){this.open=false;}};
+ globalThis.sessionStorage={getItem:key=>values.get(key),setItem:(key,value)=>values.set(key,value)};
+ globalThis.document={querySelector:selector=>selector==='#store-dialog'?{open:configurationOpen}:created?dialog:null,createElement:()=>{created++;return dialog;},body:{append(){}}};
+ const order={requestId:'customer-one',orderNumber:'HH-001',fulfillment:'awaiting'};
+ showOrderNotice(order);assert.equal(opens,0);
+ configurationOpen=false;showOrderNotice(order);
+ assert.match(fields.get('h2').textContent,/ส่งออเดอร์แล้ว/);
+ assert.match(fields.get('.order-notice-message').textContent,/รอร้านยืนยัน/);
+ dialog.close();showOrderNotice(order);assert.equal(opens,1);
+ order.fulfillment='accepted';showOrderNotice(order);
+ assert.match(fields.get('h2').textContent,/ร้านรับออเดอร์แล้ว/);
+ assert.match(fields.get('.order-notice-message').textContent,/ตอนร้านนำเครื่องดื่มมาเสิร์ฟ/);
+ dialog.close();showOrderNotice(order);assert.equal(opens,2);
+ showOrderNotice({...order,requestId:'customer-two'});assert.equal(opens,3);
+ delete globalThis.document;delete globalThis.sessionStorage;
+});
