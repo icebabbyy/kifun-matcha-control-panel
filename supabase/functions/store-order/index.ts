@@ -37,5 +37,5 @@ Deno.serve(async(req:Request)=>{
   const {error:markError}=await db.from('store_orders').update({status:'notified',notified_at:new Date().toISOString(),telegram_message_id:message.result.message_id}).eq('request_id',requestId);
   if(markError)return reply(503,{ok:false,error:'ส่งให้ร้านแล้ว แต่บันทึกสถานะไม่สำเร็จ กรุณาติดต่อร้านก่อนสั่งซ้ำ'});
   return reply(200,{ok:true,orderNumber,totalCents:order.totalCents});
- }catch(error){return reply(400,{ok:false,error:error instanceof Error?error.message:'ส่งออเดอร์ไม่สำเร็จ'});}
+ }catch(error){return reply(400,{ok:false,error:error instanceof Error && /^[ก-๙]/.test(error.message)?error.message:'ส่งออเดอร์ไม่สำเร็จ กรุณาลองอีกครั้ง'});}
 });
