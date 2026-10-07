@@ -88,7 +88,7 @@ const defaultState = () => ({
   history: [{ at: today(), type: "adjust", title: "ตั้งต้นข้อมูลในเครื่อง", detail: "นำค่าผง/ต้นทุนจากชีท + น้ำมะพร้าว ฿115/L", delta: "—" }]
 });
 let state = defaultState();
-let activeMode = "customer", activeTab = "menu";
+let activeMode = "customer", activeTab = "storemenu";
 let selection = { kind: "drink", menuId: null, powder: "ureshino", milk: "Oat milk", sweetness: 5, brew: "latte", size: "12", channel: "store", qty: 1 };
 
 /* ── Admin Gate Authentication (Supabase Auth Backend) ──────────── */
@@ -339,15 +339,25 @@ function legacySalesTab() {
 let currentStockFilter = "all";
 let currentStockSearch = "";
 
+function stockNumber(value) {
+  if (value == null || typeof value === "boolean" || String(value).trim() === "") return null;
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
+}
+function stockQuantity(value) {
+  const number = stockNumber(value);
+  return number == null ? "ยังไม่ระบุ" : Number(number.toFixed(2)).toLocaleString("th-TH");
+}
 function stockTab() {
-  const inStock = state.stock.filter(s => s.qty > 0);
-  const outOfStock = state.stock.filter(s => s.qty <= 0);
-  const lowStock = state.stock.filter(s => s.qty > 0 && s.qty <= (s.min || 0));
+  const inStock = state.stock.filter(s => stockNumber(s.qty) > 0);
+  const outOfStock = state.stock.filter(s => stockNumber(s.qty) != null && stockNumber(s.qty) <= 0);
+  const lowStock = state.stock.filter(s => stockNumber(s.qty) > 0 && stockNumber(s.qty) <= (stockNumber(s.min) ?? 0));
 
   let filteredStock = state.stock.filter(s => {
-    if (currentStockFilter === "instock" && s.qty <= 0) return false;
-    if (currentStockFilter === "out" && s.qty > 0) return false;
-    if (currentStockFilter === "low" && (s.qty <= 0 || s.qty > (s.min || 0))) return false;
+    const qty = stockNumber(s.qty);
+    if (currentStockFilter === "instock" && !(qty > 0)) return false;
+    if (currentStockFilter === "out" && (qty == null || qty > 0)) return false;
+    if (currentStockFilter === "low" && !(qty > 0 && qty <= (stockNumber(s.min) ?? 0))) return false;
     if (currentStockSearch) {
       const q = currentStockSearch.toLowerCase();
       const text = `${s.name} ${s.source || ""} ${s.unit}`.toLowerCase();
@@ -485,9 +495,10 @@ function stockTab() {
           </thead>
           <tbody>
             ${filteredStock.length === 0 ? `<tr><td colspan="6" class="muted" style="text-align:center;padding:24px;">ไม่พบรายการสต็อกตามเงื่อนไขค้นหา</td></tr>` : filteredStock.map(s => {
-              const isOut = s.qty <= 0;
-              const isLow = !isOut && s.qty <= (s.min || 0);
-              const totalVal = s.cost != null ? s.qty * s.cost : null;
+              const qty = stockNumber(s.qty), cost = stockNumber(s.cost);
+              const isOut = qty != null && qty <= 0;
+              const isLow = qty != null && !isOut && qty <= (stockNumber(s.min) ?? 0);
+              const totalVal = qty != null && cost != null ? qty * cost : null;
               return `
                 <tr style="${isOut ? 'opacity:0.75;background:#fef2f2;' : isLow ? 'background:#fffbeb;' : ''}">
                   <td>
@@ -496,7 +507,7 @@ function stockTab() {
                     <br><small class="muted" style="font-size:11px;">${esc(s.source || "—")}</small>
                   </td>
                   <td style="text-align:right;font-weight:bold;font-size:14px;color:${isOut ? '#dc2626' : isLow ? '#d97706' : '#254d3d'};">
-                    ${Number(s.qty.toFixed(2)).toLocaleString()} <small style="font-weight:normal;color:#666;">${esc(s.unit)}</small>
+                    ${stockQuantity(s.qty)} <small style="font-weight:normal;color:#666;">${esc(s.unit)}</small>
                   </td>
                   <td style="text-align:right;font-weight:600;color:var(--text-main,#333);">
                     ${formatUnitCost(s.cost, s.unit)}
@@ -505,8 +516,8 @@ function stockTab() {
                     ${totalVal != null ? '฿' + Math.round(totalVal).toLocaleString() : '—'}
                   </td>
                   <td style="text-align:center;white-space:nowrap;">
-                    <button class="mini-btn" data-stock="${esc(s.name)}" data-delta="-1" title="ลด 1">−</button>
-                    <button class="mini-btn" data-stock="${esc(s.name)}" data-delta="1" title="เพิ่ม 1">+</button>
+                    <button class="mini-btn" data-stock="${esc(s.name)}" data-delta="-1" title="ลด 1" ${qty == null ? "disabled" : ""}>−</button>
+                    <button class="mini-btn" data-stock="${esc(s.name)}" data-delta="1" title="เพิ่ม 1" ${qty == null ? "disabled" : ""}>+</button>
                   </td>
                   <td style="text-align:center;white-space:nowrap;">
                     <button class="secondary-btn" data-edit-stock="${esc(s.name)}" style="padding:4px 8px;font-size:12px;border-radius:6px;" title="แก้ไขข้อมูล">✏️ แก้ไข</button>
@@ -635,19 +646,12 @@ function openStockEditor(name) {
   dialog.showModal();
 }
 function equipmentTab() {
-  const items = [
-    ["แก้ว 12oz + ฝา + หลอด", "ต้นทุนสุทธิ ฿2.772 / ชุด · ใช้ถ่ายรูปแล้ว 2 ชุด", "มี 48 ชุด"],
-    ["แก้ว 22oz ฟรี 50 ใบ", "ไม่คิดต้นทุนแก้ว แต่ยังต้องซื้อ/ยืนยันฝา 22oz", "รอฝา 22oz"],
-    ["ถุง Cold Whisk 200/250ml", "ต้นทุนสุทธิ ฿0.99 / ใบ · ถุง 200ml ใช้แล้ว 1", "มี 99 ใบ"],
-    ["ถาดท็อปปิ้ง + ถ้วย 3oz", "ถาด ฿1.07 / ใบ · ถ้วย ฿0.80 / ใบ หลังจัดสรรจากบิลสุทธิ ฿147", "พร้อมใช้"],
-    ["Bar mat กันลื่น", "เงินลงทุนความสวยงาม ฿281 ไม่เฉลี่ยลงต่อแก้ว", "พร้อมใช้"],
-    ["Cream roll Hojicha / Matcha", "ต้นทุนสุทธิ ฿10.45 / ชิ้น หลังส่วนลด · 22 ชิ้น/รส", "พร้อมขายเป็นขนม"],
-    ["Coconut foam setup", "เพิ่มต้นทุนจริงเมื่อเลือกวัตถุดิบและชั่งต่อเสิร์ฟ", "ต้องเทสต์"],
-  ]; return `<div class="panel"><div class="panel-head"><div><h2>อุปกรณ์ & แพ็ก</h2><p>เช็กลิสต์ก่อนเปิดขายจริง — ไม่ตัดสต็อกจากการบันทึกขาย</p></div></div>${items.map(([a, b, c]) => `<div class="equipment-card"><div><h3>${a}</h3><p>${b}</p></div><span class="badge ${c.includes("รอ") || c.includes("ต้อง") ? "wait" : ""}">${c}</span></div>`).join("")}<div class="panel" style="margin-top:16px;background:var(--pale)"><h2 style="font-size:16px">ก่อนเปิดขายจริง</h2><p class="muted">เทสต์ Cold Whisk หลังพัก 10–15 นาที, ตรวจฝา/แพ็ก, และกรอกต้นทุน Nutella กับ Coconut foam ที่ชั่งจริง เพื่อให้กำไรในระบบยืนยันได้ครบ</p></div></div>`;
+  const items = state.stock.filter(item => /cup|lid|straw|pouch|bag|tray|bar mat|แก้ว|ฝา|หลอด|ถุง|ถาด|อุปกรณ์/i.test(item.name));
+  return '<div class="panel"><h2>อุปกรณ์ & แพ็ก — สต็อกปัจจุบัน</h2><p>ใช้ยอดและต้นทุนชุดเดียวกับสต็อกด้านบน · แก้ไขหรือรับเข้าได้จากรายการสต็อก</p><div class="table-wrap"><table class="data-table"><thead><tr><th>รายการ</th><th>คงเหลือ</th><th>ต้นทุน/หน่วย</th><th>แหล่งข้อมูล</th></tr></thead><tbody>' + items.map(item => '<tr><td>'+esc(item.name)+'</td><td>'+stockQuantity(item.qty)+' '+esc(item.unit)+'</td><td>'+formatUnitCost(item.cost,item.unit)+'</td><td>'+esc(item.source||'—')+'</td></tr>').join('') + '</tbody></table></div></div>';
 }
 
 function changeStock(name, delta, type = "adjust", note = "ปรับยอดด้วยปุ่ม") {
-  const row = getStock(name); if (!row) return false; if (row.qty + delta < 0) { toast("สต็อกไม่พอสำหรับการตัดลด"); return false; } row.qty = +(row.qty + delta).toFixed(2); state.history.push({ at: today(), type, title: name, detail: note, delta: `${delta > 0 ? "+" : ""}${delta} ${row.unit}` }); return true;
+  const row = getStock(name); if (!row) return false; const current = stockNumber(row.qty); if (current == null) { toast("กรอกยอดคงเหลือก่อนปรับสต็อก"); return false; } if (current + delta < 0) { toast("สต็อกไม่พอสำหรับการตัดลด"); return false; } row.qty = +(current + delta).toFixed(2); state.history.push({ at: today(), type, title: name, detail: note, delta: `${delta > 0 ? "+" : ""}${delta} ${row.unit}` }); return true;
 }
 function legacyRecordSale(menuId, powderKey, qty = 1, sweetness = 5, brew = "clear", milk = "Oat milk") {
   const m = getMenu(menuId); if (!m || !powderChoices(m).includes(powderKey)) { toast("ผงชานี้ใช้กับเมนูนี้ไม่ได้"); return; }
@@ -1192,17 +1196,16 @@ function renderAdmin() {
 
   const revenue = state.sales.reduce((sum, sale) => sum + sale.price * sale.qty, 0);
   const profit = state.sales.reduce((sum, sale) => sum + sale.profit * sale.qty, 0);
-  const low = state.stock.filter(item => item.qty <= item.min).length;
+  const low = state.stock.filter(item => stockNumber(item.qty) != null && stockNumber(item.qty) <= (stockNumber(item.min) ?? 0)).length;
   if (kpiRow) {
     kpiRow.innerHTML = `<div class="kpi emphasis"><small>ยอดขายที่บันทึก</small><b>${money(revenue)}</b></div><div class="kpi"><small>กำไรโดยประมาณ</small><b>${money(profit)}</b></div><div class="kpi"><small>จำนวนแก้ว/ชิ้น</small><b>${state.sales.reduce((sum, sale) => sum + sale.qty, 0)}</b></div><div class="kpi"><small>สต็อกต้องดู</small><b>${low} รายการ</b></div>`;
   }
   document.querySelectorAll(".tab-btn").forEach(button => button.classList.toggle("active", button.dataset.tab === activeTab));
 
   if (activeTab === "storemenu" && window.__renderStoreCatalogAdmin) out.innerHTML = window.__renderStoreCatalogAdmin();
-  else if (activeTab === "menu") out.innerHTML = menuTab();
-  else if (activeTab === "homeedit" && typeof homeEditorTab === "function") out.innerHTML = homeEditorTab();
+  else if (activeTab === "menu" || activeTab === "homeedit") out.innerHTML = window.__renderStoreCatalogAdmin ? window.__renderStoreCatalogAdmin() : "<p>กำลังโหลดเมนูหน้าร้าน…</p>";
   else if (activeTab === "sales") out.innerHTML = salesTab();
-  else if (activeTab === "stock") out.innerHTML = stockTab();
+  else if (activeTab === "stock" || activeTab === "equipment") out.innerHTML = stockTab() + equipmentTab();
   else if (activeTab === "suppliers" || activeTab === "top10") { out.innerHTML = window.KifunBuying.render(supplierCatalog); window.KifunBuying.update(); }
   else if (activeTab === "profit") { if (window.__kifunProfit?.render) window.__kifunProfit.render(); }
   else out.innerHTML = equipmentTab();
@@ -1783,12 +1786,12 @@ document.addEventListener("click", (event) => {
   else if (button.dataset.stockFilter) {
     currentStockFilter = button.dataset.stockFilter;
     const out = document.querySelector("#admin-content");
-    if (out && activeTab === "stock") out.innerHTML = stockTab();
+    if (out && activeTab === "stock") out.innerHTML = stockTab() + equipmentTab();
   }
   else if (button.id === "purge-out-of-stock") {
-    const outItems = state.stock.filter(s => s.qty <= 0);
+    const outItems = state.stock.filter(s => stockNumber(s.qty) != null && stockNumber(s.qty) <= 0);
     if (confirm(`ต้องการลบรายการสต็อกที่หมดแล้ว (${outItems.length} รายการ) ทั้งหมดใช่ไหม?`)) {
-      state.stock = state.stock.filter(s => s.qty > 0);
+      state.stock = state.stock.filter(s => stockNumber(s.qty) == null || stockNumber(s.qty) > 0);
       state.history.push({ at: today(), type: "adjust", title: `ลบรายการสต็อกที่หมดแล้ว`, detail: `ลบออก ${outItems.length} รายการ`, delta: `-${outItems.length} รายการ` });
       save();
       toast(`ลบรายการที่หมดแล้ว ${outItems.length} รายการแล้ว`);
@@ -1963,7 +1966,7 @@ document.addEventListener("input", (event) => {
   if (event.target.id === "stock-search-input") {
     currentStockSearch = event.target.value;
     const out = document.querySelector("#admin-content");
-    if (out && activeTab === "stock") out.innerHTML = stockTab();
+    if (out && activeTab === "stock") out.innerHTML = stockTab() + equipmentTab();
   }
 });
 

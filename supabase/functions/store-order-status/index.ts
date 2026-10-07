@@ -2,7 +2,7 @@ import {createClient} from 'https://esm.sh/@supabase/supabase-js@2';
 const db=createClient(Deno.env.get('SUPABASE_URL')!,Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
 const hash=async(s:string)=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))).map(v=>v.toString(16).padStart(2,'0')).join('');
 Deno.serve(async(req:Request)=>{
- const origin=req.headers.get('origin')||'';const allowed=['https://icebabbyy.github.io','http://127.0.0.1:5174'];
+ const origin=req.headers.get('origin')||'';const allowed=['https://icebabbyy.github.io','https://happihaus-matcha.vercel.app','http://127.0.0.1:5174'];
  const headers={'Content-Type':'application/json','Access-Control-Allow-Origin':allowed.includes(origin)?origin:allowed[0],'Access-Control-Allow-Headers':'authorization,x-client-info,apikey,content-type','Vary':'Origin'};
  const reply=(status:number,data:unknown)=>new Response(JSON.stringify(data),{status,headers});
  if(origin&&!allowed.includes(origin))return reply(403,{ok:false});

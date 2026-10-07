@@ -1,5 +1,10 @@
 node_modules/
 dist/
+dist-public/
+storefront-public/
 *.log
 .agents/
 *.xlsx
+
+happihaus-matcha-public.zip
+supabase/.temp/

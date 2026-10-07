@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#254d3d" />
+  <meta name="description" content="เลือกมัทฉะในแบบของคุณ สั่งล่วงหน้าและรับที่ Happihaus Matcha" />
+  <title>Happihaus Matcha — สั่งมัทฉะหน้าร้าน</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍵</text></svg>" />
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./storefront.css" />
+</head>
+<body class="storefront-enabled">
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Happihaus Matcha">
+      <span class="brand-mark">🍃</span>
+      <span><b id="brand-name">HAPPIHAUS</b><small id="brand-subline">MATCHA</small></span>
+    </a>
+  </header>
+  <main>
+    <section id="customer-view" class="view active"></section>
+  </main>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="./storefront-public.js"></script>
+</body>
+</html>

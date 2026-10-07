@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && node copy-static.mjs",
+    "build:public": "node copy-public-store.mjs && vite build --config vite.storefront.config.js && node finalize-public-store.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
