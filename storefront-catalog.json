@@ -2,11 +2,25 @@
   "brand": "Happihaus Matcha",
   "menus": [
     {
-      "id": "mame-matcha",
-      "name": "MAME Matcha",
-      "description": "หอมถั่วนึ่งและดอกไม้ รสนุ่มกลมกล่อม ดื่มเป็นชาใสได้กลิ่นชาชัด พอเติมนมจะละมุน หอมถั่ว เหมาะทั้ง Clear, Cold whisk, Latte และ Coconut",
-      "storePrice": 65,
+      "id": "clear",
       "cups": 1,
+      "name": "Clear Matcha",
+      "image": "assets/menu/clear-matcha.png",
+      "groups": [
+        "clear-taste",
+        "sweetness",
+        "pack"
+      ],
+      "category": "มัตจะใส · Clear",
+      "available": true,
+      "storePrice": 65,
+      "description": "มัตจะใส ไม่ใส่นม · เลือก MAME หอมถั่วนึ่งและดอกไม้, Mochi โทนเกาลัด หรือ Kirari หอมดอกไม้ขาวและถั่วหวาน",
+      "deliveryPrice": 89
+    },
+    {
+      "id": "mame-matcha",
+      "cups": 1,
+      "name": "MAME Matcha",
       "image": "https://ydwpbygugsrucxvmgbdl.supabase.co/storage/v1/object/public/menu-images/menu-latte-1791427891661.png",
       "groups": [
         "preparation",
@@ -14,6 +28,10 @@
         "sweetness",
         "pack"
       ],
+      "category": "เลือกมัตจะที่ชอบ",
+      "available": true,
+      "storePrice": 65,
+      "description": "หอมถั่วนึ่งและดอกไม้ รสนุ่มกลมกล่อม ดื่มเป็นชาใสได้กลิ่นชาชัด พอเติมนมจะละมุน หอมถั่ว เหมาะทั้ง Clear, Cold whisk, Latte และ Coconut",
       "groupConditions": {
         "milk": {
           "group": "preparation",
@@ -22,16 +40,12 @@
             "coldwhisk"
           ]
         }
-      },
-      "category": "เลือกมัตจะที่ชอบ",
-      "available": true
+      }
     },
     {
       "id": "mochi-matcha",
-      "name": "Mochi Matcha",
-      "description": "หอมมันโทนเกาลัด บอดี้แน่น เนื้อสัมผัสนุ่มนัว ชาใสให้รสเข้มเต็มคำ เมื่อเติมนมจะกลมกล่อมคล้ายขนมเกาลัด เหมาะกับคนชอบมัตจะโทนขนม",
-      "storePrice": 70,
       "cups": 1,
+      "name": "Mochi Matcha",
       "image": "https://ydwpbygugsrucxvmgbdl.supabase.co/storage/v1/object/public/menu-images/menu-latte-1791427891661.png",
       "groups": [
         "preparation",
@@ -39,6 +53,10 @@
         "sweetness",
         "pack"
       ],
+      "category": "เลือกมัตจะที่ชอบ",
+      "available": true,
+      "storePrice": 70,
+      "description": "หอมมันโทนเกาลัด บอดี้แน่น เนื้อสัมผัสนุ่มนัว ชาใสให้รสเข้มเต็มคำ เมื่อเติมนมจะกลมกล่อมคล้ายขนมเกาลัด เหมาะกับคนชอบมัตจะโทนขนม",
       "groupConditions": {
         "milk": {
           "group": "preparation",
@@ -47,98 +65,23 @@
             "coldwhisk"
           ]
         }
-      },
-      "category": "เลือกมัตจะที่ชอบ",
-      "available": true
+      }
     },
     {
       "id": "latte",
       "cups": 1,
-      "name": "Yaki Nori Matcha Latte",
+      "name": "Kirari 31 (Kirari)",
       "image": "https://ydwpbygugsrucxvmgbdl.supabase.co/storage/v1/object/public/menu-images/menu-latte-1791427891661.png",
       "groups": [
-        "taste",
         "milk",
         "brew",
         "sweetness",
         "pack"
       ],
-      "category": "มัตจะคลาสสิก",
+      "category": "เลือกมัตจะที่ชอบ",
       "available": true,
-      "storePrice": 165,
-      "description": "หอมสาหร่ายย่าง เค็มปลายลิ้นเล็กน้อย รสนุ่มไม่ฝาด · เลือกนม ความหวาน และสไตล์เครื่องดื่มได้",
-      "optionPrices": {
-        "taste": {
-          "yaki": 0
-        }
-      },
-      "deliveryPrice": 139,
-      "blockedOptions": {
-        "taste": [
-          "mame",
-          "mochi",
-          "kome",
-          "mellow"
-        ]
-      }
-    },
-    {
-      "id": "clear",
-      "cups": 1,
-      "name": "Yaki Nori Clear Matcha",
-      "image": "",
-      "groups": [
-        "taste",
-        "sweetness",
-        "pack"
-      ],
-      "category": "มัตจะคลาสสิก",
-      "available": true,
-      "storePrice": 115,
-      "description": "หอมสาหร่ายย่าง เค็มปลายลิ้นเล็กน้อย รสนุ่มไม่ฝาด · มัตจะใส ไม่ใส่นม",
-      "optionPrices": {
-        "taste": {
-          "yaki": 0
-        }
-      },
-      "deliveryPrice": 89,
-      "blockedOptions": {
-        "taste": [
-          "mame",
-          "mochi",
-          "kome",
-          "mellow"
-        ]
-      }
-    },
-    {
-      "id": "coconut",
-      "cups": 1,
-      "name": "Yaki Nori Coconut Matcha",
-      "image": "assets/menu/7.png",
-      "groups": [
-        "taste",
-        "sweetness",
-        "pack"
-      ],
-      "category": "มัตจะคลาสสิก",
-      "available": true,
-      "storePrice": 164,
-      "description": "หอมสาหร่ายย่าง เค็มปลายลิ้นเล็กน้อย รสนุ่มไม่ฝาด · โฟมนมมัตจะกับน้ำมะพร้าว หวานปกติไม่เติมไซรัป",
-      "optionPrices": {
-        "taste": {
-          "yaki": 0
-        }
-      },
-      "deliveryPrice": 149,
-      "blockedOptions": {
-        "taste": [
-          "mame",
-          "mochi",
-          "kome",
-          "mellow"
-        ]
-      }
+      "storePrice": 119,
+      "description": "หวานธรรมชาติ หอมดอกไม้ขาวและถั่วหวาน เมื่อชงกับนมจะหอมพิสตาชิโอและวานิลลาอ่อน ๆ เนื้อนุ่มละมุน · เลือก Latte หรือ Cold whisk แนะนำหวานน้อย"
     },
     {
       "id": "hojicha",
@@ -530,29 +473,56 @@
       "options": [
         {
           "id": "clear",
-          "label": "Clear",
           "note": "มัตจะใส ไม่ใส่นม",
+          "label": "Clear",
           "storeAdd": 0,
           "available": true
         },
         {
           "id": "coldwhisk",
-          "label": "Cold whisk",
           "note": "ตีมัตจะกับนมเย็น เนื้อเนียนนุ่ม",
+          "label": "Cold whisk",
           "storeAdd": 25,
           "available": true
         },
         {
           "id": "latte",
-          "label": "Latte",
           "note": "มัตจะกับนม หอมละมุน",
+          "label": "Latte",
           "storeAdd": 20,
           "available": true
         },
         {
           "id": "coconut",
-          "label": "Coconut",
           "note": "โฟมนมมัตจะกับน้ำมะพร้าว",
+          "label": "Coconut",
+          "storeAdd": 34,
+          "available": true
+        }
+      ]
+    },
+    "clear-taste": {
+      "label": "เลือกมัตจะ",
+      "perCup": true,
+      "options": [
+        {
+          "id": "mame",
+          "label": "MAME",
+          "note": "ถั่วนึ่งหวานหอมและดอกไม้ รสนุ่มกลมกล่อม",
+          "storeAdd": 0,
+          "available": true
+        },
+        {
+          "id": "mochi",
+          "label": "Mochi",
+          "note": "โทนเกาลัด หอมมัน บอดี้แน่น",
+          "storeAdd": 5,
+          "available": true
+        },
+        {
+          "id": "kirari",
+          "label": "Kirari",
+          "note": "ผักสดอ่อน ๆ ถั่วหวานและดอกไม้ขาว หวานธรรมชาติ",
           "storeAdd": 34,
           "available": true
         }
@@ -560,5 +530,5 @@
     }
   },
   "source": "Wongnai Merchant Portal หน้าร้าน; ตรวจ 7 ต.ค. 2026",
-  "version": "20261008-powder-menus-2"
+  "version": "20261008-clear-kirari-1"
 }

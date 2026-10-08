@@ -10,10 +10,15 @@ test('regular MAME has no two-cup promotion; separate materials priced per cup',
  assert.equal(priceLine(c,row('mame-matcha',latte,2)).totalCents,17000);
  assert.equal(priceLine(c,row('mame-matcha',{...latte,pack:'separate'},2)).totalCents,17000);
 });
-test('Yaki extra is dose-specific, not outdated platform surcharge',()=>{
- assert.equal(priceLine(c,row('latte',{...latte,taste:'yaki',brew:'latte'})).totalCents,16500);
- assert.equal(priceLine(c,row('clear',{taste:'yaki',sweetness:'zero',pack:'ready'})).totalCents,11500);
- assert.equal(priceLine(c,row('coconut',{taste:'yaki',sweetness:'zero',pack:'ready'})).totalCents,16400);
+test('Clear is visible separately and unrequested Yaki cards are replaced',()=>{
+ assert(!c.menus.some(m=>m.name.startsWith('Yaki Nori')));
+ const clear=c.menus.find(m=>m.id==='clear');assert.equal(clear.name,'Clear Matcha');assert.equal(clear.image,'assets/menu/clear-matcha.png');
+ for(const [taste,price] of [['mame',65],['mochi',70],['kirari',99]]) {
+  assert.equal(priceLine(c,row('clear',{'clear-taste':taste,sweetness:'zero',pack:'ready'})).totalCents,price*100);
+ }
+ assert.throws(()=>priceLine(c,row('clear',{'clear-taste':'yaki',sweetness:'zero',pack:'ready'})));
+ assert.equal(priceLine(c,row('latte',{milk:'fresh',brew:'latte',sweetness:'less',pack:'ready'})).totalCents,11900);
+ assert.equal(priceLine(c,row('latte',{milk:'fresh',brew:'coldwhisk',sweetness:'less',pack:'ready'})).totalCents,12400);
 });
 test('cream roll uses latest matcha lot plus five baht without treating it as a cup',()=>{
  const p=priceLine(c,row('roll-matcha',{},3));assert.equal(p.totalCents,4500);assert.equal(p.cups,0);
