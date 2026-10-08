@@ -1,6 +1,13 @@
 export const cents = value => Math.round(Number(value) * 100);
 export const baht = value => (value / 100).toLocaleString('th-TH', {minimumFractionDigits: value % 100 ? 2 : 0, maximumFractionDigits: 2});
 
+export function menuGroups(menu, options = {}) {
+  return menu.groups.filter(id => {
+    const condition = menu.groupConditions?.[id];
+    return !condition || condition.options.includes(options[condition.group]);
+  });
+}
+
 export function priceLine(catalog, input) {
   const menu = catalog.menus.find(m => m.id === input.menuId);
   if (!menu || !menu.available) throw new Error('เมนูนี้งดขาย');
@@ -8,7 +15,7 @@ export function priceLine(catalog, input) {
   if (!Number.isInteger(quantity) || quantity < 1 || quantity > 20) throw new Error('จำนวนต้องอยู่ระหว่าง 1–20');
   const selections = {};
   let unitCents = cents(menu.storePrice);
-  for (const groupId of menu.groups) {
+  for (const groupId of menuGroups(menu, input.options)) {
     const group = catalog.groups[groupId];
     const option = group.options.find(o => o.id === input.options?.[groupId]);
     if (!option || !option.available) throw new Error(`กรุณาเลือก ${group.label}`);

@@ -1,50 +1,405 @@
 {
-  "version": "20261007-2",
-  "source": "Wongnai Merchant Portal หน้าร้าน; ตรวจ 7 ต.ค. 2026",
   "brand": "Happihaus Matcha",
+  "menus": [
+    {
+      "id": "mame-matcha",
+      "name": "MAME Matcha",
+      "description": "หอมถั่วนึ่งและดอกไม้ รสนุ่มกลมกล่อม ดื่มเป็นชาใสได้กลิ่นชาชัด พอเติมนมจะละมุน หอมถั่ว เหมาะทั้ง Clear, Cold whisk, Latte และ Coconut",
+      "storePrice": 65,
+      "cups": 1,
+      "image": "https://ydwpbygugsrucxvmgbdl.supabase.co/storage/v1/object/public/menu-images/menu-latte-1791427891661.png",
+      "groups": [
+        "preparation",
+        "milk",
+        "sweetness",
+        "pack"
+      ],
+      "groupConditions": {
+        "milk": {
+          "group": "preparation",
+          "options": [
+            "latte",
+            "coldwhisk"
+          ]
+        }
+      },
+      "category": "เลือกมัตจะที่ชอบ",
+      "available": true
+    },
+    {
+      "id": "mochi-matcha",
+      "name": "Mochi Matcha",
+      "description": "หอมมันโทนเกาลัด บอดี้แน่น เนื้อสัมผัสนุ่มนัว ชาใสให้รสเข้มเต็มคำ เมื่อเติมนมจะกลมกล่อมคล้ายขนมเกาลัด เหมาะกับคนชอบมัตจะโทนขนม",
+      "storePrice": 70,
+      "cups": 1,
+      "image": "https://ydwpbygugsrucxvmgbdl.supabase.co/storage/v1/object/public/menu-images/menu-latte-1791427891661.png",
+      "groups": [
+        "preparation",
+        "milk",
+        "sweetness",
+        "pack"
+      ],
+      "groupConditions": {
+        "milk": {
+          "group": "preparation",
+          "options": [
+            "latte",
+            "coldwhisk"
+          ]
+        }
+      },
+      "category": "เลือกมัตจะที่ชอบ",
+      "available": true
+    },
+    {
+      "id": "latte",
+      "cups": 1,
+      "name": "Yaki Nori Matcha Latte",
+      "image": "https://ydwpbygugsrucxvmgbdl.supabase.co/storage/v1/object/public/menu-images/menu-latte-1791427891661.png",
+      "groups": [
+        "taste",
+        "milk",
+        "brew",
+        "sweetness",
+        "pack"
+      ],
+      "category": "มัตจะคลาสสิก",
+      "available": true,
+      "storePrice": 85,
+      "description": "มัตจะกับนม เลือกรสชา นม ความหวาน และสไตล์เครื่องดื่มได้",
+      "optionPrices": {
+        "taste": {
+          "yaki": 80
+        }
+      },
+      "deliveryPrice": 139,
+      "blockedOptions": {
+        "taste": [
+          "mame",
+          "mochi",
+          "kome",
+          "mellow"
+        ]
+      }
+    },
+    {
+      "id": "clear",
+      "cups": 1,
+      "name": "Yaki Nori Clear Matcha",
+      "image": "",
+      "groups": [
+        "taste",
+        "sweetness",
+        "pack"
+      ],
+      "category": "มัตจะคลาสสิก",
+      "available": true,
+      "storePrice": 65,
+      "description": "ชาใส ไม่ใส่นม เลือกรสชาและความหวานได้",
+      "optionPrices": {
+        "taste": {
+          "yaki": 50
+        }
+      },
+      "deliveryPrice": 89,
+      "blockedOptions": {
+        "taste": [
+          "mame",
+          "mochi",
+          "kome",
+          "mellow"
+        ]
+      }
+    },
+    {
+      "id": "coconut",
+      "cups": 1,
+      "name": "Yaki Nori Coconut Matcha",
+      "image": "assets/menu/7.png",
+      "groups": [
+        "taste",
+        "sweetness",
+        "pack"
+      ],
+      "category": "มัตจะคลาสสิก",
+      "available": true,
+      "storePrice": 99,
+      "description": "มัตจะโฟมนมกับน้ำมะพร้าว · หวานปกติไม่เติมไซรัป",
+      "optionPrices": {
+        "taste": {
+          "yaki": 65
+        }
+      },
+      "deliveryPrice": 149,
+      "blockedOptions": {
+        "taste": [
+          "mame",
+          "mochi",
+          "kome",
+          "mellow"
+        ]
+      }
+    },
+    {
+      "id": "hojicha",
+      "cups": 1,
+      "name": "Hoho Hojicha Cold whisk",
+      "image": "",
+      "groups": [
+        "milk",
+        "sweetness",
+        "pack"
+      ],
+      "category": "มัตจะคลาสสิก",
+      "available": true,
+      "storePrice": 119,
+      "description": "ชาคั่วโทนถั่วและช็อกโกแลต ชง Cold whisk ทุกแก้ว",
+      "deliveryPrice": 149
+    },
+    {
+      "id": "biscoff",
+      "cups": 1,
+      "name": "Biscoff Matcha",
+      "image": "assets/menu/5.png",
+      "groups": [
+        "pack"
+      ],
+      "category": "มัตจะสายขนม",
+      "available": true,
+      "storePrice": 99,
+      "description": "MAME กับนมโอ๊ต บิสคอฟสเปรด บิสกิตและครัมเบิล · ไม่เติมไซรัป",
+      "deliveryPrice": 129
+    },
+    {
+      "id": "nutella",
+      "cups": 1,
+      "name": "Rocky Nutella Matcha",
+      "image": "assets/menu/4.png",
+      "groups": [
+        "taste",
+        "milk",
+        "sweetness",
+        "pack"
+      ],
+      "category": "มัตจะสายขนม",
+      "available": true,
+      "storePrice": 99,
+      "description": "มัตจะกับช็อกโกแลตเฮเซลนัต · ลดหวานโดยลดสเปรด",
+      "optionPrices": {
+        "taste": {
+          "yaki": 80
+        }
+      },
+      "deliveryPrice": 149
+    },
+    {
+      "id": "special-latte",
+      "cups": 1,
+      "name": "Special Matcha Latte / Cold Whisk",
+      "image": "assets/menu/9.png",
+      "groups": [
+        "special",
+        "milk",
+        "brew",
+        "sweetness",
+        "pack"
+      ],
+      "category": "เลือกชาแบบพิเศษ",
+      "available": true,
+      "storePrice": 139,
+      "description": "เลือกชา Special Taste นม ความหวาน และสไตล์เครื่องดื่ม",
+      "deliveryPrice": 189
+    },
+    {
+      "id": "special-clear",
+      "cups": 1,
+      "name": "Special Clear Matcha",
+      "image": "assets/menu/10.png",
+      "groups": [
+        "special",
+        "sweetness",
+        "pack"
+      ],
+      "category": "เลือกชาแบบพิเศษ",
+      "available": true,
+      "storePrice": 99,
+      "description": "ชาใสจาก Special Taste · ไม่ใส่นม",
+      "deliveryPrice": 159
+    },
+    {
+      "id": "special-coconut",
+      "cups": 1,
+      "name": "Special Cloudy Coconut Matcha",
+      "image": "assets/menu/11.png",
+      "groups": [
+        "special",
+        "sweetness",
+        "pack"
+      ],
+      "category": "เลือกชาแบบพิเศษ",
+      "available": true,
+      "storePrice": 129,
+      "description": "เลือกชา Special Taste กับโฟมนมและน้ำมะพร้าว",
+      "deliveryPrice": 189
+    },
+    {
+      "id": "london-fog",
+      "cups": 1,
+      "name": "London Fog Matcha Latte (Earl grey)",
+      "image": "assets/menu/6.png",
+      "groups": [
+        "taste",
+        "brew",
+        "sweetness",
+        "pack"
+      ],
+      "category": "มัตจะคลาสสิก",
+      "available": false,
+      "storePrice": 99,
+      "description": "งดขายชั่วคราวตาม Wongnai",
+      "optionPrices": {
+        "taste": {
+          "yaki": 80
+        }
+      },
+      "deliveryPrice": 119
+    },
+    {
+      "id": "roll-matcha",
+      "cups": 0,
+      "name": "Matcha cream roll",
+      "image": "assets/menu/8.png",
+      "groups": [],
+      "category": "ของกินคู่กัน",
+      "available": true,
+      "storePrice": 15,
+      "description": "ครีมโรลมัตจะ",
+      "deliveryPrice": 29
+    },
+    {
+      "id": "roll-hojicha",
+      "cups": 0,
+      "name": "Hojicha cream roll",
+      "image": "assets/menu/8.png",
+      "groups": [],
+      "category": "ของกินคู่กัน",
+      "available": true,
+      "storePrice": 15,
+      "description": "ครีมโรลโฮจิฉะ",
+      "deliveryPrice": 29
+    }
+  ],
   "groups": {
+    "brew": {
+      "label": "สไตล์เครื่องดื่ม",
+      "perCup": true,
+      "options": [
+        {
+          "id": "latte",
+          "label": "Latte",
+          "storeAdd": 0,
+          "available": true,
+          "deliveryAdd": 0
+        },
+        {
+          "id": "coldwhisk",
+          "label": "Cold whisk",
+          "storeAdd": 5,
+          "available": true,
+          "deliveryAdd": 10
+        }
+      ]
+    },
+    "milk": {
+      "label": "นม",
+      "perCup": true,
+      "options": [
+        {
+          "id": "fresh",
+          "label": "นมสด",
+          "storeAdd": 0,
+          "available": true,
+          "deliveryAdd": 0
+        },
+        {
+          "id": "oat",
+          "note": "จิบครั้งแรกอาจติดขม หากไม่ได้ทานนมโอ๊ตบ่อย",
+          "label": "Oat milk",
+          "storeAdd": 15,
+          "available": true,
+          "deliveryAdd": 20
+        },
+        {
+          "id": "mixed",
+          "label": "Mixed นมสด + นมโอ๊ต",
+          "storeAdd": 10,
+          "available": true,
+          "deliveryAdd": 15
+        }
+      ]
+    },
+    "pack": {
+      "label": "รูปแบบรับเครื่องดื่ม",
+      "perCup": true,
+      "options": [
+        {
+          "id": "ready",
+          "note": "ชงพร้อมดื่มในแก้ว",
+          "label": "พร้อมดื่ม",
+          "storeAdd": 0,
+          "available": true
+        },
+        {
+          "id": "separate",
+          "note": "แยกน้ำแข็ง ใช้ถุงฝาจุก · เพิ่ม 0.99 บาท/แก้ว",
+          "label": "แพ็กแยกเหมือนเดลิเวอรี",
+          "storeAdd": 0,
+          "available": true
+        }
+      ]
+    },
     "taste": {
       "label": "Matcha Taste",
       "perCup": true,
       "options": [
         {
           "id": "kome",
-          "label": "KOME",
           "note": "เนียนนุ่ม ถั่วอ่อน umami เบา · ชาใสติดขม",
-          "available": false,
+          "label": "KOME",
           "storeAdd": 0,
+          "available": false,
           "deliveryAdd": 0
         },
         {
           "id": "mame",
-          "label": "MAME",
           "note": "ถั่วนึ่งหวานหอม ดอกไม้สดใส · อร่อยทั้งชาใสและลาเต้",
-          "available": true,
+          "label": "MAME",
           "storeAdd": 0,
+          "available": true,
           "deliveryAdd": 0
         },
         {
           "id": "mochi",
-          "label": "MOCHI",
           "note": "มันนัว บอดี้เข้มข้น หอมกลมกล่อมเหมือนขนมเกาลัด",
-          "available": true,
+          "label": "MOCHI",
           "storeAdd": 5,
+          "available": true,
           "deliveryAdd": 7
         },
         {
           "id": "yaki",
-          "label": "Yaki Nori",
           "note": "สาหร่ายย่าง เค็มปลายลิ้น ไม่ฝาด · เข้ากับเมนูนม",
-          "available": true,
+          "label": "Yaki Nori",
           "storeAdd": 7,
+          "available": true,
           "deliveryAdd": 13
         },
         {
           "id": "mellow",
-          "label": "MELLOW",
           "note": "ถั่วนุ่ม ละมุน ครีมมี่ ขมปลายเล็กน้อย",
-          "available": false,
+          "label": "MELLOW",
           "storeAdd": 0,
+          "available": false,
           "deliveryAdd": 0
         }
       ]
@@ -56,134 +411,86 @@
         {
           "id": "haku-uji",
           "label": "Haku Uji Milk Whisk",
-          "available": true,
           "storeAdd": 0,
+          "available": true,
           "deliveryAdd": 0
         },
         {
           "id": "haku-mellow",
           "label": "Haku Daily Uji Mellow",
-          "available": true,
           "storeAdd": 35,
+          "available": true,
           "deliveryAdd": 55
         },
         {
           "id": "mori",
           "label": "Harusaki Oku no Mori",
-          "available": true,
           "storeAdd": 40,
+          "available": true,
           "deliveryAdd": 60
         },
         {
           "id": "haku-yame",
           "label": "Haku Yame Milk Whisk",
-          "available": true,
           "storeAdd": 5,
+          "available": true,
           "deliveryAdd": 10
         },
         {
           "id": "yugen",
           "label": "Marukyu Yugen",
-          "available": true,
           "storeAdd": 85,
+          "available": true,
           "deliveryAdd": 135
         },
         {
           "id": "sis",
           "label": "Matcha Made Sis",
-          "available": true,
           "storeAdd": 50,
+          "available": true,
           "deliveryAdd": 70
         },
         {
           "id": "shiro",
           "label": "Yame no shiro",
-          "available": true,
           "storeAdd": 35,
+          "available": true,
           "deliveryAdd": 55
         },
         {
           "id": "leia",
           "label": "Tokocha Leia",
-          "available": true,
           "storeAdd": 110,
+          "available": true,
           "deliveryAdd": 175
         },
         {
           "id": "gokou",
           "label": "Haku Gokou",
-          "available": true,
           "storeAdd": 70,
+          "available": true,
           "deliveryAdd": 115
         },
         {
           "id": "kurumi",
           "label": "Sukito Kurumi",
-          "available": true,
           "storeAdd": 5,
+          "available": true,
           "deliveryAdd": 20
         },
         {
           "id": "silk",
           "label": "Tokocha Silk (Yame Dania)",
-          "available": true,
           "storeAdd": 85,
+          "available": true,
           "deliveryAdd": 140
         },
         {
           "id": "firstlove",
           "label": "Tokocha Firstlove (Okumidori)",
-          "available": true,
           "storeAdd": 90,
+          "available": true,
           "deliveryAdd": 150
-        }
-      ]
-    },
-    "milk": {
-      "label": "นม",
-      "perCup": true,
-      "options": [
-        {
-          "id": "fresh",
-          "label": "นมสด",
-          "available": true,
-          "storeAdd": 0,
-          "deliveryAdd": 0
-        },
-        {
-          "id": "oat",
-          "label": "Oat milk",
-          "note": "จิบครั้งแรกอาจติดขม หากไม่ได้ทานนมโอ๊ตบ่อย",
-          "available": true,
-          "storeAdd": 15,
-          "deliveryAdd": 20
-        },
-        {
-          "id": "mixed",
-          "label": "Mixed นมสด + นมโอ๊ต",
-          "available": true,
-          "storeAdd": 10,
-          "deliveryAdd": 15
-        }
-      ]
-    },
-    "brew": {
-      "label": "สไตล์เครื่องดื่ม",
-      "perCup": true,
-      "options": [
-        {
-          "id": "latte",
-          "label": "Latte",
-          "available": true,
-          "storeAdd": 0,
-          "deliveryAdd": 0
-        },
-        {
-          "id": "coldwhisk",
-          "label": "Cold whisk",
-          "available": true,
-          "storeAdd": 5,
-          "deliveryAdd": 10
         }
       ]
     },
@@ -194,261 +501,64 @@
         {
           "id": "zero",
           "label": "หวาน 0 ไม่ใส่ไซรัป",
-          "available": true,
-          "storeAdd": 0
+          "storeAdd": 0,
+          "available": true
         },
         {
           "id": "less",
           "label": "หวานน้อย",
-          "available": true,
-          "storeAdd": 0
+          "storeAdd": 0,
+          "available": true
         },
         {
           "id": "normal",
           "label": "หวานปกติ",
-          "available": true,
-          "storeAdd": 0
+          "storeAdd": 0,
+          "available": true
         },
         {
           "id": "extra",
           "label": "หวานมาก",
-          "available": true,
-          "storeAdd": 0
+          "storeAdd": 0,
+          "available": true
         }
       ]
     },
-    "pack": {
-      "label": "รูปแบบรับเครื่องดื่ม",
+    "preparation": {
+      "label": "วิธีชง",
       "perCup": true,
       "options": [
         {
-          "id": "ready",
-          "label": "พร้อมดื่ม",
-          "note": "ชงพร้อมดื่มในแก้ว",
-          "available": true,
-          "storeAdd": 0
+          "id": "clear",
+          "label": "Clear",
+          "note": "มัตจะใส ไม่ใส่นม",
+          "storeAdd": 0,
+          "available": true
         },
         {
-          "id": "separate",
-          "label": "แพ็กแยกเหมือนเดลิเวอรี",
-          "note": "แยกน้ำแข็ง ใช้ถุงฝาจุก · เพิ่ม 0.99 บาท/แก้ว",
-          "available": true,
-          "storeAdd": 0.99
+          "id": "coldwhisk",
+          "label": "Cold whisk",
+          "note": "ตีมัตจะกับนมเย็น เนื้อเนียนนุ่ม",
+          "storeAdd": 25,
+          "available": true
+        },
+        {
+          "id": "latte",
+          "label": "Latte",
+          "note": "มัตจะกับนม หอมละมุน",
+          "storeAdd": 20,
+          "available": true
+        },
+        {
+          "id": "coconut",
+          "label": "Coconut",
+          "note": "โฟมนมมัตจะกับน้ำมะพร้าว",
+          "storeAdd": 34,
+          "available": true
         }
       ]
     }
   },
-  "menus": [
-    {
-      "id": "latte",
-      "name": "Matcha Latte",
-      "category": "มัตจะคลาสสิก",
-      "storePrice": 85,
-      "deliveryPrice": 139,
-      "available": true,
-      "image": "assets/menu/1.png",
-      "description": "มัตจะกับนม เลือกรสชา นม ความหวาน และสไตล์เครื่องดื่มได้",
-      "groups": [
-        "taste",
-        "milk",
-        "brew",
-        "sweetness",
-        "pack"
-      ],
-      "cups": 1,
-      "optionPrices": {
-        "taste": {
-          "yaki": 80
-        }
-      }
-    },
-    {
-      "id": "clear",
-      "name": "Clear Matcha",
-      "category": "มัตจะคลาสสิก",
-      "storePrice": 65,
-      "deliveryPrice": 89,
-      "available": true,
-      "description": "ชาใส ไม่ใส่นม เลือกรสชาและความหวานได้",
-      "groups": [
-        "taste",
-        "sweetness",
-        "pack"
-      ],
-      "cups": 1,
-      "optionPrices": {
-        "taste": {
-          "yaki": 50
-        }
-      }
-    },
-    {
-      "id": "coconut",
-      "name": "Cloudy Coconut Matcha",
-      "category": "มัตจะคลาสสิก",
-      "storePrice": 99,
-      "deliveryPrice": 149,
-      "available": true,
-      "image": "assets/menu/7.png",
-      "description": "มัตจะโฟมนมกับน้ำมะพร้าว · หวานปกติไม่เติมไซรัป",
-      "groups": [
-        "taste",
-        "sweetness",
-        "pack"
-      ],
-      "cups": 1,
-      "optionPrices": {
-        "taste": {
-          "yaki": 65
-        }
-      }
-    },
-    {
-      "id": "hojicha",
-      "name": "Hoho Hojicha Cold whisk",
-      "category": "มัตจะคลาสสิก",
-      "storePrice": 119,
-      "deliveryPrice": 149,
-      "available": true,
-      "description": "ชาคั่วโทนถั่วและช็อกโกแลต ชง Cold whisk ทุกแก้ว",
-      "groups": [
-        "milk",
-        "sweetness",
-        "pack"
-      ],
-      "cups": 1
-    },
-    {
-      "id": "biscoff",
-      "name": "Biscoff Matcha",
-      "category": "มัตจะสายขนม",
-      "storePrice": 99,
-      "deliveryPrice": 129,
-      "available": true,
-      "image": "assets/menu/5.png",
-      "description": "MAME กับนมโอ๊ต บิสคอฟสเปรด บิสกิตและครัมเบิล · ไม่เติมไซรัป",
-      "groups": [
-        "pack"
-      ],
-      "cups": 1
-    },
-    {
-      "id": "nutella",
-      "name": "Rocky Nutella Matcha",
-      "category": "มัตจะสายขนม",
-      "storePrice": 99,
-      "deliveryPrice": 149,
-      "available": true,
-      "image": "assets/menu/4.png",
-      "description": "มัตจะกับช็อกโกแลตเฮเซลนัต · ลดหวานโดยลดสเปรด",
-      "groups": [
-        "taste",
-        "milk",
-        "sweetness",
-        "pack"
-      ],
-      "cups": 1,
-      "optionPrices": {
-        "taste": {
-          "yaki": 80
-        }
-      }
-    },
-    {
-      "id": "special-latte",
-      "name": "Special Matcha Latte / Cold Whisk",
-      "category": "เลือกชาแบบพิเศษ",
-      "storePrice": 139,
-      "deliveryPrice": 189,
-      "available": true,
-      "image": "assets/menu/9.png",
-      "description": "เลือกชา Special Taste นม ความหวาน และสไตล์เครื่องดื่ม",
-      "groups": [
-        "special",
-        "milk",
-        "brew",
-        "sweetness",
-        "pack"
-      ],
-      "cups": 1
-    },
-    {
-      "id": "special-clear",
-      "name": "Special Clear Matcha",
-      "category": "เลือกชาแบบพิเศษ",
-      "storePrice": 99,
-      "deliveryPrice": 159,
-      "available": true,
-      "image": "assets/menu/10.png",
-      "description": "ชาใสจาก Special Taste · ไม่ใส่นม",
-      "groups": [
-        "special",
-        "sweetness",
-        "pack"
-      ],
-      "cups": 1
-    },
-    {
-      "id": "special-coconut",
-      "name": "Special Cloudy Coconut Matcha",
-      "category": "เลือกชาแบบพิเศษ",
-      "storePrice": 129,
-      "deliveryPrice": 189,
-      "available": true,
-      "image": "assets/menu/11.png",
-      "description": "เลือกชา Special Taste กับโฟมนมและน้ำมะพร้าว",
-      "groups": [
-        "special",
-        "sweetness",
-        "pack"
-      ],
-      "cups": 1
-    },
-    {
-      "id": "london-fog",
-      "name": "London Fog Matcha Latte (Earl grey)",
-      "category": "มัตจะคลาสสิก",
-      "storePrice": 99,
-      "deliveryPrice": 119,
-      "available": false,
-      "image": "assets/menu/6.png",
-      "description": "งดขายชั่วคราวตาม Wongnai",
-      "groups": [
-        "taste",
-        "brew",
-        "sweetness",
-        "pack"
-      ],
-      "cups": 1,
-      "optionPrices": {
-        "taste": {
-          "yaki": 80
-        }
-      }
-    },
-    {
-      "id": "roll-matcha",
-      "name": "Matcha cream roll",
-      "category": "ของกินคู่กัน",
-      "storePrice": 13.33,
-      "deliveryPrice": 29,
-      "available": true,
-      "image": "assets/menu/8.png",
-      "description": "ครีมโรลมัตจะ",
-      "groups": [],
-      "cups": 0
-    },
-    {
-      "id": "roll-hojicha",
-      "name": "Hojicha cream roll",
-      "category": "ของกินคู่กัน",
-      "storePrice": 15.46,
-      "deliveryPrice": 29,
-      "available": true,
-      "image": "assets/menu/8.png",
-      "description": "ครีมโรลโฮจิฉะ",
-      "groups": [],
-      "cups": 0
-    }
-  ]
+  "source": "Wongnai Merchant Portal หน้าร้าน; ตรวจ 7 ต.ค. 2026",
+  "version": "20261008-powder-menus-1"
 }
