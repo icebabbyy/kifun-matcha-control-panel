@@ -499,7 +499,7 @@ function renderSimulatorDynamicContent() {
     price: storePrice,
     discountPercent: 0,
     gpRate: 0,
-    cogs: cogsData.totalCOGS
+    cogs: calculateDynamicCOGS(profitState.powderCostPerGram, profitState.powderGrams, profitState.brewMethod, profitState.milkType, profitState.whip, profitState.storePack).totalCOGS
   });
 
   // Scenario 2: LINE MAN ปกติ (ไม่เข้าแคมเปญ)
