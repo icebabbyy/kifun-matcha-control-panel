@@ -65,11 +65,11 @@
       ],
       "category": "มัตจะคลาสสิก",
       "available": true,
-      "storePrice": 85,
-      "description": "มัตจะกับนม เลือกรสชา นม ความหวาน และสไตล์เครื่องดื่มได้",
+      "storePrice": 165,
+      "description": "หอมสาหร่ายย่าง เค็มปลายลิ้นเล็กน้อย รสนุ่มไม่ฝาด · เลือกนม ความหวาน และสไตล์เครื่องดื่มได้",
       "optionPrices": {
         "taste": {
-          "yaki": 80
+          "yaki": 0
         }
       },
       "deliveryPrice": 139,
@@ -94,11 +94,11 @@
       ],
       "category": "มัตจะคลาสสิก",
       "available": true,
-      "storePrice": 65,
-      "description": "ชาใส ไม่ใส่นม เลือกรสชาและความหวานได้",
+      "storePrice": 115,
+      "description": "หอมสาหร่ายย่าง เค็มปลายลิ้นเล็กน้อย รสนุ่มไม่ฝาด · มัตจะใส ไม่ใส่นม",
       "optionPrices": {
         "taste": {
-          "yaki": 50
+          "yaki": 0
         }
       },
       "deliveryPrice": 89,
@@ -123,11 +123,11 @@
       ],
       "category": "มัตจะคลาสสิก",
       "available": true,
-      "storePrice": 99,
-      "description": "มัตจะโฟมนมกับน้ำมะพร้าว · หวานปกติไม่เติมไซรัป",
+      "storePrice": 164,
+      "description": "หอมสาหร่ายย่าง เค็มปลายลิ้นเล็กน้อย รสนุ่มไม่ฝาด · โฟมนมมัตจะกับน้ำมะพร้าว หวานปกติไม่เติมไซรัป",
       "optionPrices": {
         "taste": {
-          "yaki": 65
+          "yaki": 0
         }
       },
       "deliveryPrice": 149,
@@ -560,5 +560,5 @@
     }
   },
   "source": "Wongnai Merchant Portal หน้าร้าน; ตรวจ 7 ต.ค. 2026",
-  "version": "20261008-powder-menus-1"
+  "version": "20261008-powder-menus-2"
 }
