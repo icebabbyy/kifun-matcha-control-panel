@@ -8,3 +8,5 @@ storefront-public/
 
 happihaus-matcha-public.zip
 supabase/.temp/
+.vercel
+.env*
