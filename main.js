@@ -16,6 +16,7 @@ import {
   logoutAdminWithSupabase,
   verifyAdminPasscodeWithSupabase 
 } from "./supabase.js";
+import {currentMilkCosts, inventoryCOGS} from './profit-costs.js';
 import {initStorefront} from './storefront.js?v=20261007-7';
 initStorefront().catch(error => {
   console.error('Storefront:',error);
@@ -41,10 +42,11 @@ const getStock = (...a) => K().getStock(...a);
 const powders = () => K().powders;
 const powderChoices = (...a) => K().powderChoices(...a);
 const esc = (...a) => K().esc(...a);
-const money = (...a) => K().money(...a);
+const money = value => new Intl.NumberFormat("th-TH", {style:"currency",currency:"THB",minimumFractionDigits:2,maximumFractionDigits:2}).format(Number(value));
 
 /* ── Supabase sync status ─────────────────────────────────────── */
 let supabaseReady = false;
+let hasVerifiedProfitStock = false;
 let supabaseError = null;
 let supabasePowdersList = [];
 
@@ -86,7 +88,9 @@ async function initSupabase() {
       const saved = await fetchAppState();
 
       if (saved && typeof saved === "object") {
+        hasVerifiedProfitStock = true;
         K().setState(saved);
+        renderProfitTabIfActive();
         console.log("[KIFUN] App state loaded from Supabase");
       } else {
         await saveAppState(K().state);
@@ -170,25 +174,13 @@ const MILK_COSTS = {
 };
 
 const BREW_METHODS = {
-  latte: { label: "🥛 Latte (ลาเต้)", defaultGrams: 5, defaultMilk: "oat", packCost: 4.91, desc: "ผง + น้ำร้อน 50ml + นม 100ml" },
-  coldwhisk: { label: "🌿 Cold Whisk (โคลด์วิสก์)", defaultGrams: 5, defaultMilk: "oat", packCost: 4.91, desc: "ผง + นม 100ml ตีวิสก์เนื้อโฟม" },
-  clear: { label: "🫧 Clear Matcha (ชาใส)", defaultGrams: 3, defaultMilk: "none", packCost: 4.91, desc: "ผง + น้ำร้อน 50ml + น้ำเปล่า 100ml" },
-  coconut: { label: "🥥 Coconut Matcha (มัทฉะมะพร้าว)", defaultGrams: 4, defaultMilk: "none", liquidCost: 21.71, packCost: 5.98, desc: "น้ำมะพร้าว 135ml (฿15.53) + Oat milk 65ml (฿6.18) + ถาดโฟม" },
-  coconutfoam: { label: "☁️ Coconut Foam Matcha", defaultGrams: 4, defaultMilk: "none", liquidCost: 25.00, packCost: 5.98, desc: "น้ำมะพร้าว 135ml + Oat milk 65ml + โฟม (฿3.29) + ถาดโฟม" },
-  biscoff: { label: "🍪 Biscoff Matcha (บิสคอฟ)", defaultGrams: 5, defaultMilk: "fresh", extraCost: 11.40, packCost: 5.98, desc: "สเปรด 15g (฿6.98) + บิสกิต 16g (฿4.42) + ถาดโฟม (฿1.07)" },
-  nutella: { label: "🍫 Nutella Matcha (นูเทลล่า)", defaultGrams: 5, defaultMilk: "fresh", extraCost: 14.10, packCost: 4.91, desc: "สเปรดนูเทลล่า 30g (฿14.10) + นม 100ml" }
-};
-
-const PACK_ITEMS_DETAIL = {
-  basic: [
-    { name: "14oz PET cup (Basic Pac FP-14)", qty: 1, unitCost: 2.80 },
-    { name: "98mm sipper lid with plug (ฝายกดื่มมีจุก)", qty: 1, unitCost: 0.47 },
-    { name: "Spill-proof lid sheet (แผ่นรองฝาแก้ว)", qty: 1, unitCost: 0.096 },
-    { name: "Cold whisk pouch 200ml (ซองแยกน้ำแข็ง)", qty: 1, unitCost: 0.99 },
-    { name: "Cup bag 6×11 (ถุงหิ้วใส 1 แก้ว)", qty: 1, unitCost: 0.40 },
-    { name: "6mm straw (หลอด)", qty: 1, unitCost: 0.15 }
-  ],
-  tray: { name: "Topping tray 98mm (ถาดรองโฟม)", qty: 1, unitCost: 1.07 }
+  latte: { label: "🥛 Latte (ลาเต้)", defaultGrams: 5, defaultMilk: "oat", desc: "ผง + น้ำร้อน 50ml + นม 100ml" },
+  coldwhisk: { label: "🌿 Cold Whisk (โคลด์วิสก์)", defaultGrams: 5, defaultMilk: "oat", desc: "ผง + นม 100ml ตีวิสก์เนื้อโฟม" },
+  clear: { label: "🫧 Clear Matcha (ชาใส)", defaultGrams: 3, defaultMilk: "none", desc: "ผง + น้ำร้อน 50ml + น้ำเปล่า 100ml" },
+  coconut: { label: "🥥 Coconut Matcha (มัทฉะมะพร้าว)", defaultGrams: 4, defaultMilk: "none", desc: "น้ำมะพร้าว 135ml + Oat milk 65ml" },
+  coconutfoam: { label: "☁️ Coconut Foam Matcha", defaultGrams: 4, defaultMilk: "none", desc: "น้ำมะพร้าว 135ml + Oat milk 65ml + ถาดโฟม" },
+  biscoff: { label: "🍪 Biscoff Matcha (บิสคอฟ)", defaultGrams: 5, defaultMilk: "fresh", desc: "สเปรด 16g + บิสกิต 6g + crumble 6g + นมโอ๊ต 100ml" },
+  nutella: { label: "🍫 Nutella Matcha (นูเทลล่า)", defaultGrams: 5, defaultMilk: "fresh", desc: "สเปรดนูเทลล่า 20g + นมสด 100ml" }
 };
 
 const profitState = {
@@ -202,6 +194,8 @@ const profitState = {
   gpRate: 0.321, // 32.1% default
   discountPercent: 10, // 10% Hermes 6.0 default
   whip: false,
+  storePack: "ready",
+  syrupMl: 0,
   showAllCatalog: false,
   matrixBrew: "latte",
   matrixMilk: "oat",
@@ -281,28 +275,18 @@ function getPurchasedPowders() {
   return list;
 }
 
-function calculateDynamicCOGS(powderCostG, grams, brewMethodKey, milkTypeKey, hasWhip = false) {
-  const brew = BREW_METHODS[brewMethodKey] || BREW_METHODS.latte;
-  const milk = MILK_COSTS[milkTypeKey] || MILK_COSTS.fresh;
-
-  const powderCost = grams * powderCostG;
-  const liquidCost = brew.liquidCost !== undefined ? brew.liquidCost : (brewMethodKey === "clear" ? 0 : milk.cost);
-  const extraCost = brew.extraCost || 0;
-  const packCost = brew.packCost || 4.91;
-  const whipCost = hasWhip ? 3.29 : 0;
-
-  const totalCOGS = powderCost + liquidCost + extraCost + packCost + whipCost;
-
-  return {
-    powderCost,
-    liquidCost,
-    extraCost,
-    packCost,
-    whipCost,
-    totalCOGS,
-    brew,
-    milk
-  };
+function refreshProfitCosts() {
+  const stock = K()?.state?.stock || [];
+  const costs = currentMilkCosts(stock);
+  for (const key of ['fresh', 'oat', 'mixed', 'none']) {
+    MILK_COSTS[key].cost = costs[key];
+    MILK_COSTS[key].desc = key === 'mixed' ? 'นมสด 60ml + Oat 40ml · ต้นทุนสต็อกปัจจุบัน' : '100ml · ต้นทุนสต็อกปัจจุบัน';
+  }
+}
+function calculateDynamicCOGS(powderCostG, grams, brewMethodKey, milkTypeKey, hasWhip = false, pack = 'separate') {
+  refreshProfitCosts();
+  const result = inventoryCOGS(K().state.stock, powderCostG, grams, brewMethodKey, milkTypeKey, hasWhip, pack, profitState.syrupMl);
+  return {...result, brew: BREW_METHODS[brewMethodKey] || BREW_METHODS.latte, milk: MILK_COSTS[result.resolvedMilk] || MILK_COSTS.fresh};
 }
 
 function calculateProfitMetrics({
@@ -348,6 +332,7 @@ function getProfitHealthLabel(margin) {
 
 /* ── Render Main Profit Tab ── */
 function profitTab() {
+  refreshProfitCosts();
   const purchasedPowders = getPurchasedPowders();
 
   // Find currently selected powder
@@ -365,7 +350,7 @@ function profitTab() {
         <div class="profit-top-header">
           <div>
             <h2>📊 คำนวณกำไร & จำลองแคมเปญ LINE MAN (Dynamic Engine)</h2>
-            <p>คำนวณจาก <b>ผงชาที่ซื้อแล้วในสต็อก + จำนวนกรัม + วิธีชง + ชนิดนม + แพ็กเกจจิ้ง</b> ซิงก์ข้อมูลสดกับ Supabase</p>
+            <p>คำนวณจาก <b>ผงชาที่ซื้อแล้วในสต็อก + จำนวนกรัม + วิธีชง + ชนิดนม + แพ็กเกจจิ้ง</b> ใช้ต้นทุนสต็อกที่โหลดจาก Supabase</p><p>ก่อนค่าน้ำ น้ำแข็ง ค่าแรง ค่าไฟ ค่าเช่า และโฆษณา · นม/มะพร้าวใช้ทุนเผื่อสูง · ราคาขายและ GP เป็นค่าจำลองที่แก้ได้ · สูตรแคมเปญสมมติหัก GP หลังส่วนลด เพดาน 50 บาทต่อออเดอร์ ตัวเลขต่อแก้วนี้ใช้กับออเดอร์แก้วเดียว</p>
           </div>
           <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
             <div class="campaign-badge-pill">
@@ -429,13 +414,15 @@ function profitTab() {
           <div class="profit-field">
             <label>🥛 ชนิดนม (Milk Option)</label>
             <select id="sim-milk-select" ${profitState.brewMethod === "clear" ? "disabled" : ""}>
-              <option value="fresh" ${profitState.milkType === "fresh" ? "selected" : ""}>🥛 นมสด (MM Milk — ฿5.35/100ml)</option>
-              <option value="oat" ${profitState.milkType === "oat" ? "selected" : ""}>🌾 นม Oat (Goodmate — ฿9.50/100ml)</option>
-              <option value="mixed" ${profitState.milkType === "mixed" ? "selected" : ""}>🧋 นมผสม (Mixed 60:40 — ฿7.01/100ml)</option>
+              <option value="fresh" ${profitState.milkType === "fresh" ? "selected" : ""}>🥛 นมสด (MM Milk — ฿${MILK_COSTS.fresh.cost.toFixed(2)}/100ml)</option>
+              <option value="oat" ${profitState.milkType === "oat" ? "selected" : ""}>🌾 นม Oat (Goodmate — ฿${MILK_COSTS.oat.cost.toFixed(2)}/100ml)</option>
+              <option value="mixed" ${profitState.milkType === "mixed" ? "selected" : ""}>🧋 นมผสม (Mixed 60:40 — ฿${MILK_COSTS.mixed.cost.toFixed(2)}/100ml)</option>
               <option value="none" ${profitState.milkType === "none" ? "selected" : ""}>🚫 ไม่ใส่นม (สำหรับ Clear)</option>
             </select>
           </div>
 
+          <div class="profit-field"><label>แพ็กหน้าร้าน</label><select id="sim-store-pack"><option value="ready" ${profitState.storePack === 'ready' ? 'selected' : ''}>พร้อมดื่ม</option><option value="separate" ${profitState.storePack === 'separate' ? 'selected' : ''}>แพ็กแยก</option></select></div>
+          <div class="profit-field"><label>ไซรัป (ml)</label><input id="sim-syrup" type="number" min="0" step="1" value="${profitState.syrupMl}"></div>
           <!-- Store Price -->
           <div class="profit-field">
             <label>ราคาขายหน้าร้าน (฿)</label>
@@ -477,7 +464,7 @@ function profitTab() {
 
           <label class="profit-toggle" style="margin-top:6px;">
             <input type="checkbox" id="sim-whip" ${profitState.whip ? "checked" : ""}>
-            แถมวิปครีม 15ml (+฿3.29)
+            เพิ่มวิปครีม 15ml (คิดตามต้นทุนสต็อก)
           </label>
 
         </div>
@@ -586,7 +573,7 @@ function renderSimulatorDynamicContent() {
     const mStorePrice = Math.round((storeBase + powderDelta + (profitState.matrixMilk === "oat" ? 15 : profitState.matrixMilk === "mixed" ? 10 : 0)) / 5) * 5;
     const mLinemanPrice = Math.round((linemanBase + (powderDelta * 1.47) + (profitState.matrixMilk === "oat" ? 20 : profitState.matrixMilk === "mixed" ? 15 : 0)) / 5) * 5;
 
-    const mStoreProfit = mStorePrice - cogs.totalCOGS;
+    const mStoreProfit = mStorePrice - calculateDynamicCOGS(costG, profitState.matrixGrams, profitState.matrixBrew, profitState.matrixMilk, false, profitState.storePack).totalCOGS;
     const mNormal = calculateProfitMetrics({ price: mLinemanPrice, discountPercent: 0, gpRate: profitState.gpRate, cogs: cogs.totalCOGS });
     const mPromo10 = calculateProfitMetrics({ price: mLinemanPrice, discountPercent: 10, gpRate: profitState.gpRate, cogs: cogs.totalCOGS });
     const mPromo20 = calculateProfitMetrics({ price: mLinemanPrice, discountPercent: 20, gpRate: profitState.gpRate, cogs: cogs.totalCOGS });
@@ -656,8 +643,8 @@ function renderSimulatorDynamicContent() {
               <tr>
                 <td>น้ำมะพร้าวสดแท้ 100%</td>
                 <td>135ml</td>
-                <td>฿0.115/ml</td>
-                <td style="text-align:right;"><b>฿15.53</b></td>
+                <td>฿${Number(getStock("Coconut water")?.cost).toFixed(4)}/ml</td>
+                <td style="text-align:right;"><b>${money(Number(getStock("Coconut water")?.cost) * 135)}</b></td>
               </tr>
               <tr>
                 <td>Goodmate Oat Milk</td>
@@ -692,8 +679,8 @@ function renderSimulatorDynamicContent() {
               <tr>
                 <td>วิปครีมสด 15ml</td>
                 <td>15ml</td>
-                <td>฿0.22/ml</td>
-                <td style="text-align:right;"><b>฿3.29</b></td>
+                <td>ต้นทุนสต็อกปัจจุบัน</td>
+                <td style="text-align:right;"><b>${money(cogsData.whipCost)}</b></td>
               </tr>
             ` : ""}
           </tbody>
@@ -713,7 +700,7 @@ function renderSimulatorDynamicContent() {
             </tr>
           </thead>
           <tbody>
-            ${PACK_ITEMS_DETAIL.basic.map((item) => `
+            ${cogsData.packItems.map((item) => `
               <tr>
                 <td>${esc(item.name)}</td>
                 <td>${item.qty} ชิ้น</td>
@@ -721,14 +708,6 @@ function renderSimulatorDynamicContent() {
                 <td style="text-align:right;"><b>฿${(item.qty * item.unitCost).toFixed(2)}</b></td>
               </tr>
             `).join("")}
-            ${cogsData.packCost > 5.0 ? `
-              <tr>
-                <td>${esc(PACK_ITEMS_DETAIL.tray.name)}</td>
-                <td>1 ชิ้น</td>
-                <td>฿1.07</td>
-                <td style="text-align:right;"><b>฿1.07</b></td>
-              </tr>
-            ` : ""}
           </tbody>
         </table>
 
@@ -759,7 +738,7 @@ function renderSimulatorDynamicContent() {
           </div>
           <div class="scenario-footer">
             <div>
-              <small style="color:#556b5c;display:block;">กำไรสุทธิต่อแก้ว</small>
+              <small style="color:#556b5c;display:block;">กำไรส่วนเหลือต่อแก้ว</small>
               <b class="profit-badge ${getProfitHealthClass(scStore.marginPercent)}">${money(scStore.profit)}</b>
             </div>
             <span class="margin-chip ${getProfitHealthClass(scStore.marginPercent)}">Margin ${scStore.marginPercent.toFixed(1)}%</span>
@@ -780,7 +759,7 @@ function renderSimulatorDynamicContent() {
           </div>
           <div class="scenario-footer">
             <div>
-              <small style="color:#556b5c;display:block;">กำไรสุทธิต่อแก้ว</small>
+              <small style="color:#556b5c;display:block;">กำไรส่วนเหลือต่อแก้ว</small>
               <b class="profit-badge ${getProfitHealthClass(scNormal.marginPercent)}">${money(scNormal.profit)}</b>
             </div>
             <span class="margin-chip ${getProfitHealthClass(scNormal.marginPercent)}">Margin ${scNormal.marginPercent.toFixed(1)}%</span>
@@ -805,7 +784,7 @@ function renderSimulatorDynamicContent() {
           </div>
           <div class="scenario-footer">
             <div>
-              <small style="color:#556b5c;display:block;">กำไรสุทธิหลังร่วมโปร</small>
+              <small style="color:#556b5c;display:block;">กำไรส่วนเหลือหลังร่วมโปร</small>
               <b class="profit-badge ${getProfitHealthClass(scCampaign.marginPercent)}">${money(scCampaign.profit)}</b>
             </div>
             <div style="text-align:right;">
@@ -822,7 +801,7 @@ function renderSimulatorDynamicContent() {
     <!-- Multi-tier Hermes 6.0 Simulation Table -->
     <div class="campaign-matrix-card" style="margin-top:20px;">
       <h3>🔥 จำลองกำไรแคมเปญดีลเดือด LINE MAN Hermes 6.0 ทุกระดับส่วนลด</h3>
-      <p>เปรียบเทียบกำไรสุทธิของ <b>${esc(profitState.powderName)}</b> (${cogsData.brew.label}, ${profitState.powderGrams}g) เมื่อเลือกลด 0%, 5%, 10%, 15%, 20%, 25%</p>
+      <p>เปรียบเทียบกำไรส่วนเหลือของ <b>${esc(profitState.powderName)}</b> (${cogsData.brew.label}, ${profitState.powderGrams}g) เมื่อเลือกลด 0%, 5%, 10%, 15%, 20%, 25%</p>
       
       <div class="table-wrap">
         <table class="matrix-table">
@@ -834,7 +813,7 @@ function renderSimulatorDynamicContent() {
               <th>หัก GP (${(profitState.gpRate * 100).toFixed(1)}%)</th>
               <th>เงินโอนเข้าร้าน</th>
               <th>ต้นทุน COGS</th>
-              <th>กำไรสุทธิ / แก้ว</th>
+              <th>กำไรส่วนเหลือ / แก้ว</th>
               <th>Margin %</th>
               <th>คำแนะนำ</th>
             </tr>
@@ -851,7 +830,7 @@ function renderSimulatorDynamicContent() {
       <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:14px;">
         <div>
           <h3>📋 ตารางเปรียบเทียบกำไรเฉพาะผงที่ซื้อแล้ว (Purchased Powders & Recipe Matrix)</h3>
-          <p>เปรียบเทียบต้นทุน COGS, กำไรหน้าร้าน, และกำไร LINE MAN ทุกระดับส่วนลด สำหรับผงชาที่ซื้อแล้วในสต็อกร้าน (${purchasedPowders.length} รายการ)</p>
+          <p>ราคาตารางนี้เป็นราคาแนะนำจากสูตรเดิม ไม่ใช่ราคาขายจริงของเมนู · เปรียบเทียบต้นทุน COGS, กำไรหน้าร้าน, และกำไร LINE MAN ทุกระดับส่วนลด สำหรับผงชาที่ซื้อแล้วในสต็อกร้าน (${purchasedPowders.length} รายการ)</p>
         </div>
         
         <!-- Interactive Mode Switchers for the Matrix -->
@@ -967,15 +946,6 @@ document.addEventListener("change", (event) => {
     const opt = sel.selectedOptions[0];
     profitState.powderCostPerGram = Number(opt?.dataset?.cost) || 3.71;
 
-    // Auto-calculate suggested prices
-    const nokoCost = 3.71 * profitState.powderGrams;
-    const powderDelta = Math.max(0, (profitState.powderCostPerGram * profitState.powderGrams) - nokoCost);
-    const storeBase = profitState.brewMethod === "clear" ? 69 : (profitState.brewMethod === "coconut" ? 95 : 99);
-    const linemanBase = profitState.brewMethod === "clear" ? 99 : (profitState.brewMethod === "coconut" ? 125 : 149);
-
-    profitState.storePrice = Math.round((storeBase + powderDelta + (profitState.milkType === "oat" ? 15 : profitState.milkType === "mixed" ? 10 : 0)) / 5) * 5;
-    profitState.linemanPrice = Math.round((linemanBase + (powderDelta * 1.47) + (profitState.milkType === "oat" ? 20 : profitState.milkType === "mixed" ? 15 : 0)) / 5) * 5;
-
     renderProfitTabIfActive();
     return;
   }
@@ -997,6 +967,7 @@ document.addEventListener("change", (event) => {
     return;
   }
 
+  if (id === "sim-store-pack") { profitState.storePack = event.target.value; renderSimulatorDynamicContent(); return; }
   if (id === "sim-whip") {
     profitState.whip = event.target.checked;
     renderSimulatorDynamicContent();
@@ -1008,6 +979,7 @@ document.addEventListener("input", (event) => {
   const id = event.target.id;
   if (!id) return;
 
+  if (id === "sim-syrup") { profitState.syrupMl = Math.max(0, Number(event.target.value) || 0); renderSimulatorDynamicContent(); return; }
   if (id === "sim-grams-input") {
     profitState.powderGrams = Number(event.target.value) || 5;
     renderSimulatorDynamicContent();
