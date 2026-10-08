@@ -332,6 +332,7 @@ function getProfitHealthLabel(margin) {
 
 /* ── Render Main Profit Tab ── */
 function profitTab() {
+  if (!hasVerifiedProfitStock) return `<div class="panel"><h2>กำลังรอต้นทุนสต็อกจาก Supabase</h2><p>ยังไม่แสดงกำไรจากข้อมูลเก่า กรุณารอโหลดข้อมูล หรือเข้าสู่ระบบแล้วรีเฟรช</p></div>`;
   refreshProfitCosts();
   const purchasedPowders = getPurchasedPowders();
 
